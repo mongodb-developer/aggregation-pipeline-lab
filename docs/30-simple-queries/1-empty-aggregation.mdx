@@ -1,0 +1,50 @@
+# Empty aggregation pipeline
+
+## Use the library database
+
+We'll use the `library` database. To do that, in a MongoDB shell type in:
+
+```js
+use library
+```
+
+Show all collections with
+
+```js
+show collections
+```
+
+💻 How would you switch to a database called `orders`?
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+use orders
+```
+</div>
+</details>
+
+## An empty aggregation
+
+This returns a cursor with all documents in the `authors` collection:
+
+```js
+db.authors.aggregate([])
+```
+
+We can iterate over it and get more documents typing `it`. 
+
+💻 Return all the documents in the `books` collection and iterate to get the next page of books.
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([])
+it
+```
+</div>
+</details>

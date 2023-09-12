@@ -1,0 +1,21 @@
+# $limit
+
+If we return too many documents, but we're interested just in a few, we can limit the number of documents returned using `$limit`
+
+```
+db.books.aggregate([{$limit: 1}])
+```
+
+This returns just one document.
+
+💻 Return just 7 `books`.
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([{$limit: 7}])
+```
+</div>
+</details>

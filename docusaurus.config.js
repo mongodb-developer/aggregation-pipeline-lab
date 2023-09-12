@@ -4,23 +4,23 @@
 // Change here to customise config
 
 // Name of the Github Repo, it's also teh baseUrl
-const workshopName = 'docusaurus-workshop';
+const workshopName = 'aggregation-workshop';
 // Change this if hosting outside mongodb-developer
 const organizationName = "mongodb-developer";
 
 // Main page config
-const title = "Docusaurus2 Meta Workshop";
-const tagLine = "A Workshop written in Docusaurus2 to teach you how to write Workshops using docusaurus";
-const startButtonTitle = "Enter Inception";
+const title = "Aggregation Pipeline Workshop";
+const tagLine = "Write Aggregation Pipelines in no time!";
+const startButtonTitle = "Start Lab";
 const favicon = "img/favicon.svg"
 
 // Main Page Features
 const featureList = [
   {
-    title: 'A 100% Meta Workshop on how to build workshops',
+    title: 'Learn to writing Aggregation Pipelines',
     illustration: 'img/docu.svg',
     description: `
-        Built using Docusaurus2
+        Writing Aggregation Pipelines!
     `,
   },
   {
@@ -129,14 +129,14 @@ const config = {
           hideable: true,
         },
       },
-      announcementBar: {
-        id: "feedback_form",
-        content:
-          'We are looking to revamp our docs, please fill <a target="_blank" rel="noopener noreferrer" href="#">this survey</a>',
-        backgroundColor: "#fafbfc",
-        textColor: "#091E42",
-        isCloseable: true,
-      },
+      // announcementBar: {
+      //   id: "feedback_form",
+      //   content:
+      //     'We are looking to revamp our docs, please fill <a target="_blank" rel="noopener noreferrer" href="#">this survey</a>',
+      //   backgroundColor: "#fafbfc",
+      //   textColor: "#091E42",
+      //   isCloseable: true,
+      // },
       navbar: {
         title: `${title}`,
         logo: {

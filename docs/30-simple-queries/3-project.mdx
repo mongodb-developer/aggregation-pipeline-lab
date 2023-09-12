@@ -1,0 +1,134 @@
+# $project
+
+A document from the `books` collection looks like:
+
+```json
+{
+  _id: '0452264464',
+  title: 'Beloved (Plume Contemporary Fiction)',
+  authors: [
+    {
+      _id: '64cc2db4830ba29148da4c4e',
+      name: 'Toni Morrison'
+    }
+  ],
+  pages: 288,
+  year: 1998,
+  cover: 'https://images.isbndb.com/covers/44/65/9780452264465.jpg',
+  attributes: [
+    {
+      key: 'publisher',
+      value: 'Longman'
+    },
+    {
+      key: 'language',
+      value: 'en'
+    },
+    {
+      key: 'image',
+      value: 'https://images.isbndb.com/covers/44/65/9780452264465.jpg'
+    },
+    {
+      key: 'title_long',
+      value: 'Beloved (Plume Contemporary Fiction)'
+    },
+    {
+      key: 'edition',
+      value: 'Reissue'
+    },
+    {
+      key: 'dimensions',
+      value: 'Height: 8 Inches, Length: 5.46 Inches, Weight: 0.57981574906 Pounds, Width: 0.67 Inches'
+    },
+    {
+      key: 'date_published',
+      value: '1998'
+    },
+    {
+      key: 'isbn13',
+      value: '9780452264465'
+    },
+    {
+      key: 'msrp',
+      value: 6.67
+    },
+    {
+      key: 'binding',
+      value: 'Paperback'
+    },
+    {
+      key: 'isbn',
+      value: '0452264464'
+    },
+    {
+      key: 'isbn10',
+      value: '0452264464'
+    },
+    {
+      key: 'other_isbns',
+      value: [
+        {
+          isbn: '9780307794802',
+          binding: 'print'
+        }
+      ]
+    }
+  ],
+  totalInventory: 2,
+  available: 2
+}
+```
+
+If we're interested just in the titles, we can use `$project` to select just the fields we're interested in. As an example, to get just the book's title and year we'll write:
+
+```js
+db.books.aggregate([{$project: {title: 1, year: 1}}])
+```
+
+- 1 means "show that field"
+- 0 means "hide that field"
+- the primary key `_id` field is shown by default
+
+So we can exclude fields and show all fields except `attributes` using:
+
+```js
+db.books.aggregate([{$project: {attributes: 0}}])
+```
+
+💻 Show only `title` and `cover`.
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([{$project: {title:1, cover: 1}}])
+```
+</div>
+</details>
+
+## Including and excluding fields
+
+:::danger
+
+You can't include and exclude fields in the same projection: if you start including, you must keep including and vice versa.
+
+:::
+
+For instance, this will fail:
+
+```js
+db.books.aggregate([{$project: {title:1, attributes: 0}}])
+
+MongoServerError: Invalid $project :: caused by :: Cannot do exclusion on field attributes in inclusion projection
+```
+
+:::info
+
+The only exception to this rule is the `_id` field, which we can exclude in an inclusion projection
+
+:::
+
+```js
+db.books.aggregate([{$project: {title:1, _id: 0}}])
+```

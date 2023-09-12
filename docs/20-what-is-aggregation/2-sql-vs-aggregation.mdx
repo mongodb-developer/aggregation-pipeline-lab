@@ -1,0 +1,46 @@
+# SQL vs Aggregations
+
+See also [SQL to Aggregation Mapping Chart](https://www.mongodb.com/docs/manual/reference/sql-aggregation-comparison/)
+
+```SQL
+SELECT
+    city,
+    SUM(annual_spend) Total_Spend,
+    AVG(annual_spend) Average_Spend,
+    MAX(annual_spend) Max_Spend,
+    COUNT(annual_spend) customers
+FROM (
+    SELECT t1.city, customer.annual_spend
+    FROM customer 
+    LEFT JOIN (
+        SELECT address.address_id, city.city,
+               address.customer_id, address.location
+        FROM address LEFT JOIN city
+        ON address.city_id = city.city_id
+        ) AS t1
+    ON
+    (customer.customer_id = t1.customer_id AND
+              t1.location = "home")
+) AS t2
+GROUP BY city;
+```
+
+```js
+db.customers.aggregate([
+	{
+		$unwind: "$address",
+	},
+	{
+		$match: {"address.location": "home"}
+	},
+	{
+		 $group: {
+			_id: "$address.city",
+			totalSpend: {$sum: "$annualSpend"},
+			averageSpend: {$avg: "$annualSpend"},
+			maximumSpend: {$max: "$annualSpend"},
+			customers: {$sum: 1}
+		}
+	}
+])
+```

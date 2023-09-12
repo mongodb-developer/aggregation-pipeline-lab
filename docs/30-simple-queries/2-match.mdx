@@ -1,0 +1,21 @@
+# $match
+
+This is the simplest one, similar to the `WHERE` SQL clause.
+
+Say we want all books from 2010. We'll write:
+
+```js
+db.books.aggregate([{$match: {year: 2010}}])
+```
+
+💻 Return all the `books` that have exactly 100 pages.
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([{$match: {pages: 100}}])
+```
+</div>
+</details>

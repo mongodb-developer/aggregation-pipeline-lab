@@ -1,0 +1,54 @@
+# $count
+
+How can we be sure that this pipeline is returning exactly 10 books?
+
+```js
+let booksFrom1991With150pages = {$match: {year: 1991, pages: 150}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
+let getJust15books =  {$limit: 10};
+
+db.books.aggregate([
+    booksFrom1991With150pages,
+    showOnlyTheseFields,
+    getJust15books
+]);
+```
+
+Counting the books! Let's add a new stage to the pipeline to count those books:
+
+```js
+let booksFrom1991With150pages = {$match: {year: 1991, pages: 150}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
+let getJust15books =  {$limit: 10};
+let count = {$count: "totalBooks"}
+
+db.books.aggregate([
+    booksFrom1991With150pages,
+    showOnlyTheseFields,
+    getJust15books,
+    count,
+]);
+```
+
+Here, `$count` will count the resulting docs and will return a document with just one field: `totalBooks`
+
+```js
+{
+  totalBooks: 10
+}
+```
+
+
+
+
+let booksFrom1991With150pages = {$match: {year: 1991, pages: 150}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
+let getJust15books =  {$limit: 10};
+let count = {$count: "totalBooks"}
+
+db.books.aggregate([
+    booksFrom1991With150pages,
+    count,
+    showOnlyTheseFields,
+    getJust15books,
+]);

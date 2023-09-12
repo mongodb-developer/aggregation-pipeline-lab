@@ -1,0 +1,35 @@
+# Writing long pipelines
+
+Aggregation pipelines can get very long, depending on how many stages we need to run. Writing a pipeline is writing code, as you will write it using one of the many MongoDB drivers in your own language. Here we're presenting the examples using JavaScript suitable for the MongoDB Shell [mongosh](https://www.mongodb.com/docs/mongodb-shell/), but if you are writing a microservice in Rust, you'll definitely write your pipelines in Rust.
+
+This is why we should rewrite our last pipeline like this:
+
+Get 15 books from 1991 with 150 pages. Show only the `title`, `year`, `totalInventory` and `available` books. (Sample doc [here](/docs/simple-queries/project))
+
+```js
+db.books.aggregate([
+    {$match: {year: 1991, pages: 150}}, {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}}, {$limit: 15}
+])
+```
+Will be changed into:
+
+
+```js
+let booksFrom1991With150pages = {$match: {year: 1991, pages: 150}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
+let getJust15books =  {$limit: 10};
+
+db.books.aggregate([
+    booksFrom1991With150pages,
+    showOnlyTheseFields,
+    getJust15books,
+]);
+```
+
+Easier to read, and reason about, right?
+
+:::tip
+
+Write your aggregation pipelines like you'll compose functions in your programming language. Aggregations _are_ code that runs on the server. In the client you just express _what_ you want to be done, not _how_ to do it.
+
+:::
