@@ -9,7 +9,7 @@ const workshopName = 'aggregation-workshop';
 const organizationName = "mongodb-developer";
 
 // Main page config
-const title = "Aggregation Pipeline Workshop";
+const title = "Aggregation Pipeline Lab";
 const tagLine = "Write Aggregation Pipelines in no time!";
 const startButtonTitle = "Start Lab";
 const favicon = "img/favicon.svg"
@@ -17,24 +17,24 @@ const favicon = "img/favicon.svg"
 // Main Page Features
 const featureList = [
   {
-    title: 'Learn to writing Aggregation Pipelines',
-    illustration: 'img/docu.svg',
+    title: 'Learn to write Aggregation Pipelines!',
+    illustration: 'img/writing.png',
     description: `
         Writing Aggregation Pipelines!
     `,
   },
   {
-    title: 'Quick, no-nonsense approach',
-    illustration: 'img/typing.gif',
+    title: 'Compose pipeline stages',
+    illustration: 'img/coding.png',
     description: `
-        We want to help you build workshops quickly
+        Unleash the power of the Aggregation pipeline!
     `,
   },
   {
-    title: 'Expaaaandable',
-    illustration: 'img/expanded-leafy.png',
+    title: 'Get hands-on experience and sample code',
+    illustration: 'img/highfive.png',
     description: `
-        Can't wait for your PRs!
+        Learn by doing and build your Apps faster!
     `,
   },
 ];
