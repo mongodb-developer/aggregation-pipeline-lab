@@ -1,6 +1,6 @@
 # Aggregation Pipeline Workshop
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator. It's available on https://mongodb-developer.github.io/docusaurus-workshop/.
+This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator. It's available on https://mongodb-developer.github.io/aggregation-workshop/.
 
 This is a template to create new Workshop documentation sites. Contains info on how to use Docusaurus and is a good starting point.
 
