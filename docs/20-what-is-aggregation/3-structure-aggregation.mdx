@@ -1,6 +1,8 @@
 # Structure of an aggregation pipeline
 
-An aggregation pipeline is composed of __stages__.
+To interact with a relational database we typically use SQL, a 4th Generation language to access our data. With MongoDB we instead get data and transform it in incremental steps.
+
+An aggregation pipeline is composed of [__stages__](https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/).
 
 We pass an array of stages to the `aggregate` method like so:
 
@@ -12,7 +14,9 @@ db.mycollection.aggregate([
 ])
 ```
 
-An example could be:
+## Example
+
+An Aggregation Pipeline that does the same than above SQL statement could be:
 
 ```
 db.mycollection.aggregate([

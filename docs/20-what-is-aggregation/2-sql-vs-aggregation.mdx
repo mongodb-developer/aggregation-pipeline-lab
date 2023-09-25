@@ -1,6 +1,10 @@
 # SQL vs Aggregations
 
-See also [SQL to Aggregation Mapping Chart](https://www.mongodb.com/docs/manual/reference/sql-aggregation-comparison/)
+## SQL
+
+A SQL query statement usually starts with a `SELECT` where we put a list of the fields we need, then a `FROM` clause to state the table/s (or as in this case the subquery) that will return the rows. We can filter out using `WHERE` and group data using `GROUP`.
+
+We read this from the inside. If there's too much nesting is not easy to follow.
 
 ```SQL
 SELECT
@@ -25,6 +29,10 @@ FROM (
 GROUP BY city;
 ```
 
+## MongoDB Aggregation Pipeline
+
+Here we pass three stages, one to return one document per element in the `address` array, then we filter out to get only the documents that have a `home` address location and finally we do the grouping. As we'll see, this can be split and tested separately, and resembles our code. 
+
 ```js
 db.customers.aggregate([
 	{
@@ -44,3 +52,7 @@ db.customers.aggregate([
 	}
 ])
 ```
+
+:::info
+See also [SQL to Aggregation Mapping Chart](https://www.mongodb.com/docs/manual/reference/sql-aggregation-comparison/)
+:::
