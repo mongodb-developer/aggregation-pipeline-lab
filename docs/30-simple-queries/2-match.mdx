@@ -2,7 +2,7 @@
 
 This is the simplest one, similar to the `WHERE` SQL clause.
 
-Say we want all books from 2010. We'll write:
+Say we want all the books from 2010. We'll write:
 
 ```js
 db.books.aggregate([{$match: {year: 2010}}])
@@ -16,6 +16,56 @@ db.books.aggregate([{$match: {year: 2010}}])
 
 ```js
 db.books.aggregate([{$match: {pages: 100}}])
+```
+</div>
+</details>
+
+## AND
+
+If we need to add more conditions using AND, we can do it using the `$and` operator.
+
+If we want all the books with 100 pages with exactly `totalInventory` 2 we can use an `$and` operator. This takes and array of documents with all the conditions that should be true for the AND to succeed:
+
+```js
+db.books.aggregate([{$match: {$and: [{pages: 100}, {totalInventory: 2}]}}])
+```
+
+The pseudo-code for this would be something like:
+
+```
+IF pages == 100 AND totalInventory == 2 {
+    return matching docs
+}
+```
+
+💻 Return all the `books` from 2011 that have exactly 100 pages.
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2011}]}}])
+```
+</div>
+</details>
+
+### Shorthand AND
+
+We can do an implicit AND just passing a document with all the conditions (instead of an array of documents):
+
+```js
+db.books.aggregate([{$match: {pages: 100, totalInventory: 2}}])
+```
+
+💻 Return all the `books` from 2011 that have exactly 100 pages, using the simple $and notation
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([{$match: {pages: 100, year: 2011}}])
 ```
 </div>
 </details>

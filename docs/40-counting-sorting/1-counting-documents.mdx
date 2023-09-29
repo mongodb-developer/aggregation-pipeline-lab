@@ -38,9 +38,11 @@ Here, `$count` will count the resulting docs and will return a document with jus
 }
 ```
 
+## The order of stages is important
 
+If we count after the `$match` stage, the document we're passing to the next steps contains only the `totalBooks` field. So the `$project` will return an empty document.
 
-
+```js
 let booksFrom1991With150pages = {$match: {year: 1991, pages: 150}};
 let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
 let getJust15books =  {$limit: 10};
@@ -52,3 +54,4 @@ db.books.aggregate([
     showOnlyTheseFields,
     getJust15books,
 ]);
+```

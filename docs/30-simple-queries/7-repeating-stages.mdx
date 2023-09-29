@@ -1,7 +1,7 @@
 # 🦸‍♂️ Repeating stages
 
 :::info
-Extra activity, if you have extra time or are following at home
+Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on Lab
 :::
 
 
@@ -9,7 +9,8 @@ From the [Aggregation Pipelines manual](https://www.mongodb.com/docs/manual/refe
 
 > All stages except the $out, $merge, $geoNear, $changeStream, and $changeStreamSplitLargeEvent stages can appear multiple times in a pipeline.
 
-So we can repeat most stages, and do something like (although can make sense or not)
+So we can repeat most stages, and do something like this to get all books from 2011 with 100 pages (although it can make sense or not)
 
-
-
+```js
+db.books.aggregate([{$match: {pages: 100}}, {$match: {year: 2011}}])
+```

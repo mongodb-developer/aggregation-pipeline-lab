@@ -1,0 +1,30 @@
+# 🦸‍♂️ Aggregation options
+
+:::info
+Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on Lab
+:::
+
+
+We can pass a document to `aggregate` with some options
+
+let options = {
+    maxTimeMS: 100
+};
+
+db.authors.aggregate([], options);
+
+
+💻 Have a look at the [different options you can pass to the aggregate method](https://www.mongodb.com/docs/manual/reference/method/db.collection.aggregate/#mongodb-method-db.collection.aggregate).
+
+
+💻 Try to launch an `itcount` (a long operation) to iterate through the whole books cursor with a time limt of 10 ms: you should see the operation timing out and failing.
+
+```js
+let options = {
+    maxTimeMS: 10
+};
+
+db.authors.aggregate([], options).itcount();
+
+> MongoServerError: operation exceeded time limit
+```

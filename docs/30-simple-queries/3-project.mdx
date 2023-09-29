@@ -1,8 +1,10 @@
 # $project
 
+## Including fields in a projection 
+
 A document from the `books` collection looks like:
 
-```json
+```js
 {
   _id: '0452264464',
   title: 'Beloved (Plume Contemporary Fiction)',
@@ -106,6 +108,21 @@ db.books.aggregate([{$project: {title:1, cover: 1}}])
 ```
 </div>
 </details>
+
+## Excluding fields
+
+💻 Exclude the `cover`, `attributes` and `_id` fields from the result.
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([{$project: {_id_:0, attributes: 0, cover: 0}}])
+```
+</div>
+</details>
+
 
 ## Including and excluding fields
 

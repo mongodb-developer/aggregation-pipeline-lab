@@ -1,0 +1,69 @@
+# $match in arrays
+
+In our books we're using the [Attribute Pattern](https://www.mongodb.com/developer/products/mongodb/attribute-pattern/) to have different attributes in our documents. As we can see in the [sample doc](/docs/simple-queries/project) we have an `attributes` array with different fields:
+
+```js
+attributes: [
+    {
+      key: 'publisher',
+      value: 'Longman'
+    },
+    {
+      key: 'language',
+      value: 'en'
+    },
+    {
+      key: 'image',
+      value: 'https://images.isbndb.com/covers/44/65/9780452264465.jpg'
+    },
+    {
+      key: 'title_long',
+      value: 'Beloved (Plume Contemporary Fiction)'
+    },
+    {
+      key: 'edition',
+      value: 'Reissue'
+    },
+    {
+      key: 'dimensions',
+      value: 'Height: 8 Inches, Length: 5.46 Inches, Weight: 0.57981574906 Pounds, Width: 0.67 Inches'
+    },
+    {
+      key: 'date_published',
+      value: '1998'
+    },
+    {
+      key: 'isbn13',
+      value: '9780452264465'
+    },
+    {
+      key: 'msrp',
+      value: 6.67
+    },
+    {
+      key: 'binding',
+      value: 'Paperback'
+    },
+    ...
+  ],
+```
+
+How do we search for all the Paperback books? Turns out is this simple:
+
+```js
+let paperbackBooks = {$match: {"attributes.value": 'Paperback'}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1, "attributes": 1}};
+
+db.books.aggregate([
+    booksFrom1991With150pages,
+    showOnlyTheseFields,
+]);
+```
+
+let paperbackBooks = {$match: {"author.name": 'Paperback'}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1, "attributes": 1}};
+
+db.books.aggregate([
+    booksFrom1991With150pages,
+    showOnlyTheseFields,
+]);

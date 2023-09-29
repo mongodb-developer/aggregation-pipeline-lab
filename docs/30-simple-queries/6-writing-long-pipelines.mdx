@@ -17,7 +17,7 @@ Will be changed into:
 ```js
 let booksFrom1991With150pages = {$match: {year: 1991, pages: 150}};
 let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
-let getJust15books =  {$limit: 10};
+let getJust15books =  {$limit: 15};
 
 db.books.aggregate([
     booksFrom1991With150pages,
