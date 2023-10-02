@@ -1,6 +1,8 @@
 # Adding new fields to results
 
-We want to estimate the reading time for a book. But we don't have that field stored in our data.
+## $addFields
+
+We want to estimate the reading time for a book. But we don't have that field stored in our data. We can use `$addFields` for this. If the field exists, it'll get updated, if not, it's added.
 
 ```js
 db.books.aggregate([
@@ -9,7 +11,7 @@ db.books.aggregate([
         pages: 1,
         }
     },
-    {$set: {readingTimeHours: {$divide: [{$multiply: ["$pages", 2]}, 60]}}},
+    {$addFields: {readingTimeHours: {$divide: [{$multiply: ["$pages", 2]}, 60]}}},
 ])
 ```
 
@@ -29,7 +31,7 @@ db.books.aggregate([
     
     },
 
-    {$set: {notes: "PLACEHOLDER"}}
+    {$addFields: {notes: "PLACEHOLDER"}}
 ])
 ```
 

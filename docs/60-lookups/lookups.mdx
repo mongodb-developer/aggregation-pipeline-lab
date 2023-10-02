@@ -1,17 +1,12 @@
 # Lookupups AKA Left Outer Join
 
-```js
-db.authors.aggregate([
-    { $unwind : "$books" },
-    {$lookup: {
-       from: "books",
-       localField: "books",
-       foreignField: "_id",
-       as: "booksWritten"
-     } 
-    }
-])
-```
+Using Documents we usually model 1:1, 1:many relationships embedding documents inside other documents, even using arrays for that. For instance an Author can have many aliases, and they live inside an array in the `authors` collection.
+
+But other times we need to use references to those documents instead of embedding them. For instance an author has an array of the books she has written, but instead of moving the book documents inside an array inside author (which will be tricky for books with multiple authors) we embed the books `_id` instead.
+
+So how can we get the authors and all the books she has written, embedded in the array? Using `$lookup`, that will do a Left Outer Join and return author docs containing book docs inside. 
+
+💻 Run this aggregation and look at the results:
 
 ```js
 db.authors.aggregate([
@@ -25,3 +20,58 @@ db.authors.aggregate([
     {$project: {vectorizedSynopsis: 0, _id: 0}}
 ])
 ```
+
+The syntax for this version of `$lookup` is:
+
+```js
+{
+   $lookup:
+     {
+       from: <collection to join>,
+       localField: <field from the input documents>,
+       foreignField: <field from the documents of the "from" collection>,
+       as: <output array field>
+     }
+}
+```
+
+## Lookups from a previous stage
+
+We can do a $lookup on the result of another pipeline, not only joining with a collection. For instance, we want to remove some noise from the books before joining, so we use `$project` to exclude a couple arrays.
+
+```js
+db.authors.aggregate([
+    {$lookup: {
+       from: "books",
+       localField: "books",
+       foreignField: "_id",
+       pipeline: [
+         {$project: {title: 1, synopsis: 1}}
+       ],
+       as: "booksWritten"
+     } 
+    }
+])
+```
+
+The nice part is that we can extract that pipeline and test it / tweak it.
+
+```js
+let booksFrom1996 = [
+    {$match: {year: 1996}},
+    {$project: {title: 1, synopsis: 1}},
+]
+
+db.authors.aggregate([
+    {$lookup: {
+       from: "books",
+       localField: "books",
+       foreignField: "_id",
+       pipeline:
+          booksFrom1996,
+       as: "booksWritten"
+     } 
+    }
+])
+```
+
