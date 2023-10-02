@@ -1,0 +1,69 @@
+# Group
+
+We can sum all the pages for all books in each year:
+
+```js
+db.books.aggregate([
+    {$group:{
+        _id: "$year",
+        totalPages: {$sum: "$pages"}
+    }}
+])
+```
+
+Here, we group by book's `year` (the _id of the grouping), and then we create a new field called `totalPages` that's the sum of all pages.
+
+💻 Can you get the results ordered ascending by year?
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([
+    {$group:{
+        _id: "$year",
+        totalPages: {$sum: "$pages"}
+    }},
+    {$sort: {_id: 1}}
+])
+```
+</div>
+</details>
+
+💻 Can you get the average pages per year (hint: use `$avg`)?
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([
+    {$group:{
+        _id: "$year",
+        totalPages: {$avg: "$pages"}
+    }},
+    {$sort: {_id: 1}}
+])
+```
+</div>
+</details>
+
+💻 Which year had the most printed out pages?
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([
+    {$group:{
+        _id: "$year",
+        totalPages: {$sum: "$pages"}
+    }},
+    {$sort: {totalPages: -1}},
+    {$limit: 1}
+])
+```
+</div>
+</details>
