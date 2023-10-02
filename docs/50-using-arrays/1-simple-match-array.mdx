@@ -1,0 +1,93 @@
+# Simple Array queries
+
+## Find data in arrays
+
+A JSON Array can contain scalar values or objects. In our data, `authors` have an array of the books they've authored (their ISBNs). Let's get one author:
+
+
+```js
+db.authors.aggregate([{$limit: 1}])
+```
+
+💻 Run this aggregation to get one author
+
+I got this one (can change depending on the data source you imported)
+
+```js
+{
+  _id: ObjectId("64cc2db4830ba29148da4c3b"),
+  name: 'Richard Bruce Wright',
+  sanitizedName: 'richardbrucewright',
+  books: [
+    '0002005018',
+    '0771597185'
+  ],
+  aliases: [
+    'Wright, Richard Bruce'
+  ]
+}
+```
+
+Can I get all authors for book `0002005018`? For that, I want all authors that have `0002005018` inside the `books` array. Turns out it's quite simple:
+
+```js
+db.authors.aggregate([
+    {$match: {books: "0002005018"}}
+])
+```
+
+💻 Get book's author name for ISBN `9780439139595`:
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.authors.aggregate([{$match: {books: "9780439139595"}}])
+
+>   name: 'J.K. Rowling',
+```
+</div>
+</details>
+
+## Size of an array
+
+What if we want to know how many aliases an Author has? To do that we can use `$size`, adding the array field that we're interested in:
+
+```js
+db.authors.aggregate([
+{$project: {
+    name: 1,
+    bookCount: {$size: "$books"}
+ }
+},
+])
+```
+
+💻 Who wrote the most books?
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+let addNumberBooks = {
+    $project: {
+        name: 1,
+        bookCount: {$size: "$books"}
+    }
+}
+
+let orderByNumberOfBooksDesc = { $sort: {"bookCount": -1}}
+
+let getOne = {$limit: 1}
+
+db.authors.aggregate([
+    
+    addNumberBooks,
+    orderByNumberOfBooksDesc,
+    getOne,
+])
+```
+</div>
+</details>

@@ -1,0 +1,27 @@
+# Lookupups AKA Left Outer Join
+
+```js
+db.authors.aggregate([
+    { $unwind : "$books" },
+    {$lookup: {
+       from: "books",
+       localField: "books",
+       foreignField: "_id",
+       as: "booksWritten"
+     } 
+    }
+])
+```
+
+```js
+db.authors.aggregate([
+    {$lookup: {
+       from: "books",
+       localField: "books",
+       foreignField: "_id",
+       as: "booksWritten"
+     } 
+    },
+    {$project: {vectorizedSynopsis: 0, _id: 0}}
+])
+```

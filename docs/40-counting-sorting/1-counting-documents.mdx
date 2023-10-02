@@ -38,6 +38,19 @@ Here, `$count` will count the resulting docs and will return a document with jus
 }
 ```
 
+
+💻 How many authors do we have in our `authors` collection?
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.authors.aggregate([{$count: "authorCount"}])
+```
+</div>
+</details>
+
 ## The order of stages is important
 
 If we count after the `$match` stage, the document we're passing to the next steps contains only the `totalBooks` field. So the `$project` will return an empty document.

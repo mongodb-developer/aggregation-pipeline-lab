@@ -1,0 +1,37 @@
+# Adding new fields to results
+
+We want to estimate the reading time for a book. But we don't have that field stored in our data.
+
+```js
+db.books.aggregate([
+    {$project: {
+        title: 1,
+        pages: 1,
+        }
+    },
+    {$set: {readingTimeHours: {$divide: [{$multiply: ["$pages", 2]}, 60]}}},
+])
+```
+
+💻 Add a new field `notes` that contains `PLACEHOLDER` for all documents.
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([
+    {$project: {
+        title: 1,
+        pages: 1,
+        
+    }
+    
+    },
+
+    {$set: {notes: "PLACEHOLDER"}}
+])
+```
+
+</div>
+</details>

@@ -14,3 +14,22 @@ So we can repeat most stages, and do something like this to get all books from 2
 ```js
 db.books.aggregate([{$match: {pages: 100}}, {$match: {year: 2011}}])
 ```
+
+
+
+💻 Add several `$limt` stages at the end of the above aggregation, limiting to 1 book and see what happens
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([
+    {$match: {pages: 100}}, 
+    {$match: {year: 2011}},
+    {$limit: 1},
+    {$limit: 1},
+])
+```
+</div>
+</details>

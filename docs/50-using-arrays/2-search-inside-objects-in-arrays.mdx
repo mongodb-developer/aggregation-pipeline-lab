@@ -1,0 +1,54 @@
+# Searching inside Objects in arrays
+
+In our books we're using the [Attribute Pattern](https://www.mongodb.com/developer/products/mongodb/attribute-pattern/) to have different attributes in our documents. As we can see in the [sample doc](/docs/simple-queries/project) we have an `attributes` array, containing several objects, each with the same structure:
+
+```js
+attributes: [
+    {
+      key: 'edition',
+      value: '1st'
+    },
+    {
+      key: 'dimensions',
+      value: 'Height: 1.111 Inches, Length: 1.111 Inches, Weight: 0.2 Pounds, Width: 1.111 Inches'
+    },
+    {
+      key: 'isbn13',
+      value: '9780765342508'
+    },
+    {
+      key: 'msrp',
+      value: 6.99
+    },
+    {
+      key: 'isbn',
+      value: '0765342502'
+    },
+    {
+      key: 'isbn10',
+      value: '0765342502'
+    }
+  ],
+```
+
+How do we search for all the books that have an msrp of 9.99? We want books that, inside `attributes` has an object with key `msrp` and value `9.99`. We can think this works:
+
+```js
+let nineNinetyNine = {$match: {"attributes.key": "msrp", "attributes.value": 9.99}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1, "attributes": 1}};
+
+db.books.aggregate([
+    firstEditions,
+    showOnlyTheseFields,
+]);
+```
+
+But it doesn't. This one works:
+
+```js
+db.books.aggregate([
+    { $unwind : "$attributes" },
+    {$match: {"attributes.key": "msrp", "attributes.value": 9.99} },
+   {$project: {title: 1, attributes: 1}}
+]);
+```

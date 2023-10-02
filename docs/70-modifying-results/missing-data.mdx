@@ -1,0 +1,15 @@
+# Missing Data
+
+
+```js
+let getAuthorsWithBooks = {
+    $project: {
+        name: 1,
+        books: { $ifNull: ["$books", []]},
+    }
+}
+
+db.authors.aggregate([
+    getAuthorsWithBooks,
+])
+```
