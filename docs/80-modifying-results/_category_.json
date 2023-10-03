@@ -1,6 +1,6 @@
 {
     "label": "Modifying results",
-    "position": 90,
+    "position": 80,
     "link": {
         "type": "generated-index",
         "description": "Changing the output of our pipelines."
