@@ -1,0 +1,67 @@
+# 🦸‍♂️ Advanced lookups
+
+:::info
+Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on Lab
+:::
+
+We get this request: Write a `$lookup` to get `name` and `bio` from author's information inside each book document. To get this done, we need to review several things:
+
+- each book can have several authors. This many to many relationship (as an author can also write many books) is modelled using two different arrays: a `books` array in the `authors` collection and an `authors` array in the `books` collection.
+- so we'll need to get a separate document for each book that has more than one author. If a book has three authors we'll use `$unwind` to get three documents with the same data except for the author, that will be each of the three authors.
+
+You can try this with this Aggregation Pipeline:
+
+```js
+db.books.aggregate([
+    // as a book can have many authors, we get one doc per book's author
+    {$unwind: "$authors"},
+    // remove some noisy fields
+    {$project: {vectorizedSynopsis: 0, attributes: 0, reviews: 0}}
+])
+```
+- now, we need to get the authors'information. For that, we'll use `$lookup`, linking the `_id` in the `authors` collection with the `_id` we have in each book's `authors` array. But as we can see here, these have a different type: the ones inside our array are Strings, while the `author` collection `_id` are `ObjectId`.
+
+```js
+  authors: {
+    _id: '64cc2db4830ba29148da64a2',
+    name: 'Timothy Findley'
+  },
+```
+
+So we need to convert from `String` into `ObjectId`. We can do that using `$toObjectId`. This will add a new field `authorId` converting it into `ObjectId`:
+
+```js
+db.books.aggregate([
+    // as a book can have many authors, we get one doc per book's author
+    {$unwind: "$authors"},
+    // convert it to an objectId
+    {"$set":{"authorId":{"$toObjectId":"$authors._id"}}},
+    // remove some noisy fields
+    {$project: {vectorizedSynopsis: 0, attributes: 0, reviews: 0}}
+])
+```
+
+- now we're ready to do the `$lookup`: we want all documents from `authors` that have the same `_id` as the `authorId` we just created. We use a `pipeline` to get just `authors` `name` and `bio`.
+
+```js
+db.books.aggregate([
+    // as a book can have many authors, we get one doc per book's author
+    {$unwind: "$authors"},
+    // convert it to an objectId
+    {"$set":{"authorId":{"$toObjectId":"$authors._id"}}},
+    {$lookup: {
+       from: "authors",
+       localField: "authorId",
+       foreignField: "_id",
+       pipeline: [
+            {$project: {name: 1, bio: 1}},
+       ],
+       as: "bookAuthorDetails"
+     } 
+    },
+    // remove some noisy fields
+    {$project: {vectorizedSynopsis: 0, attributes: 0, reviews: 0}}
+])
+```
+
+
