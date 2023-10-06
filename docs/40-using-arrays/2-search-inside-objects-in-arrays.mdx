@@ -52,3 +52,13 @@ db.books.aggregate([
    {$project: {title: 1, attributes: 1}}
 ]);
 ```
+
+Here we're getting a copy of each book for each object inside the `$attributes` array. This "flattens" the array and returns many copies of the same documents, one for each different attribute that we have which will be different for each of these generated docs.
+
+To understand `$unwind`, run this aggregation
+
+db.books.aggregate([
+  { $match: {_id: "0002158698"} },
+  { $unwind : "$genres" },
+  { $project: {vectorizedSynopsis: 0, attributes: 0}}
+]);
