@@ -38,7 +38,7 @@ let nineNinetyNine = {$match: {"attributes.key": "msrp", "attributes.value": 9.9
 let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1, "attributes": 1}};
 
 db.books.aggregate([
-    firstEditions,
+    nineNinetyNine,
     showOnlyTheseFields,
 ]);
 ```
