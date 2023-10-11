@@ -9,7 +9,7 @@ let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory:
 let getJust15books =  {$limit: 15};
 
 db.books.aggregate([
-    booksFrom1985With150pages,
+    booksFrom1985WithMoreThan150pages,
     showOnlyTheseFields,
     getJust15books,
 ]);
@@ -25,7 +25,7 @@ let getJust15books =  {$limit: 15};
 let count = {$count: "totalBooks"}
 
 db.books.aggregate([
-    booksFrom1985With150pages,
+    booksFrom1985WithMoreThan150pages,
     showOnlyTheseFields,
     getJust15books,
     count,
@@ -65,7 +65,7 @@ let getJust15books =  {$limit: 15};
 let count = {$count: "totalBooks"}
 
 db.books.aggregate([
-    booksFrom1985With150pages,
+    booksFrom1985WithMoreThan150pages,
     count,
     showOnlyTheseFields,
     getJust15books,
