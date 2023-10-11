@@ -9,10 +9,10 @@ From the [Aggregation Pipelines manual](https://www.mongodb.com/docs/manual/refe
 
 > All stages except the $out, $merge, $geoNear, $changeStream, and $changeStreamSplitLargeEvent stages can appear multiple times in a pipeline.
 
-So we can repeat most stages, and do something like this to get all books from 2011 with 100 pages (although it can make sense or not)
+So we can repeat most stages, and do something like this to get all books from 1985 with more than 100 pages (although it can make sense or not)
 
 ```js
-db.books.aggregate([{$match: {pages: 100}}, {$match: {year: 2011}}])
+db.books.aggregate([{$match: {pages: {$gte: 100}}}, {$match: {year: 1985}}])
 ```
 
 
@@ -25,7 +25,7 @@ db.books.aggregate([{$match: {pages: 100}}, {$match: {year: 2011}}])
 
 ```js
 db.books.aggregate([
-    {$match: {pages: 100}}, 
+    {$match: {pages: {$gte: 100}}}, 
     {$match: {year: 2011}},
     {$limit: 1},
     {$limit: 1},

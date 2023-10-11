@@ -4,23 +4,23 @@ Aggregation pipelines can get very long, depending on how many stages we need to
 
 This is why we should rewrite our last pipeline like this:
 
-Get 15 books from 1991 with 150 pages. Show only the `title`, `year`, `totalInventory` and `available` books. (Sample doc [here](/docs/simple-queries/project))
+Get 15 books from 1985 with 150 pages. Show only the `title`, `year`, `totalInventory` and `available` books. (Sample doc [here](/docs/simple-queries/project))
 
 ```js
 db.books.aggregate([
-    {$match: {year: 1991, pages: 150}}, {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}}, {$limit: 15}
+    {$match: {year: 1985, pages: 150}}, {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}}, {$limit: 15}
 ])
 ```
 Will be changed into:
 
 
 ```js
-let booksFrom1991With150pages = {$match: {year: 1991, pages: 150}};
+let booksFrom1985With150pages = {$match: {year: 1985, pages: 150}};
 let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
 let getJust15books =  {$limit: 15};
 
 db.books.aggregate([
-    booksFrom1991With150pages,
+    booksFrom1985With150pages,
     showOnlyTheseFields,
     getJust15books,
 ]);
@@ -28,7 +28,7 @@ db.books.aggregate([
 
 Easier to read, and reason about, right?
 
-💻 Try to run the above pipeline and compare your results: should be the same
+💻 Try to run the above pipeline and compare your results: should be the same as before
 
 :::tip
 
@@ -41,3 +41,28 @@ Write your aggregation pipelines like you'll compose functions in your programmi
 As this is code, we can even add comments (starting with `//`) to our pipelines
 
 :::
+
+
+💻 We can also use $gte to get the books with 150 pages or more. Check $gte syntax in the [docucumentation](https://www.mongodb.com/docs/manual/reference/operator/query/gte/) and write an aggregation pipeline to return 15 books from 1985 with more than 150 pages. Show only the `title`, `year`, `totalInventory` and `available` books. (Sample doc [here](/docs/simple-queries/project))
+
+_Hint: _ we'll need to use `$and` as maybe this is a bit more complex.
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+let moreThan150pages =  {pages: {$gte: 150}}
+let booksFrom1985WithMoreThan150pages = {$match: {$and: [{year: 1985}, moreThan150pages]}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
+let getJust15books =  {$limit: 15};
+
+db.books.aggregate([
+    booksFrom1985With150pages,
+    showOnlyTheseFields,
+    getJust15books,
+]);
+```
+
+</div>
+</details>
