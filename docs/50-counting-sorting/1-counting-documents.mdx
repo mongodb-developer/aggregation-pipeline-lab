@@ -1,29 +1,31 @@
 # $count
 
-How can we be sure that this pipeline is returning exactly 10 books?
+How can we be sure that this pipeline is returning exactly 2 books?
 
 ```js
-let booksFrom1991With150pages = {$match: {year: 1991, pages: 150}};
+let moreThan150pages =  {pages: {$gte: 150}}
+let booksFrom1985WithMoreThan150pages = {$match: {$and: [{year: 1985}, moreThan150pages]}};
 let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
-let getJust15books =  {$limit: 10};
+let getJust15books =  {$limit: 15};
 
 db.books.aggregate([
-    booksFrom1991With150pages,
+    booksFrom1985With150pages,
     showOnlyTheseFields,
-    getJust15books
+    getJust15books,
 ]);
 ```
 
 Counting the books! Let's add a new stage to the pipeline to count those books:
 
 ```js
-let booksFrom1991With150pages = {$match: {year: 1991, pages: 150}};
+let moreThan150pages =  {pages: {$gte: 150}}
+let booksFrom1985WithMoreThan150pages = {$match: {$and: [{year: 1985}, moreThan150pages]}};
 let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
-let getJust15books =  {$limit: 10};
+let getJust15books =  {$limit: 15};
 let count = {$count: "totalBooks"}
 
 db.books.aggregate([
-    booksFrom1991With150pages,
+    booksFrom1985With150pages,
     showOnlyTheseFields,
     getJust15books,
     count,
@@ -34,7 +36,7 @@ Here, `$count` will count the resulting docs and will return a document with jus
 
 ```js
 {
-  totalBooks: 10
+  totalBooks: 2
 }
 ```
 
@@ -53,16 +55,17 @@ db.authors.aggregate([{$count: "authorCount"}])
 
 ## The order of stages is important
 
-If we count after the `$match` stage, the document we're passing to the next steps contains only the `totalBooks` field. So the `$project` will return an empty document.
+If we count after the `$match` stage, the document we're passing to the next steps contains only the `totalBooks` field. So the `$project` stage will return an empty document.
 
 ```js
-let booksFrom1991With150pages = {$match: {year: 1991, pages: 150}};
+let moreThan150pages =  {pages: {$gte: 150}}
+let booksFrom1985WithMoreThan150pages = {$match: {$and: [{year: 1985}, moreThan150pages]}};
 let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
-let getJust15books =  {$limit: 10};
+let getJust15books =  {$limit: 15};
 let count = {$count: "totalBooks"}
 
 db.books.aggregate([
-    booksFrom1991With150pages,
+    booksFrom1985With150pages,
     count,
     showOnlyTheseFields,
     getJust15books,

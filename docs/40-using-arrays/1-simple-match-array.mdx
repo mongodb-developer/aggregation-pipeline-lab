@@ -19,8 +19,7 @@ I got this one (can change depending on the data source you imported)
   name: 'Richard Bruce Wright',
   sanitizedName: 'richardbrucewright',
   books: [
-    '0002005018',
-    '0771597185'
+    '0002005018'
   ],
   aliases: [
     'Wright, Richard Bruce'
@@ -36,16 +35,16 @@ db.authors.aggregate([
 ])
 ```
 
-💻 Get book's author name for ISBN `9780439139595`:
+💻 Get book's author name for ISBN `0395623650`:
 
 <details>
 <summary>Answer</summary>
 <div>
 
 ```js
-db.authors.aggregate([{$match: {books: "9780439139595"}}])
+db.authors.aggregate([{$match: {books: "0395623650"}}])
 
->   name: 'J.K. Rowling',
+>   name: 'Juan Ramón Jiménez',
 ```
 </div>
 </details>
@@ -64,7 +63,7 @@ db.authors.aggregate([
 ])
 ```
 
-💻 Who wrote the most books?
+💻 Who wrote the most books? (we can sort using `{ $sort: {"bookCount": -1}}`)
 
 <details>
 <summary>Answer</summary>
@@ -83,7 +82,6 @@ let orderByNumberOfBooksDesc = { $sort: {"bookCount": -1}}
 let getOne = {$limit: 1}
 
 db.authors.aggregate([
-    
     addNumberBooks,
     orderByNumberOfBooksDesc,
     getOne,
