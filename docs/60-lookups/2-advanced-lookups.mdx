@@ -16,7 +16,7 @@ db.books.aggregate([
     // as a book can have many authors, we get one doc per book's author
     {$unwind: "$authors"},
     // remove some noisy fields
-    {$project: {vectorizedSynopsis: 0, attributes: 0, reviews: 0}}
+    {$project: {attributes: 0, reviews: 0}}
 ])
 ```
 - now, we need to get the authors'information. For that, we'll use `$lookup`, linking the `_id` in the `authors` collection with the `_id` we have in each book's `authors` array. But as we can see here, these have a different type: the ones inside our array are Strings, while the `author` collection `_id` are `ObjectId`.
@@ -37,7 +37,7 @@ db.books.aggregate([
     // convert it to an objectId
     {"$set":{"authorId":{"$toObjectId":"$authors._id"}}},
     // remove some noisy fields
-    {$project: {vectorizedSynopsis: 0, attributes: 0, reviews: 0}}
+    {$project: {attributes: 0, reviews: 0}}
 ])
 ```
 
@@ -60,7 +60,7 @@ db.books.aggregate([
      } 
     },
     // remove some noisy fields
-    {$project: {vectorizedSynopsis: 0, attributes: 0, reviews: 0}}
+    {$project: {attributes: 0, reviews: 0}}
 ])
 ```
 

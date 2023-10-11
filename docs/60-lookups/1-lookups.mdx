@@ -57,8 +57,7 @@ db.authors.aggregate([
 The nice part is that we can extract that pipeline and test it / tweak it.
 
 ```js
-let booksFrom1996 = [
-    {$match: {year: 1996}},
+let justShowTitleSynopsis = [
     {$project: {title: 1, synopsis: 1}},
 ]
 
@@ -68,7 +67,7 @@ db.authors.aggregate([
        localField: "books",
        foreignField: "_id",
        pipeline:
-          booksFrom1996,
+          justShowTitleSynopsis,
        as: "booksWritten"
      } 
     }
