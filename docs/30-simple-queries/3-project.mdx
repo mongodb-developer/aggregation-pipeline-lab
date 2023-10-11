@@ -6,81 +6,53 @@ A document from the `books` collection looks like:
 
 ```js
 {
-  _id: '0765342502',
-  title: 'The Green Brain',
+  _id: '0395623650',
+  title: 'Platero y yo / Platero and I (Spanish-English Bilingual Edition) (English and Spanish Edition)',
   authors: [
     {
-      _id: '64cc2db4830ba29148da52be',
-      name: 'Frank Herbert'
+      _id: '64cc2db4830ba29148db5180',
+      name: 'Juan Ramón Jiménez'
     }
   ],
-  pages: 224,
-  year: 2002,
-  synopsis: 'a Fascinating Examination Of The Fragile Balance Between Consciousness, Man, And Insect From One Of The Best-loved Science Fiction Creators Of All Time.',
-  cover: 'https://images.isbndb.com/covers/25/08/9780765342508.jpg',
+  pages: 64,
+  year: 1994,
+  synopsis: 'Selections from a classic of world literature present a picture of life in the town of Moguer, in Andalusia, Spain.\n' +
+    '\n' +
+    '\n' +
+    '                        Presents a picture of life in the town of Moguer, in Andalusia, Spain, as seen through the eyes of a wandering poet and his faithful donkey.\n',
+  cover: 'https://images.isbndb.com/covers/36/57/9780395623657.jpg',
   attributes: [
     {
       key: 'edition',
-      value: '1st'
+      value: 'F First Edition Thus'
     },
     {
       key: 'dimensions',
-      value: 'Height: 1.111 Inches, Length: 1.111 Inches, Weight: 0.2 Pounds, Width: 1.111 Inches'
+      value: 'Height: 10.499979 Inches, Length: 6.999986 Inches, Weight: 2.0502990366 Pounds, Width: 0.12499975 Inches'
     },
     {
       key: 'isbn13',
-      value: '9780765342508'
+      value: '9780395623657'
     },
     {
       key: 'msrp',
-      value: 6.99
+      value: 1.99
     },
     {
       key: 'isbn',
-      value: '0765342502'
+      value: '0395623650'
     },
     {
       key: 'isbn10',
-      value: '0765342502'
+      value: '0395623650'
     }
   ],
   totalInventory: 1,
   available: 1,
-  binding: 'Mass Market Paperback',
+  binding: 'Hardcover',
   language: 'en',
-  longTitle: 'The Green Brain',
-  publisher: 'Tor Books',
-  reviews: [
-    {
-      text: 'I absolutely loved this book! The characters were well-developed and the plot was gripping. The writing style was engaging and kept me hooked until the very end. Highly recommend!',
-      rating: 4,
-      name: 'Phoebe Silva',
-      timestamp: 2023-03-30T11:56:44.519Z,
-      _id: ObjectId("6511eb21ace76077e045b2d7")
-    },
-    {
-      text: 'I really enjoyed this book. The story kept me engaged from beginning to end and the characters were well-developed. The writing style was captivating and the plot had several unexpected twists and turns. Overall, a great read that I would highly recommend!',
-      rating: 4,
-      name: 'عرشيا کوتی',
-      timestamp: 2022-05-30T15:15:43.377Z,
-      _id: ObjectId("6511eb20ace76077e045b2d5")
-    },
-    {
-      text: "This book is an absolute masterpiece. The storytelling is captivating and the characters are so well-developed. I couldn't put it down and found myself fully immersed in the story from beginning to end. The writing style is beautiful and the plot twists kept me on the edge of my seat. I highly recommend this book to anyone who enjoys a thought-provoking and emotionally charged read. It's truly a gem!",
-      rating: 5,
-      name: 'Malo Lecomte',
-      timestamp: 2021-08-27T20:34:33.710Z,
-      _id: ObjectId("6511eb21ace76077e045b2d6")
-    }
-  ],
-  vectorizedSynopsis: [
-    0.020951554,
-    0.001816311,
-    0.00775048,
-    -0.01312131,
-    0.01894414,
-    0.006397802,
-    -0.027944269,
+  longTitle: 'Platero y yo / Platero and I (Spanish-English Bilingual Edition) (English and Spanish Edition)',
+  publisher: 'Clarion Books'
 }
 ```
 
@@ -121,7 +93,7 @@ db.books.aggregate([{$project: {title:1, cover: 1}}])
 <div>
 
 ```js
-db.books.aggregate([{$project: {_id_:0, attributes: 0, cover: 0}}])
+db.books.aggregate([{$project: {_id :0, attributes: 0, cover: 0}}])
 ```
 </div>
 </details>
