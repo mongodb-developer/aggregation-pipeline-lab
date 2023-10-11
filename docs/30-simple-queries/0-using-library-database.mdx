@@ -1,8 +1,14 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Using the library database
 
 ## Select the library database
 
 💻 We'll use the `library` database. To do that, in a MongoDB shell type in:
+
+<Tabs groupId="aggregations">
+  <TabItem value="mongosh" label="mongosh">
 
 ```js
 use library
@@ -13,6 +19,22 @@ You can show all collections with
 ```js
 show collections
 ```
+
+  </TabItem>
+  <TabItem value="atlas" label="Atlas UI">
+
+Select the correct DB in the Atlas UI
+
+
+<Screenshot src="/img/30-simple-queries/select-db.png" url="http://cloud.mongodb.com/yourcluster" alt="AtlasUI Showing the available DBs" />
+
+  </TabItem>
+</Tabs>
+
+
+
+---
+
 
 🦸‍♂️ 💻 How would you switch to a database called `orders`?
 

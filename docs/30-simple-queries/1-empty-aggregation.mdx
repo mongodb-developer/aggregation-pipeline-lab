@@ -1,12 +1,36 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Empty aggregation pipeline
 
 ## An empty aggregation
 
 This code returns a [cursor](https://www.mongodb.com/docs/manual/reference/method/js-cursor/) with all documents in the `authors` collection:
 
+<Tabs groupId="aggregations">
+  <TabItem value="mongosh" label="mongosh">
+
 ```js
 db.authors.aggregate([])
 ```
+
+  </TabItem>
+  <TabItem value="atlas" label="Atlas UI">
+
+<Screenshot src="/img/30-simple-queries/atlas-aggregation.png" url="http://cloud.mongodb.com/yourcluster" alt="AtlasUI Showing the available DBs" />
+
+- Open the Aggregation tab
+- Select Text entry
+- Type in the aggregation pipeline:
+
+```js
+[]
+```
+ 
+  </TabItem>
+</Tabs>
+
+
 
 We can iterate over this cursor and get more documents typing `it`. 
 
