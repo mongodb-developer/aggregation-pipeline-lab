@@ -38,14 +38,26 @@ IF pages == 100 AND totalInventory == 2 {
 }
 ```
 
-💻 Return all the `books` from 2011 that have exactly 100 pages.
+💻 Return all the `books` from 2015 that have exactly 100 pages.
 
 <details>
 <summary>Answer</summary>
 <div>
 
 ```js
-db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2011}]}}])
+db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}])
+```
+</div>
+</details>
+
+💻 How many are they? (_hint: use `itcount()`_).
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}]).itcount()
 ```
 </div>
 </details>
@@ -58,14 +70,14 @@ We can do an implicit AND just passing a document with all the conditions (inste
 db.books.aggregate([{$match: {pages: 100, totalInventory: 2}}])
 ```
 
-💻 Return all the `books` from 2011 that have exactly 100 pages, using the simple $and notation
+💻 Return all the `books` from 2015 that have exactly 100 pages, using the simple $and notation
 
 <details>
 <summary>Answer</summary>
 <div>
 
 ```js
-db.books.aggregate([{$match: {pages: 100, year: 2011}}])
+db.books.aggregate([{$match: {pages: 100, year: 2015}}])
 ```
 </div>
 </details>
