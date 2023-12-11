@@ -5,10 +5,21 @@ import TabItem from '@theme/TabItem';
 
 ## Select the library database
 
-💻 We'll use the `library` database. To do that, in a MongoDB shell type in:
+💻 We'll use the `library` database for all of the hands-on exercises in this lab.
+If you haven't already, import the [library data](https://mdb.link/import-library-data) into your database cluster.
 
 <Tabs groupId="aggregations">
-  <TabItem value="mongosh" label="mongosh">
+  <TabItem value="atlas" label="Atlas UI">
+
+Select the correct database in the Atlas UI.
+
+
+<Screenshot src="/img/30-simple-queries/select-db.png" url="http://cloud.mongodb.com/yourcluster" alt="AtlasUI Showing the available DBs" />
+
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+
+To do that, in a MongoDB shell type in:
 
 ```js
 use library
@@ -20,26 +31,12 @@ You can show all collections with
 show collections
 ```
 
-  </TabItem>
-  <TabItem value="atlas" label="Atlas UI">
-
-Select the correct DB in the Atlas UI
-
-
-<Screenshot src="/img/30-simple-queries/select-db.png" url="http://cloud.mongodb.com/yourcluster" alt="AtlasUI Showing the available DBs" />
-
-  </TabItem>
-</Tabs>
-
-
-
 ---
-
 
 🦸‍♂️ 💻 How would you switch to a database called `orders`?
 
 :::info
-Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on Lab
+Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on lab.
 :::
 
 <details>
@@ -71,3 +68,9 @@ You can also list other databases in your MongoDB instance with
 ```js
 show databases
 ```
+
+
+  </TabItem>
+
+</Tabs>
+

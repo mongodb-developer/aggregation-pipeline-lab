@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 🦸‍♂️ Repeating stages
 
 :::info
@@ -10,18 +13,47 @@ From the [Aggregation Pipelines manual](https://www.mongodb.com/docs/manual/refe
 > All stages except the $out, $merge, $geoNear, $changeStream, and $changeStreamSplitLargeEvent stages can appear multiple times in a pipeline.
 
 So we can repeat most stages, and do something like this to get all books from 1985 with more than 100 pages (although it can make sense or not)
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+    {
+        $match: { pages: {$gte: 100} }
+    },
+    {
+        $match: { year: 1985 }
+    }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 db.books.aggregate([{$match: {pages: {$gte: 100}}}, {$match: {year: 1985}}])
 ```
+  </TabItem>
+</Tabs>
 
 
 
-💻 Add several `$limt` stages at the end of the above aggregation, limiting to 1 book and see what happens
+💻 Add several `$limit` stages at the end of the above aggregation, limiting to 1 book and see what happens
 
 <details>
 <summary>Answer</summary>
 <div>
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+    {$match: {pages: {$gte: 100}}}, 
+    {$match: {year: 2011}},
+    {$limit: 1},
+    {$limit: 1},
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 db.books.aggregate([
@@ -31,5 +63,9 @@ db.books.aggregate([
     {$limit: 1},
 ])
 ```
+  </TabItem>
+</Tabs>
+
+
 </div>
 </details>

@@ -8,31 +8,28 @@ import TabItem from '@theme/TabItem';
 This code is the equivalent to a `SELECT * FROM AUTHORS`. Returns a [cursor](https://www.mongodb.com/docs/manual/reference/method/js-cursor/) with all documents in the `authors` collection:
 
 <Tabs groupId="aggregations">
-  <TabItem value="mongosh" label="mongosh">
 
-```js
-db.authors.aggregate([])
-```
+ <TabItem value="atlas" label="Atlas UI">
 
-  </TabItem>
-  <TabItem value="atlas" label="Atlas UI">
+<Screenshot src="/img/30-simple-queries/atlas-aggregation.png" url="http://cloud.mongodb.com/" alt="Atlas UI showing an empty aggregation pipeline" />
 
-<Screenshot src="/img/30-simple-queries/atlas-aggregation.png" url="http://cloud.mongodb.com/yourcluster" alt="AtlasUI Showing the available DBs" />
-
-- Open the Aggregation tab
-- Select Text entry
-- Type in the aggregation pipeline:
+- Open the `Aggregation` tab.
+- Select `Text`.
+- Notice the empty array in the editor denoting an empty aggregation pipeline:
 
 ```js
 []
 ```
  
   </TabItem>
-</Tabs>
 
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
 
+```js
+db.authors.aggregate([])
+```
 
-We can iterate over this cursor and get more documents typing `it`. 
+We can iterate over the returned cursor and get more documents typing `it`. 
 
 💻 Return all the documents in the `books` collection and iterate to get the next page of books.
 
@@ -71,3 +68,7 @@ db.books.aggregate([]).itcount()
 ```
 </div>
 </details>
+
+  </TabItem>
+ 
+</Tabs>

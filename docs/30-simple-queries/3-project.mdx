@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # $project
 
 ## Including fields in a projection 
@@ -58,9 +61,25 @@ A document from the `books` collection looks like:
 
 If we're interested just in the titles, we can use `$project` to select just the fields we're interested in. As an example, to get just the book's title and year we'll write:
 
+
+<Tabs groupId="project">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+  {
+    $project: {title: 1, year: 1}
+  }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+
 ```js
 db.books.aggregate([{$project: {title: 1, year: 1}}])
 ```
+  </TabItem>
+</Tabs>
+
 
 - 1 means "show that field"
 - 0 means "hide that field"
@@ -68,9 +87,23 @@ db.books.aggregate([{$project: {title: 1, year: 1}}])
 
 So we can exclude fields and show all fields except `attributes` using:
 
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+  {
+    $project: {attributes: 0}
+  }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
 ```js
 db.books.aggregate([{$project: {attributes: 0}}])
 ```
+  </TabItem>
+</Tabs>
+
 
 💻 Show only `title` and `cover`.
 
@@ -78,9 +111,22 @@ db.books.aggregate([{$project: {attributes: 0}}])
 <summary>Answer</summary>
 <div>
 
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
 ```js
-db.books.aggregate([{$project: {title:1, cover: 1}}])
+[
+  {
+    $project: {title: 1, cover: 1}
+  }
+]
 ```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([{$project: {title: 1, cover: 1}}])
+```
+  </TabItem>
+</Tabs>
 </div>
 </details>
 
@@ -92,9 +138,23 @@ db.books.aggregate([{$project: {title:1, cover: 1}}])
 <summary>Answer</summary>
 <div>
 
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
 ```js
-db.books.aggregate([{$project: {_id :0, attributes: 0, cover: 0}}])
+[
+  {
+    $project: {_id: 0, attributes: 0, cover: 0}
+  }
+]
 ```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([{$project: {_id: 0, attributes: 0, cover: 0}}])
+```
+  </TabItem>
+</Tabs>
+
 </div>
 </details>
 
@@ -110,17 +170,17 @@ You can't include and exclude fields in the same projection: if you start includ
 For instance, this will fail:
 
 ```js
-db.books.aggregate([{$project: {title:1, attributes: 0}}])
+db.books.aggregate([{$project: {title: 1, attributes: 0}}])
 
 MongoServerError: Invalid $project :: caused by :: Cannot do exclusion on field attributes in inclusion projection
 ```
 
 :::info
 
-The only exception to this rule is the `_id` field, which we can exclude in an inclusion projection
+The only exception to this rule is the `_id` field, which we can exclude in an inclusion projection.
 
 :::
 
 ```js
-db.books.aggregate([{$project: {title:1, _id: 0}}])
+db.books.aggregate([{$project: {title: 1, _id: 0}}])
 ```
