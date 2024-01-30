@@ -1,4 +1,4 @@
-# Searching inside Objects in arrays
+# 👐 Searching inside Objects in arrays
 
 In our books we're using the [Attribute Pattern](https://www.mongodb.com/developer/products/mongodb/attribute-pattern/) to have different attributes in our documents. As we can see in the [sample doc](/docs/simple-queries/project) we have an `attributes` array, containing several objects, each with the same structure:
 
@@ -55,7 +55,7 @@ db.books.aggregate([
 
 Here we're getting a copy of each book for each object inside the `$attributes` array. This "flattens" the array and returns many copies of the same documents, one for each different attribute that we have which will be different for each of these generated docs.
 
-To better understand `$unwind`, run this aggregation
+👐 To better understand `$unwind`, run this aggregation
 
 ```js
 db.books.aggregate([

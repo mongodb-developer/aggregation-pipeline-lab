@@ -1,4 +1,4 @@
-# Simple Array queries
+# 👐 Simple Array queries
 
 ## Find data in arrays
 
@@ -9,7 +9,7 @@ A JSON Array can contain scalar values or objects. In our data, `authors` have a
 db.authors.aggregate([{$limit: 1}])
 ```
 
-💻 Run this aggregation to get one author
+👐 Run this aggregation to get one author
 
 I got this one (can change depending on the data source you imported)
 
@@ -35,7 +35,7 @@ db.authors.aggregate([
 ])
 ```
 
-💻 Get book's author name for ISBN `0395623650`:
+👐 Get book's author name for ISBN `0395623650`:
 
 <details>
 <summary>Answer</summary>
@@ -63,7 +63,7 @@ db.authors.aggregate([
 ])
 ```
 
-💻 Who wrote the most books? (we can sort using `{ $sort: {"bookCount": -1}}`)
+👐 Who wrote the most books? (we can sort using `{ $sort: {"bookCount": -1}}`)
 
 <details>
 <summary>Answer</summary>

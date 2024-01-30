@@ -1,4 +1,4 @@
-# Lookupups AKA Left Outer Join
+# 👐 Lookupups AKA Left Outer Join
 
 Using Documents we usually model 1:1, 1:many relationships embedding documents inside other documents, even using arrays for that. For instance an Author can have many aliases, and they live inside an array in the `authors` collection.
 
@@ -6,7 +6,7 @@ But other times we need to use references to those documents instead of embeddin
 
 So how can we get the authors and all the books she has written, embedded in the array? Using `$lookup`, that will do a Left Outer Join and return author docs containing book docs inside. 
 
-💻 Run this aggregation and look at the results:
+👐 Run this aggregation and look at the results:
 
 ```js
 db.authors.aggregate([

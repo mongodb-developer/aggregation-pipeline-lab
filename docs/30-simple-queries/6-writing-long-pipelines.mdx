@@ -1,4 +1,4 @@
-# Writing long pipelines
+# 👐 Writing long pipelines
 
 Aggregation pipelines can get very long, depending on how many stages we need to run. Writing a pipeline is writing code, as you will write it using one of the many MongoDB drivers in your own language. Here we're presenting the examples using JavaScript suitable for the MongoDB Shell [mongosh](https://www.mongodb.com/docs/mongodb-shell/), but if you are writing a microservice in Rust, you'll definitely write your pipelines in Rust.
 
@@ -32,7 +32,7 @@ db.books.aggregate([
 
 Easier to read, and reason about, right?
 
-💻 Try to run the above pipeline and compare your results: should be the same as before
+👐 Try to run the above pipeline and compare your results: should be the same as before
 
 :::tip
 
@@ -47,7 +47,7 @@ As this is code, we can even add comments (starting with `//`) to our pipelines
 :::
 
 
-💻 We can also use $gte to get the books with 150 pages or more. Check $gte syntax in the [docucumentation](https://www.mongodb.com/docs/manual/reference/operator/query/gte/) and write an aggregation pipeline to return 15 books from 1985 with more than 150 pages. Show only the `title`, `year`, `totalInventory` and `available` books. (Sample doc [here](/docs/simple-queries/project))
+👐 We can also use $gte to get the books with 150 pages or more. Check $gte syntax in the [docucumentation](https://www.mongodb.com/docs/manual/reference/operator/query/gte/) and write an aggregation pipeline to return 15 books from 1985 with more than 150 pages. Show only the `title`, `year`, `totalInventory` and `available` books. (Sample doc [here](/docs/simple-queries/project))
 
 _Hint:_ we'll need to use `$and` as maybe this is a bit more complex.
 
