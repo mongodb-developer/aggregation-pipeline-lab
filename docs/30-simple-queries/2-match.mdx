@@ -1,7 +1,7 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# $match
+# 👐 $match
 
 The $match operator is used in conjunction with the aggregation framework to filter documents in a collection. It takes a document as input and returns a new document containing only the documents that match the specified criteria. The syntax for the $match operator is as follows:
 
@@ -52,7 +52,7 @@ The `<expression>` portion of the $match operator can be any valid MongoDB expre
 </Tabs>
 
 
-💻 Return all the `books` that have exactly 100 pages.
+👐 Return all the `books` that have exactly 100 pages.
 
 <details>
 <summary>Answer</summary>
@@ -119,7 +119,7 @@ IF pages == 100 AND totalInventory == 2 {
 }
 ```
 
-💻 Return all the `books` from 2015 that have exactly 100 pages.
+👐 Return all the `books` from 2015 that have exactly 100 pages.
 
 <details>
 <summary>Answer</summary>
@@ -150,7 +150,7 @@ db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}])
 </div>
 </details>
 
-💻 How many are they?
+👐 How many are they?
 
 <details>
 <summary>Answer</summary>
@@ -205,7 +205,7 @@ db.books.aggregate([{$match: {pages: 100, totalInventory: 2}}])
 </Tabs>
 
 
-💻 Return all the `books` from 2015 that have exactly 100 pages, using the simple $and notation
+👐 Return all the `books` from 2015 that have exactly 100 pages, using the simple $and notation
 
 <details>
 <summary>Answer</summary>
