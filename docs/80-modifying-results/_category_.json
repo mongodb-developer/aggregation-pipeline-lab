@@ -1,8 +1,8 @@
 {
-    "label": "Modifying results",
-    "position": 80,
-    "link": {
-        "type": "generated-index",
-        "description": "Changing the output of our pipelines."
-    }
+  "label": "Modifying Results",
+  "position": 80,
+  "link": {
+    "type": "generated-index",
+    "description": "Changing the output of our pipelines."
+  }
 }
