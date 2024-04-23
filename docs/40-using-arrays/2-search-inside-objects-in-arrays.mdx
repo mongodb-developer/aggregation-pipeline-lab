@@ -31,19 +31,7 @@ attributes: [
   ],
 ```
 
-How do we search for all the books that have an msrp of 9.99? We want books that, inside `attributes` has an object with key `msrp` and value `9.99`. We can think this works:
-
-```js
-let nineNinetyNine = {$match: {"attributes.key": "msrp", "attributes.value": 9.99}};
-let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1, "attributes": 1}};
-
-db.books.aggregate([
-    nineNinetyNine,
-    showOnlyTheseFields,
-]);
-```
-
-But it doesn't. This one works:
+How do we search for all the books that have an msrp of 9.99? We want books that, inside `attributes` has an object with key `msrp` and value `9.99`. We can get it to work with this:
 
 ```js
 db.books.aggregate([
@@ -63,5 +51,18 @@ db.books.aggregate([
   { $unwind : "$attributes" },
 ]);
 ```
-
 You should get one document per attribute of the original book.
+
+But you can actually match documents in an array in a more straightforward fashion:
+
+```js
+let nineNinetyNine = {$match: {"attributes.key": "msrp", "attributes.value": 9.99}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1, "attributes": 1}};
+
+db.books.aggregate([
+    nineNinetyNine,
+    showOnlyTheseFields,
+]);
+```
+
+
