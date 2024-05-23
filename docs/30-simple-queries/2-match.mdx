@@ -26,7 +26,7 @@ The `<expression>` portion of the $match operator can be any valid MongoDB expre
     First, make sure you select the `books` collection in the Atlas UI. 
     <Screenshot src="/img/30-simple-queries/select-books-collection.png" url="http://cloud.mongodb.com/" alt="Atlas UI database deployment with the books collection highlighted." />
 
-    Then, navigate to the `Aggregation` tab and click `Add Stage`.
+    Then, navigate to the `Aggregation` tab and click `</> TEXT`.
     <Screenshot src="/img/30-simple-queries/new-aggregation.png" url="http://cloud.mongodb.com/" alt="Atlas UI database deployment with aggregation tab highlighted." />
 
     Say we want all the books from the year 2010. We can add a `$match` stage to filter the documents from the books collection:
@@ -84,7 +84,7 @@ db.books.aggregate([{$match: {pages: 100}}])
 
 If we need to add more conditions using AND, we can do it with the `$and` operator.
 
-If we want all the books with 100 pages with exactly `totalInventory` 2 we can use an `$and` operator. This takes and array of documents with all the conditions that should be true for the AND to succeed:
+If we want all the books with 100 pages with exactly `totalInventory` 2 we can use an `$and` operator. This takes an array of documents with all the conditions that should be true for the AND to succeed:
 
 <Tabs groupId="aggregations-and">
   <TabItem value="atlas" label="Atlas UI">
