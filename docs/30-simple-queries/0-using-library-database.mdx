@@ -1,12 +1,11 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 👐 Using the library database
+# 👐 Using the Library Database
 
 ## Select the library database
 
-💻 We'll use the `library` database for all of the hands-on exercises in this lab.
-If you haven't already, import the [library data](https://mdb.link/import-library-data) into your database cluster.
+💻 We'll use the `library` database for all of the hands-on exercises in this lab. If you haven't already, import the [library data](https://mdb.link/import-library-data) into your database cluster.
 
 <Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
@@ -19,13 +18,13 @@ Select the correct database in the aggregation pipeline builder.
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 
-To do that, in a MongoDB shell type in:
+To do that, in a MongoDB shell, type:
 
 ```js
 use library
 ```
 
-You can show all collections with
+You can show all collections with:
 
 ```js
 show collections
@@ -36,7 +35,7 @@ show collections
 🦸‍♂️ 💻 How would you switch to a database called `orders`?
 
 :::info
-Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on lab.
+Extra activity! Do it if you have extra time or are following along at home. It won't be covered during the hands-on lab.
 :::
 
 <details>
@@ -47,7 +46,7 @@ Extra activity, do it if you have extra time or are following at home, won't be 
 use orders
 ```
 
-Even if this database does not yet exists, MongoDB can change to it. If we create a collection, users, etc. then this DB will get created.
+Even if this database does not yet exist, MongoDB can change to it. If we create a collection, users, etc., then this DB will be created.
 
 Remember to get back to the library database by using:
 
@@ -57,13 +56,13 @@ use library
 </div>
 </details>
 
-## 🦸‍♂️ Showing all Databases
+## 🦸‍♂️ Showing all databases
 
 :::info
-Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on Lab
+Extra activity! Do it if you have extra time or are following along at home. It won't be covered during the hands-on lab.
 :::
 
-You can also list other databases in your MongoDB instance with
+You can also list other databases in your MongoDB instance with:
 
 ```js
 show databases
