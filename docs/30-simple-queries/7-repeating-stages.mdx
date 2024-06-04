@@ -1,18 +1,17 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 🦸‍♂️ Repeating stages
+# 🦸‍♂️ Repeating Stages
 
 :::info
-Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on Lab
+Extra activity! Do it if you have extra time or are following along at home. It won't be covered during the hands-on lab.
 :::
 
-
-From the [Aggregation Pipelines manual](https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/#stages).
+From the [aggregation pipelines manual](https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/#stages):
 
 > All stages except the $out, $merge, $geoNear, $changeStream, and $changeStreamSplitLargeEvent stages can appear multiple times in a pipeline.
 
-So we can repeat most stages, and do something like this to get all books from 1985 with more than 100 pages (although it can make sense or not)
+So we can repeat most stages, and do something like this to get all books from 1985 with more than 100 pages (although it may or may not make sense):
 <Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 
@@ -37,7 +36,7 @@ db.books.aggregate([{$match: {pages: {$gte: 100}}}, {$match: {year: 1985}}])
 
 
 
-💻 Add several `$limit` stages at the end of the above aggregation, limiting to 1 book and see what happens
+💻 Add several `$limit` stages at the end of the above aggregation, limiting to 1 book, and see what happens.
 
 <details>
 <summary>Answer</summary>
