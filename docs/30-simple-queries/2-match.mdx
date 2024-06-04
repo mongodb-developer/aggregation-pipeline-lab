@@ -11,12 +11,12 @@ The $match operator is used in conjunction with the aggregation framework to fil
 
 ## Expressions
 
-The `<expression>` portion of the $match operator can be any valid MongoDB expression. This includes :
+The `<expression>` portion of the $match operator can be any valid MongoDB expression. This includes:
 
-* Comparison operators: `eq`, `neq`, `gte`, `lte`, `gt`, `lt`, `in`, `nin`, `exists`
-* Regular expressions: regex
-* Logical operators: and, or, not
-* Subdocuments and arrays: `{ field: <value> }, [ <item>, <item>, ... ]`
+* Comparison operators: `eq`, `neq`, `gte`, `lte`, `gt`, `lt`, `in`, `nin`, `exists`.
+* Regular expressions: regex.
+* Logical operators: and, or, not.
+* Subdocuments and arrays: `{ field: <value> }, [ <item>, <item>, ... ]`.
 
 ## Matching book documents
 
@@ -84,7 +84,7 @@ db.books.aggregate([{$match: {pages: 100}}])
 
 If we need to add more conditions using AND, we can do it with the `$and` operator.
 
-If we want all the books with 100 pages with exactly `totalInventory` 2 we can use an `$and` operator. This takes and array of documents with all the conditions that should be true for the AND to succeed:
+If we want all the books with 100 pages with exactly `totalInventory` 2, we can use a `$and` operator. This takes an array of documents with all the conditions that should be true for the AND to succeed:
 
 <Tabs groupId="aggregations-and">
   <TabItem value="atlas" label="Atlas UI">
@@ -150,7 +150,7 @@ db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}])
 </div>
 </details>
 
-👐 How many are they?
+👐 How many are there?
 
 <details>
 <summary>Answer</summary>
@@ -205,7 +205,7 @@ db.books.aggregate([{$match: {pages: 100, totalInventory: 2}}])
 </Tabs>
 
 
-👐 Return all the `books` from 2015 that have exactly 100 pages, using the simple $and notation
+👐 Return all the `books` from 2015 that have exactly 100 pages, using the simple $and notation:
 
 <details>
 <summary>Answer</summary>
