@@ -1,10 +1,10 @@
-# 👐 Lookups AKA Left Outer Join
+# 👐 Lookups, AKA Left Outer Join
 
-Using Documents we usually model 1:1, 1:many relationships embedding documents inside other documents, even using arrays for that. For instance an Author can have many aliases, and they live inside an array in the `authors` collection.
+Using documents, we usually model 1:1 and 1:many relationships by embedding documents inside other documents, and even using arrays. For instance, an author can have many aliases, and they live inside an array in the `authors` collection.
 
-But other times we need to use references to those documents instead of embedding them. For instance an author has an array of the books she has written, but instead of moving the book documents inside an array inside author (which will be tricky for books with multiple authors) we embed the books `_id` instead.
+But other times, we need to use references to those documents instead of embedding them. For instance, an author has an array of the books they have written, but instead of moving the book documents inside an array inside author (which will be tricky for books with multiple authors), we embed the books `_id` instead.
 
-So how can we get the authors and all the books she has written, embedded in the array? Using `$lookup`, that will do a Left Outer Join and return author docs containing book docs inside. 
+So how can we get the author and all the books they have written embedded in the array? By using `$lookup`! That will do a left outer join and return author docs containing book docs inside. 
 
 👐 Run this aggregation and look at the results:
 
@@ -37,7 +37,7 @@ The syntax for this version of `$lookup` is:
 
 ## Lookups from a previous stage
 
-We can do a $lookup on the result of another pipeline, not only joining with a collection. For instance, we want to remove some noise from the books before joining, so we use `$project` to exclude a couple arrays.
+We can do a $lookup on the result of another pipeline, not only joining with a collection. For instance, we want to remove some noise from the books before joining, so we use `$project` to exclude a couple of arrays.
 
 ```js
 db.authors.aggregate([
@@ -54,7 +54,7 @@ db.authors.aggregate([
 ])
 ```
 
-The nice part is that we can extract that pipeline and test it / tweak it.
+The nice part is that we can extract that pipeline and test it/tweak it.
 
 ```js
 let justShowTitleSynopsis = [
