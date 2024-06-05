@@ -1,6 +1,6 @@
 # 🦸 Missing Data
 
-Sometimes we're missing a field we're looking for (it's not there, as documents in a collection can be polymorphic, so this field is `null`). For these cases we can check if something is there using `$ifNull` and add a default value in that case.
+Sometimes, we're missing a field we're looking for (it's not there, as documents in a collection can be polymorphic, so this field is `null`). For these cases, we can check if something is there using `$ifNull` and add a default value.
 
 ```js
 let getAuthorsWithBooks = {
