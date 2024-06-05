@@ -15,7 +15,7 @@ db.books.aggregate([
 ]);
 ```
 
-Counting the books! Let's add a new stage to the pipeline to count those books:
+By counting the books! Let's add a new stage to the pipeline to count those books:
 
 ```js
 let moreThan150pages =  {pages: {$gte: 150}}
@@ -32,7 +32,7 @@ db.books.aggregate([
 ]);
 ```
 
-Here, `$count` will count the resulting docs and will return a document with just one field: `totalBooks`
+Here, `$count` will count the resulting docs and will return a document with just one field: `totalBooks`.
 
 ```js
 {
