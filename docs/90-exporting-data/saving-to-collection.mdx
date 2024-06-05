@@ -1,18 +1,18 @@
-# 🦸 Saving to a collection
+# 🦸 Saving to a Collection
 
-You can export the result of an aggregation pipeline to a different DB / Collection. To do that just add a last aggregation stage to your pipeline:
+You can export the result of an aggregation pipeline to a different DB/collection. To do that, just add a last aggregation stage to your pipeline:
 
 ```js
 { $out: { db: "<output-db>", coll: "<output-collection>" } }
 ```
 
-You can omit the `db` attribute, in which case the new collection is created in the current DB.
+You can omit the `db` attribute, and the new collection will be created in the current DB.
 
 ```js
 { $out: "<output-collection>" }
 ```
 
-👐 Create a copy of the books with exactly 100 pages and output as a new collection named `OneHundredPagesBooks.
+👐 Create a copy of the books with exactly 100 pages and output as a new collection named `OneHundredPagesBooks`.
 
 <details>
 <summary>Answer</summary>
