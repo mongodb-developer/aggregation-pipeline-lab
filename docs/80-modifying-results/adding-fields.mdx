@@ -1,8 +1,8 @@
-# 👐 Adding new fields to results
+# 👐 Adding New Fields to Results
 
 ## $addFields
 
-We want to estimate the reading time for a book. But we don't have that field stored in our data. We can use `$addFields` for this. If the field exists, it'll get updated, if not, it's added.
+We want to estimate the reading time for a book. But we don't have that field stored in our data. We can use `$addFields` for this. If the field exists, it'll get updated, and if it doesn't, it's added.
 
 ```js
 db.books.aggregate([
@@ -15,7 +15,7 @@ db.books.aggregate([
 ])
 ```
 
-👐 Add a new field `notes` that contains the text `PLACEHOLDER` for all documents.
+👐 Add a new field, `notes`, that contains the text `PLACEHOLDER` for all documents.
 
 <details>
 <summary>Answer</summary>
