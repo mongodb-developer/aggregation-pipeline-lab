@@ -20,7 +20,7 @@ The `<expression>` portion of the $match operator can be any valid MongoDB expre
 
 ## Matching book documents
 
-<Tabs groupId="aggregations-year">
+<Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 
     First, make sure you select the `books` collection in the Atlas UI. 
@@ -58,7 +58,7 @@ The `<expression>` portion of the $match operator can be any valid MongoDB expre
 <summary>Answer</summary>
 <div>
 
-<Tabs groupId="aggregations-pages">
+<Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -86,7 +86,7 @@ If we need to add more conditions using AND, we can do it with the `$and` operat
 
 If we want all the books with 100 pages with exactly `totalInventory` 2 we can use an `$and` operator. This takes and array of documents with all the conditions that should be true for the AND to succeed:
 
-<Tabs groupId="aggregations-and">
+<Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -187,7 +187,7 @@ db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}]).itcount()
 
 We can do an implicit AND just passing a document with all the conditions (instead of an array of documents):
 
-<Tabs groupId="aggregations-shorthand-and">
+<Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -211,7 +211,7 @@ db.books.aggregate([{$match: {pages: 100, totalInventory: 2}}])
 <summary>Answer</summary>
 <div>
 
-<Tabs groupId="aggregations-shorthand-and-exercise">
+<Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
