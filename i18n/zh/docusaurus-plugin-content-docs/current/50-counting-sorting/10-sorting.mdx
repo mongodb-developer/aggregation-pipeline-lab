@@ -1,0 +1,55 @@
+# 👐 排序
+
+我们可以使用`$sort`阶段对结果进行排序。我们需要对字段进行排序，1表示升序，-1表示降序。
+
+👐 让我们获取所有1984年的书籍，并按页数排序。我们只显示标题、页数和作者。
+
+```js
+let booksFrom1984 = {$match: {year: 1984}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, pages: 1, authors: 1}};
+let slimmerBooksFirst = {$sort: {"pages": 1}}
+
+db.books.aggregate([
+    booksFrom1984,
+    showOnlyTheseFields,
+    slimmerBooksFirst,
+]);
+```
+
+如我们所见，没有`pages`信息的书籍首先出现。这些文档没有该信息，因此`pages`为`null`，并被排序为小于任何数字。
+
+👐 我们可以反过来排序：
+
+```js
+let booksFrom1984 = {$match: {year: 1984}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, pages: 1, authors: 1}};
+let thickerBooksFirst = {$sort: {"pages": -1}}
+
+db.books.aggregate([
+    booksFrom1984,
+    showOnlyTheseFields,
+    thickerBooksFirst,
+]);
+```
+
+👐 我们如何获取1984年最厚的书？
+
+<details>
+<summary>答案</summary>
+<div>
+
+```js
+let booksFrom1984 = {$match: {year: 1984}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, pages: 1, authors: 1}};
+let thickerBooksFirst = {$sort: {"pages": -1}}
+let justOne = {$limit: 1}
+
+db.books.aggregate([
+    booksFrom1984,
+    showOnlyTheseFields,
+    thickerBooksFirst,
+    justOne
+]);
+```
+</div>
+</details>

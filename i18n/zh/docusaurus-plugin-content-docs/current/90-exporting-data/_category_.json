@@ -1,0 +1,8 @@
+{
+    "label": "导出数据",
+    "position": 90,
+    "link": {
+        "type": "generated-index",
+        "description": "导出数据。"
+    }
+}

@@ -1,0 +1,68 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 🦸‍♂️ 重复阶段
+
+:::info
+额外活动：如果您有额外的时间或在家跟着做，可以尝试，导师不会在动手实验中进行讲解
+:::
+
+从 [Aggregation Pipelines 手册](https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/#stages) 中引用：
+
+> 除了 $out, $merge, $geoNear, $changeStream 和 $changeStreamSplitLargeEvent 阶段外，其他所有阶段都可以在一个管道中多次出现。
+
+因此我们可以重复大多数阶段，并做类似于以下操作，以获取1985年且页数超过100页的所有书籍（尽管这可能有意义或没有意义）
+
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+
+```
+[
+    {
+        $match: { pages: {$gte: 100} }
+    },
+    {
+        $match: { year: 1985 }
+    }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+
+```
+db.books.aggregate([{$match: {pages: {$gte: 100}}}, {$match: {year: 1985}}])
+```
+  </TabItem>
+</Tabs>
+
+💻 在上述聚合的末尾添加几个 `$limit` 阶段，限制为1本书，看看会发生什么
+
+<details>
+<summary>答案</summary>
+<div>
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+```
+[
+    {$match: {pages: {$gte: 100}}}, 
+    {$match: {year: 2011}},
+    {$limit: 1},
+    {$limit: 1},
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+
+```
+db.books.aggregate([
+    {$match: {pages: {$gte: 100}}}, 
+    {$match: {year: 2011}},
+    {$limit: 1},
+    {$limit: 1},
+])
+```
+  </TabItem>
+</Tabs>
+
+</div>
+</details>

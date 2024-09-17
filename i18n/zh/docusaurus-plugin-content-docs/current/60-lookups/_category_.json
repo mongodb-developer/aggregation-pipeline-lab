@@ -1,0 +1,8 @@
+{
+    "label": "Lookups / Joins",
+    "position": 60,
+    "link": {
+        "type": "generated-index",
+        "description": "学习如何进行 Join(Lookups) 操作。"
+    }
+}

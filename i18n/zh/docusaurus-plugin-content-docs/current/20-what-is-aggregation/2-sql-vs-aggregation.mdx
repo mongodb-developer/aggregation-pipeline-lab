@@ -1,0 +1,62 @@
+---
+description: 让我们比较一下 SQL 和聚合管道
+---
+
+# 📘 SQL 与聚合
+
+## SQL
+
+一个 SQL 查询语句通常以 `SELECT` 开始，在这里我们列出所需的字段，然后是 `FROM` 子句来指定将返回行的表（或在本例中为子查询）。我们可以使用 `WHERE` 进行筛选，并使用 `GROUP` 对数据进行分组。
+
+我们从读取 SQL 需从嵌套中理解整个语句的含义。如果嵌套过多，则不易理解。
+
+```sql
+SELECT
+    city,
+    SUM(annual_spend) Total_Spend,
+    AVG(annual_spend) Average_Spend,
+    MAX(annual_spend) Max_Spend,
+    COUNT(annual_spend) customers
+FROM (
+    SELECT t1.city, customer.annual_spend
+    FROM customer 
+    LEFT JOIN (
+        SELECT address.address_id, city.city,
+               address.customer_id, address.location
+        FROM address LEFT JOIN city
+        ON address.city_id = city.city_id
+        ) AS t1
+    ON
+    (customer.customer_id = t1.customer_id AND
+              t1.location = "home")
+) AS t2
+GROUP BY city;
+```
+
+## 等效的 MongoDB 聚合管道
+
+在这里我们通过三个阶段，一个返回 `address` 数组中每个元素的文档，然后我们筛选出仅包含 `home` 地址位置的文档，最后我们进行分组。正如我们将动手实践并看到的，MongoDB 聚合管道可以分开测试，并且运行逻辑类似于我们的代码结构本身。
+
+```js
+db.customers.aggregate([
+	{
+		$unwind: "$address",
+	},
+	{
+		$match: {"address.location": "home"}
+	},
+	{
+		 $group: {
+			_id: "$address.city",
+			totalSpend: {$sum: "$annualSpend"},
+			averageSpend: {$avg: "$annualSpend"},
+			maximumSpend: {$max: "$annualSpend"},
+			customers: {$sum: 1}
+		}
+	}
+])
+```
+
+:::info
+另请参阅 [SQL 与聚合映射表](https://www.mongodb.com/docs/manual/reference/sql-aggregation-comparison/)
+:::

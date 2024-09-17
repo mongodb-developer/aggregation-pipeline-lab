@@ -1,0 +1,73 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 👐 使用图书馆数据库
+
+## 选择图书馆数据库
+
+💻 我们将在此实验中使用 `library` 数据库进行所有实践练习。
+如果您还没有执行前置数据导入操作，请将[图书馆数据](https://mdb.link/import-library-data)导入到您的数据库集群中。
+
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+
+在聚合管道构建器中选择正确的数据库。
+
+<Screenshot src="/img/30-simple-queries/select-db.png" url="http://cloud.mongodb.com/yourcluster" alt="AtlasUI 显示可用的数据库" />
+
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+
+要做到这一点，在 MongoDB shell 中输入：
+
+```
+use library
+```
+
+您可以显示所有集合：
+
+```
+show collections
+```
+
+---
+
+🦸‍♂️ 💻 如何切换到名为 `orders` 的数据库？
+
+:::info
+额外活动：如果您有额外的时间或在家中进行，请执行此操作，动手实验期间不会涉及。
+:::
+
+<details>
+<summary>答案</summary>
+<div>
+
+```
+use orders
+```
+
+即使这个数据库尚不存在，MongoDB 也可以切换到它。如果我们创建一个集合、用户等，那么这个数据库将被创建。
+
+记住通过以下方式返回到 library 数据库：
+
+```
+use library
+```
+</div>
+</details>
+
+## 🦸‍♂️ 显示所有数据库
+
+:::info
+额外活动：如果您有额外的时间或在家中进行，请执行此操作，动手实验期间不会涉及。
+:::
+
+您还可以使用以下命令列出 MongoDB 实例中的其他数据库：
+
+```
+show databases
+```
+
+  </TabItem>
+
+</Tabs>

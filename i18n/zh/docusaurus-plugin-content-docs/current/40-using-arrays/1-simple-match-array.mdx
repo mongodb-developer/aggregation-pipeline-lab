@@ -1,0 +1,90 @@
+# 👐 简单数组查询
+
+## 在数组中查找数据
+
+一个 JSON 数组可以包含标量值或对象。在我们的数据中，`authors` 有一个包含他们创作的书籍（他们的 ISBN）的数组。让我们获取一个作者：
+
+```js
+db.authors.aggregate([{$limit: 1}])
+```
+
+👐 运行此聚合以获取一个作者
+
+我得到了这个（可能会根据你导入的数据源而变化）
+
+```js
+{
+  _id: ObjectId("64cc2db4830ba29148da4c3b"),
+  name: 'Richard Bruce Wright',
+  sanitizedName: 'richardbrucewright',
+  books: [
+    '0002005018'
+  ],
+  aliases: [
+    'Wright, Richard Bruce'
+  ]
+}
+```
+
+我能获取书籍 `0002005018` 的所有作者吗？为此，我想要所有在 `books` 数组中包含 `0002005018` 的作者。事实证明这非常简单：
+
+```js
+db.authors.aggregate([
+    {$match: {books: "0002005018"}}
+])
+```
+
+👐 获取 ISBN 为 `0395623650` 的书籍的作者姓名：
+
+<details>
+<summary>答案</summary>
+<div>
+
+```js
+db.authors.aggregate([{$match: {books: "0395623650"}}])
+
+>   name: 'Juan Ramón Jiménez',
+```
+</div>
+</details>
+
+## 数组的大小
+
+如果我们想知道一个作者有多少本书怎么办？为此我们可以使用 `$size`，添加我们需要知道大小的数组字段：
+
+```js
+db.authors.aggregate([
+{$project: {
+    name: 1,
+    bookCount: {$size: "$books"}
+ }
+},
+])
+```
+
+👐 谁写的书最多？（我们可以使用 `{ $sort: {"bookCount": -1}}` 进行排序）
+
+<details>
+<summary>答案</summary>
+<div>
+
+```js
+let addNumberBooks = {
+    $project: {
+        name: 1,
+        bookCount: {$size: "$books"}
+    }
+}
+
+let orderByNumberOfBooksDesc = { $sort: {"bookCount": -1}}
+
+let getOne = {$limit: 1}
+
+db.authors.aggregate([
+    addNumberBooks,
+    orderByNumberOfBooksDesc,
+    getOne,
+])
+```
+</div>
+</details>
