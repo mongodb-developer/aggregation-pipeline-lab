@@ -59,10 +59,10 @@ A document from the `books` collection looks like:
 }
 ```
 
-If we're interested just in the titles, we can use `$project` to select just the fields we're interested in. As an example, to get just the book's title and year we'll write:
+If we're interested in the titles, we can use `$project` to select just the fields we're interested in. As an example, to get just the book's title and year, we'll write:
 
 
-<Tabs groupId="project">
+<Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -81,9 +81,9 @@ db.books.aggregate([{$project: {title: 1, year: 1}}])
 </Tabs>
 
 
-- 1 means "show that field"
-- 0 means "hide that field"
-- the primary key `_id` field is shown by default
+- 1 means "show that field."
+- 0 means "hide that field."
+- The primary key `_id` field is shown by default.
 
 So we can exclude fields and show all fields except `attributes` using:
 
@@ -132,7 +132,7 @@ db.books.aggregate([{$project: {title: 1, cover: 1}}])
 
 ## Excluding fields
 
-👐 Exclude the `cover`, `attributes` and `_id` fields from the result.
+👐 Exclude the `cover`, `attributes`, and `_id` fields from the result.
 
 <details>
 <summary>Answer</summary>
@@ -163,7 +163,7 @@ db.books.aggregate([{$project: {_id: 0, attributes: 0, cover: 0}}])
 
 :::danger
 
-You can't include and exclude fields in the same projection: if you start including, you must keep including and vice versa.
+You can't include and exclude fields in the same projection. If you start including, you must keep including, and vice versa.
 
 :::
 

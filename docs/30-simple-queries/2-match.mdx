@@ -11,22 +11,22 @@ The $match operator is used in conjunction with the aggregation framework to fil
 
 ## Expressions
 
-The `<expression>` portion of the $match operator can be any valid MongoDB expression. This includes :
+The `<expression>` portion of the $match operator can be any valid MongoDB expression. This includes:
 
-* Comparison operators: `eq`, `neq`, `gte`, `lte`, `gt`, `lt`, `in`, `nin`, `exists`
-* Regular expressions: regex
-* Logical operators: and, or, not
-* Subdocuments and arrays: `{ field: <value> }, [ <item>, <item>, ... ]`
+* Comparison operators: `eq`, `neq`, `gte`, `lte`, `gt`, `lt`, `in`, `nin`, `exists`.
+* Regular expressions: regex.
+* Logical operators: and, or, not.
+* Subdocuments and arrays: `{ field: <value> }, [ <item>, <item>, ... ]`.
 
 ## Matching book documents
 
-<Tabs groupId="aggregations-year">
+<Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 
     First, make sure you select the `books` collection in the Atlas UI. 
     <Screenshot src="/img/30-simple-queries/select-books-collection.png" url="http://cloud.mongodb.com/" alt="Atlas UI database deployment with the books collection highlighted." />
 
-    Then, navigate to the `Aggregation` tab and click `Add Stage`.
+    Then, navigate to the `Aggregation` tab and click `</> TEXT`.
     <Screenshot src="/img/30-simple-queries/new-aggregation.png" url="http://cloud.mongodb.com/" alt="Atlas UI database deployment with aggregation tab highlighted." />
 
     Say we want all the books from the year 2010. We can add a `$match` stage to filter the documents from the books collection:
@@ -58,7 +58,7 @@ The `<expression>` portion of the $match operator can be any valid MongoDB expre
 <summary>Answer</summary>
 <div>
 
-<Tabs groupId="aggregations-pages">
+<Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -84,9 +84,9 @@ db.books.aggregate([{$match: {pages: 100}}])
 
 If we need to add more conditions using AND, we can do it with the `$and` operator.
 
-If we want all the books with 100 pages with exactly `totalInventory` 2 we can use an `$and` operator. This takes and array of documents with all the conditions that should be true for the AND to succeed:
+If we want all the books with 100 pages with exactly `totalInventory` 2, we can use a `$and` operator. This takes an array of documents with all the conditions that should be true for the AND to succeed:
 
-<Tabs groupId="aggregations-and">
+<Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -150,7 +150,7 @@ db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}])
 </div>
 </details>
 
-👐 How many are they?
+👐 How many are there?
 
 <details>
 <summary>Answer</summary>
@@ -187,7 +187,7 @@ db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}]).itcount()
 
 We can do an implicit AND just passing a document with all the conditions (instead of an array of documents):
 
-<Tabs groupId="aggregations-shorthand-and">
+<Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -205,13 +205,13 @@ db.books.aggregate([{$match: {pages: 100, totalInventory: 2}}])
 </Tabs>
 
 
-👐 Return all the `books` from 2015 that have exactly 100 pages, using the simple $and notation
+👐 Return all the `books` from 2015 that have exactly 100 pages, using the simple $and notation:
 
 <details>
 <summary>Answer</summary>
 <div>
 
-<Tabs groupId="aggregations-shorthand-and-exercise">
+<Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [

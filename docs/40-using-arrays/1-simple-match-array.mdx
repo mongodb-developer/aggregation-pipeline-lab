@@ -1,17 +1,17 @@
-# 👐 Simple Array queries
+# 👐 Simple Array Queries
 
 ## Find data in arrays
 
-A JSON Array can contain scalar values or objects. In our data, `authors` have an array of the books they've authored (their ISBNs). Let's get one author:
+A JSON array can contain scalar values or objects. In our data, `authors` have an array of the books they've authored (their ISBNs). Let's get one author:
 
 
 ```js
 db.authors.aggregate([{$limit: 1}])
 ```
 
-👐 Run this aggregation to get one author
+👐 Run this aggregation to get one author.
 
-I got this one (can change depending on the data source you imported)
+I got this one. (It can change depending on the data source you imported.)
 
 ```js
 {
@@ -35,7 +35,7 @@ db.authors.aggregate([
 ])
 ```
 
-👐 Get book's author name for ISBN `0395623650`:
+👐 Get the book's author name for ISBN `0395623650`:
 
 <details>
 <summary>Answer</summary>
@@ -51,7 +51,7 @@ db.authors.aggregate([{$match: {books: "0395623650"}}])
 
 ## Size of an array
 
-What if we want to know how many aliases an Author has? To do that we can use `$size`, adding the array field that we're interested in:
+What if we want to know how many aliases an author has? To do that, we can use `$size`, adding the array field that we're interested in:
 
 ```js
 db.authors.aggregate([
@@ -63,7 +63,7 @@ db.authors.aggregate([
 ])
 ```
 
-👐 Who wrote the most books? (we can sort using `{ $sort: {"bookCount": -1}}`)
+👐 Who wrote the most books? (We can sort using `{ $sort: {"bookCount": -1}}`.)
 
 <details>
 <summary>Answer</summary>
