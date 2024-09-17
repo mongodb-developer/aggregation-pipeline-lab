@@ -1,15 +1,15 @@
 # 🦸‍♂️ Advanced lookups
 
 :::info
-Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on Lab
+Extra activity! Do it if you have extra time or are following along at home. It won't be covered during the hands-on lab.
 :::
 
 We get this request: Write a `$lookup` to get `name` and `bio` from author's information inside each book document. To get this done, we need to review several things:
 
-- each book can have several authors. This many to many relationship (as an author can also write many books) is modelled using two different arrays: a `books` array in the `authors` collection and an `authors` array in the `books` collection.
-- so we'll need to get a separate document for each book that has more than one author. If a book has three authors we'll use `$unwind` to get three documents with the same data except for the author, that will be each of the three authors.
+- Each book can have several authors. This many-to-many relationship (as an author can also write many books) is modeled using two different arrays: a `books` array in the `authors` collection and an `authors` array in the `books` collection.
+- So we'll need to get a separate document for each book that has more than one author. If a book has three authors, we'll use `$unwind` to get three documents with the same data except for the author, which will be each of the three authors.
 
-You can try this with this Aggregation Pipeline:
+You can try this with this aggregation pipeline:
 
 ```js
 db.books.aggregate([
@@ -19,7 +19,7 @@ db.books.aggregate([
     {$project: {attributes: 0, reviews: 0}}
 ])
 ```
-- now, we need to get the authors'information. For that, we'll use `$lookup`, linking the `_id` in the `authors` collection with the `_id` we have in each book's `authors` array. But as we can see here, these have a different type: the ones inside our array are Strings, while the `author` collection `_id` are `ObjectId`.
+- Now, we need to get the authors' information. For that, we'll use `$lookup`, linking the `_id` in the `authors` collection with the `_id` we have in each book's `authors` array. But as we can see here, these have a different type: The ones inside our array are strings, while the `author` collection `_id` are `ObjectId`.
 
 ```js
   authors: {
@@ -28,7 +28,7 @@ db.books.aggregate([
   },
 ```
 
-So we need to convert from `String` into `ObjectId`. We can do that using `$toObjectId`. This will add a new field `authorId` converting it into `ObjectId`:
+So we need to convert from `String` into `ObjectId`. We can do that using `$toObjectId`. This will add a new field, `authorId`, converting it into `ObjectId`:
 
 ```js
 db.books.aggregate([
@@ -41,7 +41,7 @@ db.books.aggregate([
 ])
 ```
 
-- now we're ready to do the `$lookup`: we want all documents from `authors` that have the same `_id` as the `authorId` we just created. We use a `pipeline` to get just `authors` `name` and `bio`.
+- Now, we're ready to do the `$lookup`: We want all documents from `authors` that have the same `_id` as the `authorId` we just created. We use a `pipeline` to get just `authors` `name` and `bio`.
 
 ```js
 db.books.aggregate([
