@@ -1,11 +1,11 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 👐 Empty aggregation pipeline
+# 👐 Empty Aggregation Pipeline
 
 ## An empty aggregation
 
-This code is the equivalent to a `SELECT * FROM AUTHORS`. Returns a [cursor](https://www.mongodb.com/docs/manual/reference/method/js-cursor/) with all documents in the `authors` collection:
+This code is the equivalent of a `SELECT * FROM AUTHORS`. It returns a [cursor](https://www.mongodb.com/docs/manual/reference/method/js-cursor/) with all documents in the `authors` collection:
 
 <Tabs groupId="aggregations">
 
@@ -29,7 +29,7 @@ This code is the equivalent to a `SELECT * FROM AUTHORS`. Returns a [cursor](htt
 db.authors.aggregate([])
 ```
 
-We can iterate over the returned cursor and get more documents typing `it`. 
+We can iterate over the returned cursor and get more documents by typing `it`. 
 
 👐 Return all the documents in the `books` collection and iterate to get the next page of books.
 
@@ -47,10 +47,10 @@ it
 ## 🦸‍♂️ Cursor methods
 
 :::info
-Extra activity, do it if you have extra time or are following at home, won't be covered during the hands-on Lab
+Extra activity! Do it if you have extra time or are following along at home. It won't be covered during the hands-on lab.
 :::
 
-A [cursor](https://www.mongodb.com/docs/manual/reference/method/js-cursor/) has several useful methods, for instance we can check the size of the returned cursor with `itcount`
+A [cursor](https://www.mongodb.com/docs/manual/reference/method/js-cursor/) has several useful methods. For instance, we can check the size of the returned cursor with `itcount`.
 
 ```js
 cursor.itcount()
