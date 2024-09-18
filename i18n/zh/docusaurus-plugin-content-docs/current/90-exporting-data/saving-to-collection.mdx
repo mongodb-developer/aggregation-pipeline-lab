@@ -1,0 +1,37 @@
+# 🦸 保存到集合
+
+你可以将聚合管道的结果导出到不同的数据库/集合。为此，只需在管道的最后添加一个聚合阶段：
+
+```js
+{ $out: { db: "<output-db>", coll: "<output-collection>" } }
+```
+
+你可以省略`db`属性，这种情况下新集合将创建在当前数据库中。
+
+```js
+{ $out: "<output-collection>" }
+```
+
+👐 创建一本正好有100页的书的副本，并输出为一个名为`OneHundredPagesBooks`的新集合。
+
+<details>
+<summary>答案</summary>
+<div>
+
+```js
+let oneHundredPagesBooks = {$match: {pages: 100}};
+let saveToNewCollection = {$out: "OneHundredPagesBooks"}
+
+db.books.aggregate([
+    oneHundredPagesBooks,
+    saveToNewCollection
+]);
+```
+
+运行此代码后，我们应该看到一个新集合：
+
+```js
+show collections
+```
+</div>
+</details>

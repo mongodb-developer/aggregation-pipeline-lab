@@ -1,0 +1,223 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 👐 $match
+
+$match 操作符与聚合框架一起使用，用于过滤集合中的文档。它接受一个文档作为输入，并返回一个新文档，仅包含符合指定条件的文档。$match 操作符的语法如下：
+
+```
+{ $match: { <expression>: <value> } }
+```
+
+## 表达式
+
+$match 操作符中的 `<expression>` 部分可以是任何有效的 MongoDB 表达式。这包括：
+
+* 比较操作符：`eq`、`neq`、`gte`、`lte`、`gt`、`lt`、`in`、`nin`、`exists`
+* 正则表达式：`regex`
+* 逻辑操作符：`and`、`or`、`not`
+* 子文档和数组：`{ field: <value> }, [ <item>, <item>, ... ]`
+
+## 匹配书籍文档
+
+<Tabs groupId="aggregations-year">
+  <TabItem value="atlas" label="Atlas UI">
+
+    首先，确保在 Atlas UI 中选择 `books` 集合。
+    <Screenshot src="/img/30-simple-queries/select-books-collection.png" url="http://cloud.mongodb.com/" alt="Atlas UI 数据库部署，突出显示 books 集合。" />
+
+    然后，导航到 `Aggregation` 选项卡并点击 `Add Stage`。
+    <Screenshot src="/img/30-simple-queries/new-aggregation.png" url="http://cloud.mongodb.com/" alt="Atlas UI 数据库部署，突出显示聚合选项卡。" />
+
+    假设我们想要所有 2010 年的书籍。我们可以添加一个 `$match` 阶段来过滤 books 集合中的文档：
+
+    ```
+    [
+        {
+            $match: { year: 2010 }
+        }
+    ]
+    ```
+
+    <Screenshot src="/img/30-simple-queries/match-screenshot.png" url="http://cloud.mongodb.com/" alt="Atlas AI $match 聚合。" />
+
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+    假设我们想要所有 2010 年的书籍。我们会写：
+
+    ```
+    db.books.aggregate([{$match: {year: 2010}}])
+    ```
+  </TabItem>
+</Tabs>
+
+👐 返回所有有恰好 100 页的 `books`。
+
+<details>
+<summary>答案</summary>
+<div>
+
+<Tabs groupId="aggregations-pages">
+  <TabItem value="atlas" label="Atlas UI">
+```
+[
+    {
+        $match: { pages: 100 }
+    }
+]
+```
+
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```
+db.books.aggregate([{$match: {pages: 100}}])
+```
+  </TabItem>
+</Tabs>
+
+</div>
+</details>
+
+## AND
+
+如果我们需要使用 AND 添加更多条件，可以使用 `$and` 操作符。
+
+如果我们想要所有有 100 页并且 `totalInventory` 恰好为 2 的书籍，我们可以使用 `$and` 操作符。这个操作符接受一个包含所有条件的文档数组，这些条件都必须为真，AND 操作才会成功：
+
+<Tabs groupId="aggregations-and">
+  <TabItem value="atlas" label="Atlas UI">
+```
+[
+    {
+        $match: {
+            $and: [
+                { pages: 100 },
+                { totalInventory: 2 }
+            ]
+        }
+    }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```
+db.books.aggregate([{$match: {$and: [{pages: 100}, {totalInventory: 2}]}}])
+```
+  </TabItem>
+</Tabs>
+
+伪代码如下：
+```
+IF pages == 100 AND totalInventory == 2 {
+return matching docs
+}
+```
+
+👐 返回所有 2015 年的 `books`，这些书籍恰好有 100 页。
+
+<details>
+<summary>答案</summary>
+<div>
+
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+    {
+        $match: {
+            $and: [
+                { pages: 100 },
+                { year: 2015 }
+            ]
+        }
+    }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```
+db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}])
+```
+  </TabItem>
+</Tabs>
+
+</div>
+</details>
+👐 它们有多少？
+
+<details>
+<summary>答案</summary>
+<div>
+
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+    {
+        $match: {
+            $and: [
+                { pages: 100 },
+                { year: 2015 }
+            ]
+        }
+    },
+    {
+        $count: "books_count"
+    }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}]).itcount()
+```
+  </TabItem>
+</Tabs>
+</div>
+</details>
+
+### 简写 AND
+
+我们可以通过传递包含所有条件的文档来进行隐式 AND（而不是文档数组）：
+
+<Tabs groupId="aggregations-shorthand-and">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+    {
+        $match: {pages: 100, totalInventory: 2}
+    }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([{$match: {pages: 100, totalInventory: 2}}])
+```
+  </TabItem>
+</Tabs>
+
+👐 使用简单的 $and 语法返回所有 2015 年的 `books`，这些书籍恰好有 100 页
+
+<details>
+<summary>答案</summary>
+<div>
+
+<Tabs groupId="aggregations-shorthand-and-exercise">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+    {
+        $match: {pages: 100, year: 2015}
+    }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([{$match: {pages: 100, year: 2015}}])
+```
+  </TabItem>
+</Tabs>
+</div>
+</details>

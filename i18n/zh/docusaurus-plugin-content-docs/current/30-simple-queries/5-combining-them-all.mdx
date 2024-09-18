@@ -1,0 +1,68 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 👐 组合阶段
+
+到目前为止，我们只在管道中使用了一个阶段。但聚合管道的强大之处在于我们可以使用多个阶段，一个阶段的输出将成为下一个阶段的输入。可以把它想象成 UNIX 管道或使用带有 `map`、`filter`、`reduce`、`flatmap` 等的函数式编程。
+
+获取 2001 年 200 页的 10 本书。只显示标题和作者。
+
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+    {
+        $match: { year: 2001, pages: 200 }
+    },
+    {
+        $project: { _id: 0, title: 1, authors: 1 }
+    },
+    {
+        $limit: 10
+    },
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([
+    {$match: {year: 2001, pages: 200}}, {$project: {_id: 0, title: 1, authors: 1}}, {$limit: 10}
+])
+```
+  </TabItem>
+</Tabs>
+
+👐 获取 1985 年 150 页的 15 本书。只显示 `title`、`year`、`totalInventory` 和 `available` 字段。如果你不记得有哪些字段，可以参考[示例文档](/docs/simple-queries/project)。
+
+<details>
+<summary>答案</summary>
+<div>
+
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+    {
+        $match: { year: 1985, pages: 150 }
+    },
+    {
+        $project: { _id: 0, title: 1, year: 1, totalInventory: 1, available: 1 }
+    },
+    {
+        $limit: 15
+    },
+]
+```
+
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([
+    {$match: {year: 1985, pages: 150}}, {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}}, {$limit: 15}
+])
+```
+  </TabItem>
+</Tabs>
+
+</div>
+</details>

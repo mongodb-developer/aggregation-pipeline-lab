@@ -99,7 +99,7 @@ const config = {
   staticDirectories: ["static"],
   i18n: {
     defaultLocale: "en",
-    locales: ["en"],
+    locales: ["en", "zh"]
   },
   customFields: {
     startButtonTitle: `${startButtonTitle}`,
@@ -153,7 +153,10 @@ const config = {
           height: "100%",
         },
         items: [
-          
+          {
+            type: "localeDropdown",
+            position: "right",
+          },
         ],
       },
       footer: {

@@ -1,0 +1,181 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 👐 $project
+
+## 在输出中包括特定字段
+
+`books` 集合中的文档如下所示：
+
+```js
+{
+  _id: '0395623650',
+  title: 'Platero y yo / Platero and I (Spanish-English Bilingual Edition) (English and Spanish Edition)',
+  authors: [
+    {
+      _id: '64cc2db4830ba29148db5180',
+      name: 'Juan Ramón Jiménez'
+    }
+  ],
+  pages: 64,
+  year: 1994,
+  synopsis: 'Selections from a classic of world literature present a picture of life in the town of Moguer, in Andalusia, Spain.\n' +
+    '\n' +
+    '\n' +
+    '                        Presents a picture of life in the town of Moguer, in Andalusia, Spain, as seen through the eyes of a wandering poet and his faithful donkey.\n',
+  cover: 'https://images.isbndb.com/covers/36/57/9780395623657.jpg',
+  attributes: [
+    {
+      key: 'edition',
+      value: 'F First Edition Thus'
+    },
+    {
+      key: 'dimensions',
+      value: 'Height: 10.499979 Inches, Length: 6.999986 Inches, Weight: 2.0502990366 Pounds, Width: 0.12499975 Inches'
+    },
+    {
+      key: 'isbn13',
+      value: '9780395623657'
+    },
+    {
+      key: 'msrp',
+      value: 1.99
+    },
+    {
+      key: 'isbn',
+      value: '0395623650'
+    },
+    {
+      key: 'isbn10',
+      value: '0395623650'
+    }
+  ],
+  totalInventory: 1,
+  available: 1,
+  binding: 'Hardcover',
+  language: 'en',
+  longTitle: 'Platero y yo / Platero and I (Spanish-English Bilingual Edition) (English and Spanish Edition)',
+  publisher: 'Clarion Books'
+}
+```
+
+如果我们只对书名感兴趣，我们可以使用 `$project` 选择我们感兴趣的字段。例如，要只获取书名和年份，我们可以这样写：
+
+<Tabs groupId="project">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+  {
+    $project: {title: 1, year: 1}
+  }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([{$project: {title: 1, year: 1}}])
+```
+  </TabItem>
+</Tabs>
+
+- 1 表示“显示该字段”
+- 0 表示“隐藏该字段”
+- 主键 `_id` 字段默认显示
+
+所以我们可以排除字段，并显示除 `attributes` 之外的所有字段：
+
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+  {
+    $project: {attributes: 0}
+  }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([{$project: {attributes: 0}}])
+```
+  </TabItem>
+</Tabs>
+
+👐 仅显示 `title` 和 `cover`。
+
+<details>
+<summary>答案</summary>
+<div>
+
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+  {
+    $project: {title: 1, cover: 1}
+  }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([{$project: {title: 1, cover: 1}}])
+```
+  </TabItem>
+</Tabs>
+</div>
+</details>
+
+## 排除字段
+
+👐 从结果中排除 `cover`、`attributes` 和 `_id` 字段。
+
+<details>
+<summary>答案</summary>
+<div>
+
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+  {
+    $project: {_id: 0, attributes: 0, cover: 0}
+  }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([{$project: {_id: 0, attributes: 0, cover: 0}}])
+```
+  </TabItem>
+</Tabs>
+
+</div>
+</details>
+
+## 包括和排除字段
+
+:::danger
+
+在同一个 $project 中不能同时包括和排除字段：如果你开始包括字段，你必须一直包括字段，反之亦然。
+
+:::
+
+例如，这将失败：
+
+```js
+db.books.aggregate([{$project: {title: 1, attributes: 0}}])
+
+MongoServerError: Invalid $project :: caused by :: Cannot do exclusion on field attributes in inclusion projection
+```
+
+:::info
+
+这个规则的唯一例外是 `_id` 字段，我们可以在包括字段的 $project 中排除它。
+
+:::
+
+```js
+db.books.aggregate([{$project: {title: 1, _id: 0}}])
+```

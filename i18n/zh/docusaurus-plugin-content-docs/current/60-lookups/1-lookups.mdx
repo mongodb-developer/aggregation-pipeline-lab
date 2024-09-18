@@ -1,0 +1,75 @@
+# 👐 Lookup 又名 Left Outer Join（外连接）
+
+使用文档时，我们通常通过嵌入文档到其他文档中来建模1:1或1:多的关系，甚至使用数组来实现。例如，一个作者可以有很多别名，这些别名存储在`authors`集合的一个数组中。
+
+但有时我们需要使用引用而不是嵌入文档。例如，一个作者有一个她写过的书籍的数组，但我们不是将书籍文档移动到作者内部的一个数组中（对于有多个作者的书籍来说这会很棘手），而是嵌入书籍的`_id`。
+
+那么我们如何获取作者和她写的所有书籍，并嵌入到数组中？使用`$lookup`，它将进行外连接并返回包含书籍文档的作者文档。
+
+👐 运行此聚合并查看结果：
+
+```js
+db.authors.aggregate([
+    {$lookup: {
+       from: "books",
+       localField: "books",
+       foreignField: "_id",
+       as: "booksWritten"
+     } 
+    },
+    {$project: {_id: 0}}
+])
+```
+
+当前版本的`$lookup`语法是：
+
+```js
+{
+   $lookup:
+     {
+       from: <要连接的集合>,
+       localField: <输入文档中的字段>,
+       foreignField: <"from"集合中的字段>,
+       as: <输出数组字段>
+     }
+}
+```
+
+## 从之前的阶段进行查找
+
+我们可以对另一个管道的结果进行$lookup，而不仅仅是与一个集合连接。例如，我们想在连接之前从书籍中删除一些噪音，所以我们使用`$project`排除几个数组。
+
+```js
+db.authors.aggregate([
+    {$lookup: {
+       from: "books",
+       localField: "books",
+       foreignField: "_id",
+       pipeline: [
+         {$project: {title: 1, synopsis: 1}}
+       ],
+       as: "booksWritten"
+     } 
+    }
+])
+```
+
+更好的做法是我们可以提取该管道并进行测试/调整。
+
+```js
+let justShowTitleSynopsis = [
+    {$project: {title: 1, synopsis: 1}},
+]
+
+db.authors.aggregate([
+    {$lookup: {
+       from: "books",
+       localField: "books",
+       foreignField: "_id",
+       pipeline:
+          justShowTitleSynopsis,
+       as: "booksWritten"
+     } 
+    }
+])
+```

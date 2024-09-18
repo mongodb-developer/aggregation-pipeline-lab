@@ -1,0 +1,69 @@
+# 👐 $group
+
+我们可以计算每年所有书籍的总页数：
+
+```js
+db.books.aggregate([
+    {$group:{
+        _id: "$year",
+        totalPages: {$sum: "$pages"}
+    }}
+])
+```
+
+在这里，我们按书籍的`year`进行分组（分组并作为新的_id），然后创建一个名为`totalPages`的新字段，这个字段是所有页数的总和。
+
+👐 你能获取按年份升序排序的结果吗？
+
+<details>
+<summary>答案</summary>
+<div>
+
+```js
+db.books.aggregate([
+    {$group:{
+        _id: "$year",
+        totalPages: {$sum: "$pages"}
+    }},
+    {$sort: {_id: 1}}
+])
+```
+</div>
+</details>
+
+👐 你能获取每年的平均页数吗（提示：使用`$avg`）？
+
+<details>
+<summary>答案</summary>
+<div>
+
+```js
+db.books.aggregate([
+    {$group:{
+        _id: "$year",
+        totalPages: {$avg: "$pages"}
+    }},
+    {$sort: {_id: 1}}
+])
+```
+</div>
+</details>
+
+👐 哪一年印刷了最多的页数？
+
+<details>
+<summary>答案</summary>
+<div>
+
+```js
+db.books.aggregate([
+    {$group:{
+        _id: "$year",
+        totalPages: {$sum: "$pages"}
+    }},
+    {$sort: {totalPages: -1}},
+    {$limit: 1}
+])
+```
+</div>
+</details>

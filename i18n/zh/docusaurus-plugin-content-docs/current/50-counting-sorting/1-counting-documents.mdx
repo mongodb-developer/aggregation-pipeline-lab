@@ -1,0 +1,72 @@
+# 👐 $count
+
+我们如何确定此管道返回的正好是15本书？
+
+```js
+let moreThan150pages =  {pages: {$gte: 150}}
+let booksFrom1985WithMoreThan150pages = {$match: {$and: [{year: 1985}, moreThan150pages]}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
+let getJust15books =  {$limit: 15};
+
+db.books.aggregate([
+    booksFrom1985WithMoreThan150pages,
+    showOnlyTheseFields,
+    getJust15books,
+]);
+```
+
+计数书籍！让我们向管道中添加一个新阶段来计数这些书籍：
+
+```js
+let moreThan150pages =  {pages: {$gte: 150}}
+let booksFrom1985WithMoreThan150pages = {$match: {$and: [{year: 1985}, moreThan150pages]}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
+let getJust15books =  {$limit: 15};
+let count = {$count: "totalBooks"}
+
+db.books.aggregate([
+    booksFrom1985WithMoreThan150pages,
+    showOnlyTheseFields,
+    getJust15books,
+    count,
+]);
+```
+
+在这里，`$count`将计数结果文档并返回一个只有一个字段的文档：`totalBooks`
+
+```js
+{
+  totalBooks: 15
+}
+```
+
+👐 我们的`authors`集合中有多少作者？
+
+<details>
+<summary>答案</summary>
+<div>
+
+```js
+db.authors.aggregate([{$count: "authorCount"}])
+```
+</div>
+</details>
+
+## 阶段的顺序很重要
+
+如果我们在`$match`阶段之后进行计数，我们传递给下一步骤的文档只包含`totalBooks`字段。因此，`$project`阶段将返回一个空文档。
+
+```js
+let moreThan150pages =  {pages: {$gte: 150}}
+let booksFrom1985WithMoreThan150pages = {$match: {$and: [{year: 1985}, moreThan150pages]}};
+let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
+let getJust15books =  {$limit: 15};
+let count = {$count: "totalBooks"}
+
+db.books.aggregate([
+    booksFrom1985WithMoreThan150pages,
+    count,
+    showOnlyTheseFields,
+    getJust15books,
+]);
+```

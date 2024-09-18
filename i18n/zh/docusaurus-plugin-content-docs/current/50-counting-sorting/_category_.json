@@ -1,0 +1,8 @@
+{
+    "label": "计数与排序",
+    "position": 50,
+    "link": {
+        "type": "generated-index",
+        "description": "对我们的文档数据进行计数和排序。"
+    }
+}

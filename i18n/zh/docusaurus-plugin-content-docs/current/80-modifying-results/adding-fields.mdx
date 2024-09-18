@@ -1,0 +1,39 @@
+# 👐 向结果添加新字段
+
+## $addFields
+
+我们想估计一本书的阅读时间。但我们没有将该字段存储在数据中。我们可以使用`$addFields`来实现。如果该字段存在，它将被更新，如果不存在，则添加。
+
+```js
+db.books.aggregate([
+    {$project: {
+        title: 1,
+        pages: 1,
+        }
+    },
+    {$addFields: {readingTimeHours: {$divide: [{$multiply: ["$pages", 2]}, 60]}}},
+])
+```
+
+👐 为所有文档添加一个包含文本`PLACEHOLDER`的新字段`notes`。
+
+<details>
+<summary>答案</summary>
+<div>
+
+```js
+db.books.aggregate([
+    {$project: {
+        title: 1,
+        pages: 1,
+        
+    }
+    
+    },
+
+    {$addFields: {notes: "PLACEHOLDER"}}
+])
+```
+
+</div>
+</details>

@@ -1,0 +1,16 @@
+# 🦸 缺失数据
+
+有时我们会缺少我们正在寻找的字段（它不存在，因为集合中的文档可以是多态的，所以该字段为`null`）。对于这些情况，我们可以使用`$ifNull`检查某些内容是否存在，并在这种情况下添加一个默认值。
+
+```js
+let getAuthorsWithBooks = {
+    $project: {
+        name: 1,
+        books: { $ifNull: ["$books", []]},
+    }
+}
+
+db.authors.aggregate([
+    getAuthorsWithBooks,
+])
+```

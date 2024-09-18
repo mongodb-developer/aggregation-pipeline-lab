@@ -1,0 +1,33 @@
+# 🦸‍♂️ 聚合选项
+
+:::info
+额外活动：如果您有额外的时间或在家跟着做，可以尝试，导师不会在动手实验中进行讲解
+:::
+
+:::danger
+以下语法在 Atlas UI 聚合编辑器中不起作用。
+:::
+
+我们可以传递一个带有一些选项的文档给 `aggregate`。
+
+```js
+let options = {
+    maxTimeMS: 100
+};
+
+db.authors.aggregate([], options);
+```
+
+💻 你可以传递给 aggregate 方法不同选项，查看 [文档](https://www.mongodb.com/docs/manual/reference/method/db.collection.aggregate/#mongodb-method-db.collection.aggregate)。
+
+💻 尝试使用 10 毫秒的时间限制启动一个 `itcount`（一个长操作）来遍历整个 books 游标：你应该看到操作超时并失败。
+
+```js
+let options = {
+    maxTimeMS: 10
+};
+
+db.authors.aggregate([], options).itcount();
+
+> MongoServerError: operation exceeded time limit
+```

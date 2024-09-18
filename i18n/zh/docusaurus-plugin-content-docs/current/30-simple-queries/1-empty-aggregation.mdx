@@ -1,0 +1,74 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 👐 空聚合管道
+
+## 一个空的聚合
+
+这段代码相当于 `SELECT * FROM AUTHORS`。返回一个包含 `authors` 集合中所有文档的 [游标（cursor）](https://www.mongodb.com/docs/manual/reference/method/js-cursor/)：
+
+<Tabs groupId="aggregations">
+
+ <TabItem value="atlas" label="Atlas UI">
+
+<Screenshot src="/img/30-simple-queries/atlas-aggregation.png" url="http://cloud.mongodb.com/" alt="Atlas UI 显示空的聚合管道" />
+
+- 打开 `Aggregation` 选项卡。
+- 选择 `Text`。
+- 输入如下一个空数组，注意编辑器中的空数组表示一个空的聚合管道：
+
+```
+[]
+```
+ 
+  </TabItem>
+
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+
+```
+db.authors.aggregate([])
+```
+
+我们可以遍历返回的游标并通过输入 `it` 获取更多的文档。
+
+👐 返回 `books` 集合中的所有文档并迭代获取下一页的书籍。
+
+<details>
+<summary>答案</summary>
+<div>
+
+```
+db.books.aggregate([])
+it
+```
+</div>
+</details>
+
+## 🦸‍♂️ 游标方法
+
+:::info
+额外活动：如果您有额外的时间或在家中进行，请执行此操作，动手实验期间不会涉及。
+:::
+
+一个[游标](https://www.mongodb.com/docs/manual/reference/method/js-cursor/)有几个有用的方法，例如我们可以使用 `itcount` 检查返回游标的大小
+
+```
+cursor.itcount()
+```
+
+👐 在我们之前的空聚合示例中，检查返回游标的大小，我们应该输入什么？
+
+<details>
+<summary>答案</summary>
+<div>
+
+```
+// 因为 db.books.aggregate([]) 返回一个游标，我们可以直接调用 itcount()
+db.books.aggregate([]).itcount()
+```
+</div>
+</details>
+
+  </TabItem>
+ 
+</Tabs>

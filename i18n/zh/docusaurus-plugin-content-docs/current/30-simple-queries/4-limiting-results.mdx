@@ -1,0 +1,47 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 👐 $limit
+
+如果我们返回了太多的文档，但我们只对其中的一部分感兴趣，我们可以使用 `$limit` 来限制返回的文档数量。
+
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+    { $limit: 1 }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([{$limit: 1}])
+```
+  </TabItem>
+</Tabs>
+
+这只返回一个文档。
+
+👐 只返回 7 本 `books`。
+
+<details>
+<summary>答案</summary>
+<div>
+
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Atlas UI">
+```js
+[
+    { $limit: 7 }
+]
+```
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([{$limit: 7}])
+```
+  </TabItem>
+</Tabs>
+
+</div>
+</details>
