@@ -9,13 +9,15 @@ If we return too many documents but we're interested in only a few, we can limit
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
-    { $limit: 1 }
+  { $limit: 1 }
 ]
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 ```js
-db.books.aggregate([{$limit: 1}])
+db.books.aggregate([
+  { $limit: 1 }
+])
 ```
   </TabItem>
 </Tabs>
@@ -33,13 +35,15 @@ This returns just one document.
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
-    { $limit: 7 }
+  { $limit: 7 }
 ]
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 ```js
-db.books.aggregate([{$limit: 7}])
+db.books.aggregate([
+  { $limit: 7 }
+])
 ```
   </TabItem>
 </Tabs>

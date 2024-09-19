@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 👐 Lookups, AKA Left Outer Join
 
 Using documents, we usually model 1:1 and 1:many relationships by embedding documents inside other documents, and even using arrays. For instance, an author can have many aliases, and they live inside an array in the `authors` collection.
@@ -8,18 +11,42 @@ So how can we get the author and all the books they have written embedded in the
 
 👐 Run this aggregation and look at the results:
 
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  {$lookup: {
+      from: "books",
+      localField: "books",
+      foreignField: "_id",
+      as: "booksWritten"
+    } 
+  },
+  {$project: {_id: 0}}
+]
+```
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+
 ```js
 db.authors.aggregate([
-    {$lookup: {
-       from: "books",
-       localField: "books",
-       foreignField: "_id",
-       as: "booksWritten"
-     } 
-    },
-    {$project: {_id: 0}}
+  {$lookup: {
+      from: "books",
+      localField: "books",
+      foreignField: "_id",
+      as: "booksWritten"
+    } 
+  },
+  {$project: {_id: 0}}
 ])
 ```
+
+</TabItem>
+</Tabs>
+
+
 
 The syntax for this version of `$lookup` is:
 
@@ -39,38 +66,71 @@ The syntax for this version of `$lookup` is:
 
 We can do a $lookup on the result of another pipeline, not only joining with a collection. For instance, we want to remove some noise from the books before joining, so we use `$project` to exclude a couple of arrays.
 
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  {$lookup: {
+      from: "books",
+      localField: "books",
+      foreignField: "_id",
+      pipeline: [
+        {$project: {title: 1, synopsis: 1}}
+      ],
+      as: "booksWritten"
+    } 
+  }
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+
 ```js
 db.authors.aggregate([
-    {$lookup: {
-       from: "books",
-       localField: "books",
-       foreignField: "_id",
-       pipeline: [
-         {$project: {title: 1, synopsis: 1}}
-       ],
-       as: "booksWritten"
-     } 
-    }
+  {$lookup: {
+      from: "books",
+      localField: "books",
+      foreignField: "_id",
+      pipeline: [
+        {$project: {title: 1, synopsis: 1}}
+      ],
+      as: "booksWritten"
+    } 
+  }
 ])
 ```
 
-The nice part is that we can extract that pipeline and test it/tweak it.
+</TabItem>
+</Tabs>
+
+
+The nice part is that we can extract that pipeline and test it/tweak it. (This will only work in the MongoDB Shell)
+
+<Tabs groupId="aggregations">
+<TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 let justShowTitleSynopsis = [
-    {$project: {title: 1, synopsis: 1}},
+  {$project: {title: 1, synopsis: 1}},
 ]
 
 db.authors.aggregate([
-    {$lookup: {
-       from: "books",
-       localField: "books",
-       foreignField: "_id",
-       pipeline:
-          justShowTitleSynopsis,
-       as: "booksWritten"
-     } 
-    }
+  {$lookup: {
+      from: "books",
+      localField: "books",
+      foreignField: "_id",
+      pipeline:
+        justShowTitleSynopsis,
+      as: "booksWritten"
+    } 
+  }
 ])
 ```
+
+</TabItem>
+</Tabs>
 

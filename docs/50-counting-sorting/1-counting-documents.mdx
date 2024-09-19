@@ -1,6 +1,24 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 👐 $count
 
 How can we be sure that this pipeline is returning exactly 15 books?
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+    {$match: {$and: [{year: 1985}, {pages: {$gte: 150}}]}},
+    {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}},
+    {$limit: 15}
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 let moreThan150pages =  {pages: {$gte: 150}}
@@ -15,7 +33,29 @@ db.books.aggregate([
 ]);
 ```
 
+</TabItem>
+</Tabs>
+
+
+
 By counting the books! Let's add a new stage to the pipeline to count those books:
+
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+    {$match: {$and: [{year: 1985}, {pages: {$gte: 150}} ]}},
+    {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}},
+    {$limit: 15},
+    {$count: "totalBooks"},
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 let moreThan150pages =  {pages: {$gte: 150}}
@@ -31,6 +71,10 @@ db.books.aggregate([
     count,
 ]);
 ```
+
+</TabItem>
+</Tabs>
+
 
 Here, `$count` will count the resulting docs and will return a document with just one field: `totalBooks`.
 
@@ -47,15 +91,46 @@ Here, `$count` will count the resulting docs and will return a document with jus
 <summary>Answer</summary>
 <div>
 
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+```js
+[ {$count: "authorCount"} ]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+
 ```js
 db.authors.aggregate([{$count: "authorCount"}])
 ```
+
+</TabItem>
+</Tabs>
+
 </div>
 </details>
 
 ## The order of stages is important
 
 If we count after the `$match` stage, the document we're passing to the next steps contains only the `totalBooks` field. So the `$project` stage will return an empty document.
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+    {$match: {$and: [{year: 1985}, {pages: {$gte: 150}} ]}},
+    {$count: "totalBooks"},
+    {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}},
+    {$limit: 15},
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 let moreThan150pages =  {pages: {$gte: 150}}
@@ -71,3 +146,8 @@ db.books.aggregate([
     getJust15books,
 ]);
 ```
+
+</TabItem>
+</Tabs>
+
+

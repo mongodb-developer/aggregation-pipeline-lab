@@ -13,6 +13,7 @@ This code is the equivalent of a `SELECT * FROM AUTHORS`. It returns a [cursor](
 
 <Screenshot src="/img/30-simple-queries/atlas-aggregation.png" url="http://cloud.mongodb.com/" alt="Atlas UI showing an empty aggregation pipeline" />
 
+- Make sure `Collections` > `authors` is selected.
 - Open the `Aggregation` tab.
 - Select `Text`.
 - Notice the empty array in the editor denoting an empty aggregation pipeline:
@@ -20,7 +21,8 @@ This code is the equivalent of a `SELECT * FROM AUTHORS`. It returns a [cursor](
 ```js
 []
 ```
- 
+
+You're getting all documents in `authors`. 
   </TabItem>
 
   <TabItem value="mongodb-shell" label="MongoDB Shell">

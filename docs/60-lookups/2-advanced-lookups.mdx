@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 🦸‍♂️ Advanced lookups
 
 :::info
@@ -11,14 +14,35 @@ We get this request: Write a `$lookup` to get `name` and `bio` from author's inf
 
 You can try this with this aggregation pipeline:
 
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  // as a book can have many authors, we get one doc per book's author
+  {$unwind: "$authors"},
+  // remove some noisy fields
+  {$project: {attributes: 0, reviews: 0}}
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+
 ```js
 db.books.aggregate([
-    // as a book can have many authors, we get one doc per book's author
-    {$unwind: "$authors"},
-    // remove some noisy fields
-    {$project: {attributes: 0, reviews: 0}}
+  // as a book can have many authors, we get one doc per book's author
+  {$unwind: "$authors"},
+  // remove some noisy fields
+  {$project: {attributes: 0, reviews: 0}}
 ])
 ```
+
+</TabItem>
+</Tabs>
+
 - Now, we need to get the authors' information. For that, we'll use `$lookup`, linking the `_id` in the `authors` collection with the `_id` we have in each book's `authors` array. But as we can see here, these have a different type: The ones inside our array are strings, while the `author` collection `_id` are `ObjectId`.
 
 ```js
@@ -30,38 +54,93 @@ db.books.aggregate([
 
 So we need to convert from `String` into `ObjectId`. We can do that using `$toObjectId`. This will add a new field, `authorId`, converting it into `ObjectId`:
 
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  // as a book can have many authors, we get one doc per book's author
+  {$unwind: "$authors"},
+  // convert it to an objectId
+  {"$set":{"authorId":{"$toObjectId":"$authors._id"}}},
+  // remove some noisy fields
+  {$project: {attributes: 0, reviews: 0}}
+]
+```
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+
 ```js
 db.books.aggregate([
-    // as a book can have many authors, we get one doc per book's author
-    {$unwind: "$authors"},
-    // convert it to an objectId
-    {"$set":{"authorId":{"$toObjectId":"$authors._id"}}},
-    // remove some noisy fields
-    {$project: {attributes: 0, reviews: 0}}
+  // as a book can have many authors, we get one doc per book's author
+  {$unwind: "$authors"},
+  // convert it to an objectId
+  {"$set":{"authorId":{"$toObjectId":"$authors._id"}}},
+  // remove some noisy fields
+  {$project: {attributes: 0, reviews: 0}}
 ])
 ```
+
+</TabItem>
+</Tabs>
+
 
 - Now, we're ready to do the `$lookup`: We want all documents from `authors` that have the same `_id` as the `authorId` we just created. We use a `pipeline` to get just `authors` `name` and `bio`.
 
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  // as a book can have many authors, we get one doc per book's author
+  {$unwind: "$authors"},
+  // convert it to an objectId
+  {"$set":{"authorId":{"$toObjectId":"$authors._id"}}},
+  {$lookup: {
+      from: "authors",
+      localField: "authorId",
+      foreignField: "_id",
+      pipeline: [
+          {$project: {name: 1, bio: 1}},
+      ],
+      as: "bookAuthorDetails"
+    } 
+  },
+  // remove some noisy fields
+  {$project: {attributes: 0, reviews: 0}}
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+
 ```js
 db.books.aggregate([
-    // as a book can have many authors, we get one doc per book's author
-    {$unwind: "$authors"},
-    // convert it to an objectId
-    {"$set":{"authorId":{"$toObjectId":"$authors._id"}}},
-    {$lookup: {
-       from: "authors",
-       localField: "authorId",
-       foreignField: "_id",
-       pipeline: [
-            {$project: {name: 1, bio: 1}},
-       ],
-       as: "bookAuthorDetails"
-     } 
-    },
-    // remove some noisy fields
-    {$project: {attributes: 0, reviews: 0}}
+  // as a book can have many authors, we get one doc per book's author
+  {$unwind: "$authors"},
+  // convert it to an objectId
+  {"$set":{"authorId":{"$toObjectId":"$authors._id"}}},
+  {$lookup: {
+      from: "authors",
+      localField: "authorId",
+      foreignField: "_id",
+      pipeline: [
+          {$project: {name: 1, bio: 1}},
+      ],
+      as: "bookAuthorDetails"
+    } 
+  },
+  // remove some noisy fields
+  {$project: {attributes: 0, reviews: 0}}
 ])
 ```
+
+</TabItem>
+</Tabs>
+
+
 
 
