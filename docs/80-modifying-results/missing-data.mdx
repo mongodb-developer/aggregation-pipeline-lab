@@ -1,6 +1,27 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 🦸 Missing Data
 
 Sometimes, we're missing a field we're looking for (it's not there, as documents in a collection can be polymorphic, so this field is `null`). For these cases, we can check if something is there using `$ifNull` and add a default value.
+
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+```js
+
+[
+    {
+        $project: {
+            name: 1,
+            books: { $ifNull: ["$books", []]},
+        }
+    }
+]
+```
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 let getAuthorsWithBooks = {
@@ -14,3 +35,7 @@ db.authors.aggregate([
     getAuthorsWithBooks,
 ])
 ```
+
+</TabItem>
+</Tabs>
+

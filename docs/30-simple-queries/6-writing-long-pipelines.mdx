@@ -1,25 +1,39 @@
-# 👐 Writing Long Pipelines
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 🦸‍♂️ Writing Long Pipelines
+
+:::info
+Extra activity! Do it if you have extra time or are following along at home. It won't be covered during the hands-on lab.
+:::
 
 Aggregation pipelines can get very long, depending on how many stages we need to run. Writing a pipeline is writing code, as you will write it using one of the many MongoDB drivers in your own language. Here we're presenting the examples using JavaScript suitable for the MongoDB shell [mongosh](https://www.mongodb.com/docs/mongodb-shell/), but if you are writing a microservice in Rust, you'll definitely write your pipelines in Rust.
 
 :::danger
-The following syntax doesn't work in the Atlas UI aggregations editor. The editor doesn't support declaring variables.
+The following syntax doesn't work in the Atlas UI aggregations editor. The editor doesn't support declaring variables. You can try this using the built-in MongoDB Shell in [MongoDB Compass](https://www.mongodb.com/products/tools/compass).
 :::
 
 This is why we should rewrite our last pipeline like this:
 
-Get 15 books from 1985 with 150 pages. Show only the `title`, `year`, `totalInventory`, and `available` books (sample doc [here](/docs/simple-queries/project)).
+Get 15 books from 1985 with less than 150 pages. Show only the `title`, `year`, `totalInventory`, and `available` books (sample doc [here](/docs/simple-queries/project)).
+
+
+<Tabs groupId="aggregations">
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 db.books.aggregate([
-    {$match: {year: 1985, pages: 150}}, {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}}, {$limit: 15}
+    { $match: {year: 1985, pages: { $lt: 150 } } }, 
+    { $project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1} }, 
+    { $limit: 15 }
 ])
 ```
 Will be changed into:
 
 
 ```js
-let booksFrom1985With150pages = {$match: {year: 1985, pages: 150}};
+let lessThan150 = { $lt: 150 };
+let booksFrom1985With150pages = {$match: {year: 1985, pages: lessThan150 }};
 let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
 let getJust15books =  {$limit: 15};
 
@@ -29,6 +43,8 @@ db.books.aggregate([
     getJust15books,
 ]);
 ```
+  </TabItem>
+</Tabs>
 
 Easier to read and understand, right?
 
@@ -42,14 +58,12 @@ Write your aggregation pipelines like you'll compose functions in your programmi
 
 :::tip
 
-As this is code, we can even add comments (starting with `//`) to our pipelines.
+As this is code, we can even add comments (starting with `//`) to our pipelines. Or write functions that take parameters and return a stage. Or unit test our stages. 
 
 :::
 
 
-👐 We can also use $gte to get the books with 150 pages or more. Check $gte syntax in the [docucumentation](https://www.mongodb.com/docs/manual/reference/operator/query/gte/) and write an aggregation pipeline to return 15 books from 1985 with more than 150 pages. Show only the `title`, `year`, `totalInventory`, and `available` books (sample doc [here](/docs/simple-queries/project)).
-
-_Hint:_ We'll need to use `$and` as maybe this is a bit more complex.
+👐 We can also use `$gte` to get the books with 150 pages or more. Check $gte syntax in the [docucumentation](https://www.mongodb.com/docs/manual/reference/operator/query/gte/) and write an aggregation pipeline to return 15 books from 1985 with more than 150 pages. Show only the `title`, `year`, `totalInventory`, and `available` books (sample doc [here](/docs/simple-queries/project)).
 
 <details>
 <summary>Answer</summary>

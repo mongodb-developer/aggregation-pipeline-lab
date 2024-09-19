@@ -1,6 +1,25 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 👐 Group
 
 We can sum all the pages for all books in each year:
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+    {$group:{
+        _id: "$year",
+        totalPages: {$sum: "$pages"}
+    }}
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 db.books.aggregate([
@@ -11,6 +30,9 @@ db.books.aggregate([
 ])
 ```
 
+</TabItem>
+</Tabs>
+
 Here, we group by the book's `year` (the _id of the grouping), and then we create a new field called `totalPages` that's the sum of all pages.
 
 👐 Can you get the results ordered ascending by year?
@@ -18,6 +40,22 @@ Here, we group by the book's `year` (the _id of the grouping), and then we creat
 <details>
 <summary>Answer</summary>
 <div>
+
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+```js
+[
+    {$group:{
+        _id: "$year",
+        totalPages: {$sum: "$pages"}
+    }},
+    {$sort: {_id: 1}}
+]
+```
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 db.books.aggregate([
@@ -28,6 +66,11 @@ db.books.aggregate([
     {$sort: {_id: 1}}
 ])
 ```
+
+</TabItem>
+</Tabs>
+
+
 </div>
 </details>
 
@@ -36,6 +79,23 @@ db.books.aggregate([
 <details>
 <summary>Answer</summary>
 <div>
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+    {$group:{
+        _id: "$year",
+        totalPages: {$avg: "$pages"}
+    }},
+    {$sort: {_id: 1}}
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 db.books.aggregate([
@@ -46,6 +106,11 @@ db.books.aggregate([
     {$sort: {_id: 1}}
 ])
 ```
+
+</TabItem>
+</Tabs>
+
+
 </div>
 </details>
 
@@ -54,6 +119,24 @@ db.books.aggregate([
 <details>
 <summary>Answer</summary>
 <div>
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+    {$group:{
+        _id: "$year",
+        totalPages: {$sum: "$pages"}
+    }},
+    {$sort: {totalPages: -1}},
+    {$limit: 1}
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 db.books.aggregate([
@@ -65,5 +148,10 @@ db.books.aggregate([
     {$limit: 1}
 ])
 ```
+
+</TabItem>
+</Tabs>
+
+
 </div>
 </details>

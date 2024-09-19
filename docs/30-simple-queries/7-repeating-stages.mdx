@@ -17,19 +17,18 @@ So we can repeat most stages, and do something like this to get all books from 1
 
 ```js
 [
-    {
-        $match: { pages: {$gte: 100} }
-    },
-    {
-        $match: { year: 1985 }
-    }
+  { $match: { pages: {$gte: 100} } },
+  { $match: { year: 1985 } }
 ]
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
-db.books.aggregate([{$match: {pages: {$gte: 100}}}, {$match: {year: 1985}}])
+db.books.aggregate([
+  { $match: { pages: {$gte: 100} } },
+  { $match: { year: 1985 } }
+])
 ```
   </TabItem>
 </Tabs>

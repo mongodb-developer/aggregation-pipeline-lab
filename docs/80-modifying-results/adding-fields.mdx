@@ -1,8 +1,30 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 👐 Adding New Fields to Results
 
 ## $addFields
 
 We want to estimate the reading time for a book. But we don't have that field stored in our data. We can use `$addFields` for this. If the field exists, it'll get updated, and if it doesn't, it's added.
+
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+    {$project: {
+        title: 1,
+        pages: 1,
+        }
+    },
+    {$addFields: {readingTimeHours: {$divide: [{$multiply: ["$pages", 2]}, 60]}}},
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 db.books.aggregate([
@@ -15,25 +37,56 @@ db.books.aggregate([
 ])
 ```
 
+</TabItem>
+</Tabs>
+
+
 👐 Add a new field, `notes`, that contains the text `PLACEHOLDER` for all documents.
 
 <details>
 <summary>Answer</summary>
 <div>
 
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+    {$project: 
+        {
+            title: 1,
+            pages: 1,
+        }
+    },
+    {$addFields: {notes: "PLACEHOLDER"}}
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+
 ```js
 db.books.aggregate([
-    {$project: {
-        title: 1,
-        pages: 1,
-        
-    }
-    
+    {$project: 
+        {
+            title: 1,
+            pages: 1,
+        }
     },
-
     {$addFields: {notes: "PLACEHOLDER"}}
 ])
 ```
 
+</TabItem>
+</Tabs>
+
+
+
 </div>
+
+:::info
+[$set](https://www.mongodb.com/docs/manual/reference/operator/aggregation/set/#mongodb-pipeline-pipe.-set) is an alias for $addFields that you'll find on many older posts and documentation.
+:::
+
 </details>

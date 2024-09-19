@@ -67,7 +67,7 @@ If we're interested in the titles, we can use `$project` to select just the fiel
 ```js
 [
   {
-    $project: {title: 1, year: 1}
+    $project: { title: 1, year: 1 }
   }
 ]
 ```
@@ -75,14 +75,18 @@ If we're interested in the titles, we can use `$project` to select just the fiel
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
-db.books.aggregate([{$project: {title: 1, year: 1}}])
+db.books.aggregate([
+  {
+    $project: { title: 1, year: 1 }
+  }
+])
 ```
   </TabItem>
 </Tabs>
 
 
-- 1 means "show that field."
-- 0 means "hide that field."
+- 1 means "show that field.". Once you started an inclusion projection you can't exclude other fields (you just keep adding the fields you want to see)
+- 0 means "hide that field.". Once you started an exclusion projection you can't include other fields (you just keep adding the fields you don't want to see)
 - The primary key `_id` field is shown by default.
 
 So we can exclude fields and show all fields except `attributes` using:
@@ -92,14 +96,18 @@ So we can exclude fields and show all fields except `attributes` using:
 ```js
 [
   {
-    $project: {attributes: 0}
+    $project: { attributes: 0 }
   }
 ]
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 ```js
-db.books.aggregate([{$project: {attributes: 0}}])
+db.books.aggregate([
+  {
+    $project: { attributes: 0 }
+  }
+])
 ```
   </TabItem>
 </Tabs>
@@ -116,14 +124,18 @@ db.books.aggregate([{$project: {attributes: 0}}])
 ```js
 [
   {
-    $project: {title: 1, cover: 1}
+    $project: { title: 1, cover: 1 }
   }
 ]
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 ```js
-db.books.aggregate([{$project: {title: 1, cover: 1}}])
+db.books.aggregate([
+  {
+    $project: { title: 1, cover: 1 }
+  }
+])
 ```
   </TabItem>
 </Tabs>

@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # 🦸‍♂️ Aggregation options
 
 :::info
@@ -5,11 +8,15 @@ Extra activity! Do it if you have extra time or are following along at home. It 
 :::
 
 :::danger
-The following syntax doesn't work in the Atlas UI aggregations editor. 
+The following syntax doesn't work in the Atlas UI aggregations editor. The editor doesn't support declaring variables. You can try this using the built-in MongoDB Shell in [MongoDB Compass](https://www.mongodb.com/products/tools/compass).
 :::
 
 
 We can pass a document to `aggregate` with some options.
+
+
+<Tabs groupId="aggregations">
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 let options = {
@@ -19,10 +26,16 @@ let options = {
 db.authors.aggregate([], options);
 ```
 
+  </TabItem>
+</Tabs>
+
 💻 Have a look at the [different options you can pass to the aggregate method](https://www.mongodb.com/docs/manual/reference/method/db.collection.aggregate/#mongodb-method-db.collection.aggregate).
 
 
 💻 Try to launch an `itcount` (a long operation) to iterate through the whole books cursor with a time limit of 10 ms. You should see the operation timing out and failing.
+
+<Tabs groupId="aggregations">
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
 let options = {
@@ -33,3 +46,6 @@ db.authors.aggregate([], options).itcount();
 
 > MongoServerError: operation exceeded time limit
 ```
+
+  </TabItem>
+</Tabs>

@@ -3,7 +3,7 @@ import TabItem from '@theme/TabItem';
 
 # 👐 $match
 
-The $match operator is used in conjunction with the aggregation framework to filter documents in a collection. It takes a document as input and returns a new document containing only the documents that match the specified criteria. The syntax for the $match operator is as follows:
+The [$match](https://www.mongodb.com/docs/manual/reference/operator/aggregation/match/) stage filters documents in a collection. It takes a document as input (your filter) and returns the documents that match the specified criteria. The syntax for the $match stage is as follows:
 
 ```js
 { $match: { <expression>: <value> } }
@@ -11,7 +11,7 @@ The $match operator is used in conjunction with the aggregation framework to fil
 
 ## Expressions
 
-The `<expression>` portion of the $match operator can be any valid MongoDB expression. This includes:
+The `<expression>` portion of the $match stage can be any valid MongoDB expression. This includes:
 
 * Comparison operators: `eq`, `neq`, `gte`, `lte`, `gt`, `lt`, `in`, `nin`, `exists`.
 * Regular expressions: regex.
@@ -46,7 +46,11 @@ The `<expression>` portion of the $match operator can be any valid MongoDB expre
     Say we want all the books from 2010. We'll write:
 
     ```js
-    db.books.aggregate([{$match: {year: 2010}}])
+    db.books.aggregate([
+      {
+        $match: {year: 2010}
+      }
+    ])
     ```
   </TabItem>
 </Tabs>
@@ -62,16 +66,20 @@ The `<expression>` portion of the $match operator can be any valid MongoDB expre
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
-    {
-        $match: { pages: 100 }
-    }
+  {
+    $match: { pages: 100 }
+  }
 ]
 ```
 
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 ```js
-db.books.aggregate([{$match: {pages: 100}}])
+db.books.aggregate([
+  {
+    $match: { pages: 100 }
+  }
+])
 ```
   </TabItem>
 </Tabs>
@@ -82,44 +90,50 @@ db.books.aggregate([{$match: {pages: 100}}])
 
 ## AND
 
-If we need to add more conditions using AND, we can do it with the `$and` operator.
+If we need to add more conditions using AND, we use the `$and` operator.
 
-If we want all the books with 100 pages with exactly `totalInventory` 2, we can use a `$and` operator. This takes an array of documents with all the conditions that should be true for the AND to succeed:
+If we want all the books with 100 pages and with exactly `totalInventory` 1, we can use the `$and` operator. It takes an array of documents with all the conditions that should be true for the AND to succeed:
 
 <Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
-    {
-        $match: {
-            $and: [
-                { pages: 100 },
-                { totalInventory: 2 }
-            ]
-        }
+  {
+    $match: {
+      $and: [
+        { pages: 100 },
+        { totalInventory: 1 }
+      ]
     }
+  }
 ]
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 ```js
-db.books.aggregate([{$match: {$and: [{pages: 100}, {totalInventory: 2}]}}])
+db.books.aggregate([
+  {
+    $match: { 
+      $and: [
+        { pages: 100 }, 
+        { totalInventory: 1 }
+      ]
+    }
+  }
+])
 ```
   </TabItem>
 </Tabs>
 
-
-
-
 The pseudo-code for this would be something like:
 
 ```
-IF pages == 100 AND totalInventory == 2 {
+IF pages == 100 AND totalInventory == 1 {
     return matching docs
 }
 ```
 
-👐 Return all the `books` from 2015 that have exactly 100 pages.
+👐 Return all the `books` from 2009 that have exactly 192 pages.
 
 <details>
 <summary>Answer</summary>
@@ -129,20 +143,29 @@ IF pages == 100 AND totalInventory == 2 {
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
-    {
-        $match: {
-            $and: [
-                { pages: 100 },
-                { year: 2015 }
-            ]
-        }
+  {
+    $match: {
+      $and: [
+        { pages: 192 },
+        { year: 2009 }
+      ]
     }
+  }
 ]
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 ```js
-db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}])
+db.books.aggregate([
+  { 
+    $match: {
+      $and: [
+        { pages: 192 }, 
+        { year: 2009 }
+      ]
+    } 
+  }
+])
 ```
   </TabItem>
 </Tabs>
@@ -150,7 +173,7 @@ db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}])
 </div>
 </details>
 
-👐 How many are there?
+👐 How many are there? We haven't yet seen the `$count` stage, but try to adding a second stage to your pipeline with `{ $count: "books_count" }`
 
 <details>
 <summary>Answer</summary>
@@ -176,7 +199,12 @@ db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}])
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 ```js
-db.books.aggregate([{$match: {$and: [{pages: 100}, {year: 2015}]}}]).itcount()
+db.books.aggregate(
+  [
+    { $match: {$and: [{pages: 100}, {year: 2015}]} },
+    { $count: "books_count" }
+  ]
+)
 ```
   </TabItem>
 </Tabs>
@@ -191,21 +219,25 @@ We can do an implicit AND just passing a document with all the conditions (inste
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
-    {
-        $match: {pages: 100, totalInventory: 2}
-    }
+  {
+    $match: { pages: 100, totalInventory: 2 }
+  }
 ]
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 ```js
-db.books.aggregate([{$match: {pages: 100, totalInventory: 2}}])
+db.books.aggregate([
+  {
+    $match: { pages: 100, totalInventory: 2 }
+  }
+])
 ```
   </TabItem>
 </Tabs>
 
 
-👐 Return all the `books` from 2015 that have exactly 100 pages, using the simple $and notation:
+👐 Return all the `books` from 2009 that have exactly 192 pages, using the shorthand `$and` notation:
 
 <details>
 <summary>Answer</summary>
@@ -216,14 +248,14 @@ db.books.aggregate([{$match: {pages: 100, totalInventory: 2}}])
 ```js
 [
     {
-        $match: {pages: 100, year: 2015}
+        $match: {pages: 192, year: 2009}
     }
 ]
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 ```js
-db.books.aggregate([{$match: {pages: 100, year: 2015}}])
+db.books.aggregate([{$match: {pages: 192, year: 2009}}])
 ```
   </TabItem>
 </Tabs>
