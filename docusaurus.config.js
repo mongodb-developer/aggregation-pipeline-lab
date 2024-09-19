@@ -154,6 +154,11 @@ const config = {
         },
         items: [
           {
+            label: "🤖 AI Lab Assistant",
+            href: "https://lab-ai-assistant.ue.r.appspot.com/",
+            position: "right",
+          },
+          {
             type: "localeDropdown",
             position: "right",
           },
