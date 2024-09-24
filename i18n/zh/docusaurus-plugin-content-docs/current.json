@@ -1,0 +1,78 @@
+{
+  "version.label": {
+    "message": "当前版本",
+    "description": "The label for version current"
+  },
+  "sidebar.tutorialSidebar.category.Prerequisites": {
+    "message": "先决条件",
+    "description": "The label for category Prerequisites in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Prerequisites.link.generated-index.description": {
+    "message": "在本节中，您将创建您的 Atlas 账户并启动您的第一个数据库集群。",
+    "description": "The generated-index page description for category Prerequisites in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.The Aggregation Pipeline": {
+    "message": "聚合管道",
+    "description": "The label for category The Aggregation Pipeline in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.The Aggregation Pipeline.link.generated-index.description": {
+    "message": "学习聚合管道的基础知识及其与 SQL 的对比。",
+    "description": "The generated-index page description for category The Aggregation Pipeline in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Simple Pipelines": {
+    "message": "简单管道",
+    "description": "The label for category Simple Pipelines in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Simple Pipelines.link.generated-index.description": {
+    "message": "让我们从基础开始。",
+    "description": "The generated-index page description for category Simple Pipelines in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Using Arrays": {
+    "message": "使用数组",
+    "description": "The label for category Using Arrays in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Using Arrays.link.generated-index.description": {
+    "message": "在我们的示例数据中使用数组。",
+    "description": "The generated-index page description for category Using Arrays in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Counting and Sorting": {
+    "message": "计数与排序",
+    "description": "The label for category Counting and Sorting in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Counting and Sorting.link.generated-index.description": {
+    "message": "对我们的文档数据进行计数和排序。",
+    "description": "The generated-index page description for category Counting and Sorting in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Lookups / Joins": {
+    "message": "Lookups / Joins",
+    "description": "The label for category Lookups / Joins in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Lookups / Joins.link.generated-index.description": {
+    "message": "学习如何进行 Join(Lookups) 操作。",
+    "description": "The generated-index page description for category Lookups / Joins in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Grouping Results": {
+    "message": "结果分组",
+    "description": "The label for category Grouping Results in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Grouping Results.link.generated-index.description": {
+    "message": "分组。",
+    "description": "The generated-index page description for category Grouping Results in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Modifying Results": {
+    "message": "修改结果",
+    "description": "The label for category Modifying Results in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Modifying Results.link.generated-index.description": {
+    "message": "更改我们管道的输出。",
+    "description": "The generated-index page description for category Modifying Results in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Exporting Data": {
+    "message": "导出数据",
+    "description": "The label for category Exporting Data in sidebar tutorialSidebar"
+  },
+  "sidebar.tutorialSidebar.category.Exporting Data.link.generated-index.description": {
+    "message": "导出数据。",
+    "description": "The generated-index page description for category Exporting Data in sidebar tutorialSidebar"
+  }
+}
