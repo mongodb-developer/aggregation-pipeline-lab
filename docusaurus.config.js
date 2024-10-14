@@ -162,7 +162,7 @@ const config = {
         items: [
           {
             label: "🤖 AI Lab Assistant",
-            href: "https://lab-ai-assistant.ue.r.appspot.com/",
+            href: "https://mdb.link/lab-assistant",
             position: "right",
           },
           {
