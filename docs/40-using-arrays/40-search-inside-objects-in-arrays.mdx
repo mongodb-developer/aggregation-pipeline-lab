@@ -7,31 +7,31 @@ In our books, we're using the [Attribute Pattern](https://www.mongodb.com/develo
 
 ```js
 attributes: [
-    {
-      key: 'edition',
-      value: '1st'
-    },
-    {
-      key: 'dimensions',
-      value: 'Height: 1.111 Inches, Length: 1.111 Inches, Weight: 0.2 Pounds, Width: 1.111 Inches'
-    },
-    {
-      key: 'isbn13',
-      value: '9780765342508'
-    },
-    {
-      key: 'msrp',
-      value: 6.99
-    },
-    {
-      key: 'isbn',
-      value: '0765342502'
-    },
-    {
-      key: 'isbn10',
-      value: '0765342502'
-    }
-  ],
+  {
+    key: 'edition',
+    value: '1st'
+  },
+  {
+    key: 'dimensions',
+    value: 'Height: 1.111 Inches, Length: 1.111 Inches, Weight: 0.2 Pounds, Width: 1.111 Inches'
+  },
+  {
+    key: 'isbn13',
+    value: '9780765342508'
+  },
+  {
+    key: 'msrp',
+    value: 6.99
+  },
+  {
+    key: 'isbn',
+    value: '0765342502'
+  },
+  {
+    key: 'isbn10',
+    value: '0765342502'
+  }
+],
 ```
 
 How do we search for all the books that have an msrp of 9.99? We want books that, inside `attributes`, have an object with key `msrp` and value `9.99`. We can get it to work with this:
@@ -60,7 +60,7 @@ db.books.aggregate([
 </Tabs>
 
 
-Here we're getting a copy of each book for each object inside the `$attributes` array. This "flattens" the array and returns many copies of the same documents, one for each different attribute that we have which will be different for each of these generated docs.
+Here we're getting a copy of each book for each object inside the `$attributes` array. This "flattens" the array and returns many copies of the same documents, one for each different attribute that we have.
 
 👐 To better understand `$unwind`, run this aggregation.
 
@@ -91,6 +91,8 @@ db.books.aggregate([
 
 You should get one document per attribute of the original book. All fields in these returned documents should be the same, except the ones in attributes.
 
+## Matching object fields, the simplest way
+
 But you can actually match documents in an array in a more straightforward fashion:
 
 <Tabs groupId="aggregations">
@@ -106,12 +108,9 @@ But you can actually match documents in an array in a more straightforward fashi
 <TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
-let nineNinetyNine = { $match: {"attributes.key": "msrp", "attributes.value": 9.99} };
-let showOnlyTheseFields = { $project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1, "attributes": 1} };
-
 db.books.aggregate([
-    nineNinetyNine,
-    showOnlyTheseFields,
+  { $match: {"attributes.key": "msrp", "attributes.value": 9.99} },
+  { $project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1, "attributes": 1} }
 ]);
 ```
 
@@ -119,5 +118,46 @@ db.books.aggregate([
 </Tabs>
 
 
+Find all the books with an MSPR of 9.99 and that have been reprinted (`edition` is `Reprint`)
+
+<details>
+<summary>Answer</summary>
+<div>
 
 
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  { $match: 
+    {$and: [
+      {"attributes.key": "msrp", "attributes.value": 9.99}, 
+      {"attributes.key": "edition", "attributes.value": "Reprint"}] 
+    }
+  },
+  { $project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1, "attributes": 1} }
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+
+```js
+db.books.aggregate([
+  { $match: 
+    {$and: [
+      {"attributes.key": "msrp", "attributes.value": 9.99}, 
+      {"attributes.key": "edition", "attributes.value": "Reprint"}] 
+    }
+  },
+  { $project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1, "attributes": 1} }
+]);
+```
+
+</TabItem>
+</Tabs>
+
+</div>
+</details>

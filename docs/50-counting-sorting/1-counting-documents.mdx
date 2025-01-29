@@ -21,6 +21,18 @@ How can we be sure that this pipeline is returning exactly 15 books?
 <TabItem value="mongodb-shell" label="MongoDB Shell">
 
 ```js
+db.books.aggregate([
+    {$match: {$and: [{year: 1985}, {pages: {$gte: 150}}]}},
+    {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}},
+    {$limit: 15}
+]);
+```
+
+</TabItem>
+
+<TabItem value="js" label="Javascript">
+
+```js
 let moreThan150pages =  {pages: {$gte: 150}}
 let booksFrom1985WithMoreThan150pages = {$match: {$and: [{year: 1985}, moreThan150pages]}};
 let showOnlyTheseFields = {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}};
@@ -56,6 +68,18 @@ By counting the books! Let's add a new stage to the pipeline to count those book
 </TabItem>
 
 <TabItem value="mongodb-shell" label="MongoDB Shell">
+
+```js
+db.books.aggregate([
+    {$match: {$and: [{year: 1985}, {pages: {$gte: 150}} ]}},
+    {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}},
+    {$limit: 15},
+    {$count: "totalBooks"},
+]);
+```
+</TabItem>
+
+<TabItem value="js" label="Javascript">
 
 ```js
 let moreThan150pages =  {pages: {$gte: 150}}
@@ -131,6 +155,19 @@ If we count after the `$match` stage, the document we're passing to the next ste
 </TabItem>
 
 <TabItem value="mongodb-shell" label="MongoDB Shell">
+
+```js
+db.books.aggregate([
+    {$match: {$and: [{year: 1985}, {pages: {$gte: 150}} ]}},
+    {$count: "totalBooks"},
+    {$project: {_id: 0, title: 1, year: 1, totalInventory: 1, available: 1}},
+    {$limit: 15},
+]);
+```
+
+</TabItem>
+
+<TabItem value="js" label="Javascript">
 
 ```js
 let moreThan150pages =  {pages: {$gte: 150}}

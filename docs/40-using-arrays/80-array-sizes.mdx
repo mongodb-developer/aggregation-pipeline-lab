@@ -1,0 +1,137 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 🦸 Size of an array
+
+What if we want to know how many aliases an author has? To do that, we can use `$size`, adding the array field that we're interested in:
+
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  { $project: {
+      name: 1,
+      bookCount: {$size: "$books"}
+    }
+  },
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.authors.aggregate([
+  { $project: {
+      name: 1,
+      bookCount: {$size: "$books"}
+    }
+  },
+])
+```
+</TabItem>
+</Tabs>
+
+👐 Who wrote the most books? (We can sort using `{ $sort: {"bookCount": -1}}`.)
+
+<details>
+<summary>Answer</summary>
+<div>
+
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  {
+    $project: {
+        name: 1,
+        bookCount: {$size: "$books"}
+    }
+  },
+  { $sort: {"bookCount": -1} },
+  { $limit: 1 }
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+
+```js
+let addNumberBooks = {
+  $project: {
+      name: 1,
+      bookCount: {$size: "$books"}
+  }
+}
+
+let orderByNumberOfBooksDesc = { $sort: {"bookCount": -1} }
+
+let getOne = { $limit: 1 }
+
+db.authors.aggregate([
+  addNumberBooks,
+  orderByNumberOfBooksDesc,
+  getOne,
+])
+```
+
+</TabItem>
+</Tabs>
+
+</div>
+</details>
+
+
+👐 Find books with exactly three genres (We can $match using `{ {"bookCount": -1}}`.)
+
+
+<details>
+<summary>Answer</summary>
+<div>
+
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  { 
+      $match: { 
+      genres: {$size: 3 } 
+      } 
+  },
+  {$project: {
+      title: 1,
+      genres: 1
+  }}
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+
+```js
+db.books.aggregate([
+  { 
+      $match: { 
+      genres: {$size: 3 } 
+      } 
+  },
+  {$project: {
+      title: 1,
+      genres: 1
+  }}
+])
+```
+
+</TabItem>
+</Tabs>
+
+</div>
+</details>

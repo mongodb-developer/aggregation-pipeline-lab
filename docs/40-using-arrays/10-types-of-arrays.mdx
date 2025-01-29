@@ -1,0 +1,112 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 👐 Types of arrays
+
+A JSON array can contain __scalar values__ or __objects__. In our data, `books` have a scalar array of the `genres` this book belongs to. It also has several arrays of objects, like the `authors` of a book, `attributes` and `reviews`.
+
+Let's get one book:
+
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+Remember to select the `books` collection in the UI.
+
+```js
+[
+  { $limit: 1 }
+]
+```
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+
+```js
+db.books.aggregate([
+  { $limit: 1 }
+])
+```
+</TabItem>
+</Tabs>
+
+👐 Run this aggregation to get one book.
+
+I got this one. (It can change depending on the data source you imported.)
+
+```js
+[
+  {
+    "_id": "0002005018",
+    "title": "Clara Callan: A novel",
+    "authors": [
+      {
+        "_id": "64cc2db4830ba29148da4c3b",
+        "name": "Richard Bruce Wright"
+      }
+    ],
+    "genres": [
+      "Women Teachers",
+      "Young Women",
+      "Actresses",
+      "Sisters"
+    ],
+    "pages": 414,
+    "year": 2001,
+    "synopsis": "Giller Prize Winner 2001. Richard B. Wright. A Phyllis Bruce Book.",
+    "cover": "https://images.isbndb.com/covers/50/12/9780002005012.jpg",
+    "attributes": [
+      {
+        "key": "edition",
+        "value": "1st"
+      },
+      {
+        "key": "dimensions",
+        "value": "Height: 11.11 Inches, Length: 6.11 Inches, Weight: 1 Pounds, Width: 1.11 Inches"
+      },
+      {
+        "key": "isbn13",
+        "value": "9780002005012"
+      },
+      {
+        "key": "msrp",
+        "value": "0.00"
+      },
+      {
+        "key": "isbn",
+        "value": "0002005018"
+      },
+      {
+        "key": "isbn10",
+        "value": "0002005018"
+      }
+    ],
+    "totalInventory": 2,
+    "available": 2,
+    "binding": "Hardcover",
+    "language": "en",
+    "publisher": "HarperFlamingoCanada",
+    "longTitle": "Clara Callan: A novel",
+    "reviews": [
+      {
+        "_id": {
+          "$oid": "6526bbc2e4e804888dfedf37"
+        },
+        "text": "yd",
+        "name": "Holy Dingo",
+        "rating": 1,
+        "timestamp": 1697037250625
+      },
+      {
+        "_id": {
+          "$oid": "651c0f4b24193d51c4c734a3"
+        },
+        "text": "Great!",
+        "name": "Brash Platypus",
+        "rating": 5,
+        "timestamp": 1696337739128
+      }
+    ]
+  }
+]
+```
