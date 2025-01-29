@@ -68,7 +68,7 @@ const footerLinks = [
   {
     href: `https://github.com/${organizationName}/${workshopName}`,
     label: "This lab in GitHub",
-  }
+  },
   {
     label: `© ${new Date().getFullYear()} MongoDB, Inc.`,
     href: "#",
