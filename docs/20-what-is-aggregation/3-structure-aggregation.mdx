@@ -20,47 +20,31 @@ db.mycollection.aggregate([
 
 ## Example
 
-An aggregation pipeline that does the same as the above SQL statement could be:
-
 ```
-db.mycollection.aggregate([
-  {
-    $sort:
-      /**
-       * Provide any number of field/order pairs.
-       */
-      {
-        num_mflix_comments: -1,
+// Inside the current database, in the collection named reviews
+db.reviews.aggregate([
+  { 
+    // group all reviews for the same book
+    $group: {
+        _id: "$bookId",
+        averageRating: {
+          $avg: "$rating",
+        },
       },
   },
-  {
-    $limit:
-      /**
-       * Provide the number of documents to limit.
-       */
-      1,
-  },
-  {
-    $unwind:
-      /**
-       * path: Path to the array field.
-       * includeArrayIndex: Optional name for index.
-       * preserveNullAndEmptyArrays: Optional
-       *   toggle to unwind null and empty values.
-       */
-      {
-        path: "$cast",
+  // filter out all reviews that have an average other than 5
+  { $match: { averageRating: 5 } },
+  // JOIN with author collection to get all the author info
+  { $lookup: {
+        from: "authors",
+        localField: "_id",
+        foreignField: "books",
+        as: "author",
       },
   },
-  {
-    $project:
-      /**
-       * Specifications: The fields to
-       *   include or exclude.
-       */
-      {
-        cast: 1,
-      },
-  },
+  // add a field called bio
+  {$addFields: {
+    bio: "$author.bio"
+  }},
 ])
 ```

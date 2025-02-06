@@ -1,0 +1,182 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 👐 Simple arrays
+
+## 👐 Get all the Science Fiction Books
+
+Can I get all books for the genre `Science Fiction`?. Turns out it's quite simple:
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  { 
+    $match: { 
+      genres: 'Science Fiction' 
+    } 
+  }
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([
+  { 
+    $match: { 
+      genres: 'Science Fiction' 
+    } 
+  }
+])
+```
+
+</TabItem>
+</Tabs>
+
+Remember that will include any book that has any other genre as long as it has `Science Fiction` in `genres`.
+
+## 👐 Find all the books that belong at least to both genres "Fiction" and "Science Fiction"
+
+If you want to search for all books that have "Fiction" and "Science Fiction", in any order (and possibly other genres) use:
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  {$match: { 
+      genres: {$all: ['Science Fiction', 'Fiction'] } 
+      } 
+  },
+  {$project: {
+      title: 1,
+      genres: 1
+  }}
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([
+  {$match: { 
+      genres: {$all: ['Science Fiction', 'Fiction'] } 
+      } 
+  },
+  {$project: {
+      title: 1,
+      genres: 1
+  }}
+])
+```
+
+</TabItem>
+</Tabs>
+
+## 👐 Find books with either genre
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[{ 
+    $match: {
+      genres: { $in: ['Science Fiction', 'Fiction'] }
+    }
+  }
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([{ 
+    $match: {
+      genres: { $in: ['Science Fiction', 'Fiction'] }
+    }
+  }
+]);
+```
+
+</TabItem>
+</Tabs>
+
+## 👐 Find all the books that belong only to the genres "Fiction" and "Science Fiction"
+
+In this case, we want books that have both "Fiction" and "Science Fiction" in the genres array _and nothing else_. So we're looking for documents that contain a `genres` array exactly as `['Fiction', 'Science Fiction']`. We're not looking for the individual genres that could be inside the array, instead we are comparing the whole array on each document.
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  {$match: { 
+      genres: ['Fiction', 'Science Fiction'] 
+    } 
+  },
+  {$project: {
+    title: 1,
+    genres: 1
+  }}
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([
+  {$match: { 
+      genres: ['Fiction', 'Science Fiction'] 
+    } 
+  },
+  {$project: {
+    title: 1,
+    genres: 1
+  }}
+])
+```
+
+</TabItem>
+</Tabs>
+
+Here we're comparing the whole array. __Element order is important__. With this comparison you'll get nothing in return:
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+```js
+[
+  {$match: { 
+      genres: ['Science Fiction', 'Fiction'] 
+    } 
+  },
+  {$project: {
+    title: 1,
+    genres: 1
+  }}
+]
+```
+
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+```js
+db.books.aggregate([
+  {$match: { 
+      genres: ['Science Fiction', 'Fiction'] 
+    } 
+  },
+  {$project: {
+    title: 1,
+    genres: 1
+  }}
+])
+```
+</TabItem>
+</Tabs>

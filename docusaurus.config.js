@@ -9,15 +9,15 @@ const workshopName = 'aggregation-pipeline-lab';
 const organizationName = "mongodb-developer";
 
 // Main page config
-const title = "Aggregation Pipeline Lab";
-const tagLine = "Write Aggregation Pipelines in no time!";
+const title = "Simplify Data Processing";
+const tagLine = "With the MongoDB Aggregation Framework";
 const startButtonTitle = "Start Lab";
 const favicon = "img/favicon.svg"
 
 // Main Page Features
 const featureList = [
   {
-    title: 'Learn to write Aggregation Pipelines!',
+    title: 'Learn to write aggregation pipelines!',
     illustration: 'img/writing.png',
     description: `
         Writing Aggregation Pipelines!
@@ -27,7 +27,7 @@ const featureList = [
     title: 'Compose pipeline stages',
     illustration: 'img/coding.png',
     description: `
-        Unleash the power of the Aggregation pipeline!
+        Unleash the power of the MongoDB Aggregation Pipeline!
     `,
   },
   {
@@ -143,7 +143,7 @@ const config = {
       //   isCloseable: true,
       // },
       navbar: {
-        title: `${title}`,
+        title: `${title} ${tagLine}`,
         logo: {
           alt: "MongoDB Logo",
           src: "img/logo.svg",
