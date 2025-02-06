@@ -10,6 +10,26 @@ A SQL query statement usually starts with a `SELECT` where we put a list of the 
 
 We read this from the inside. If there's too much nesting, it's not easy to follow.
 
+
+### Get authors’ bios with books that have an average 5-star rating
+
+```SQL
+SELECT authors.name, authors.bio
+FROM library.authors authors
+JOIN library.author_book author_book_join ON authors.id = author_book_join.author_id
+JOIN (
+    SELECT books.id
+    FROM library.books books
+    JOIN library.reviews reviews ON books.id = reviews.book_id
+    GROUP BY books.id
+    HAVING AVG(reviews.rating) = 5
+) five_star_books ON author_book_join.book_id = five_star_books.id;
+
+
+```
+
+### Get annual, average and max spending from customers in all cities
+
 ```SQL
 SELECT
     city,
@@ -34,6 +54,44 @@ GROUP BY city;
 ```
 
 ## Equivalent MongoDB aggregation pipeline
+
+
+### Get authors’ bios with books that have an average 5-star rating
+
+We o through 4 stages:
+- group all the reviews for every book, calculating the average rating.
+- filter out all average ratings other than 5.
+- now we have reviews with 5 stars, but we also want the author bio, so we join with author to get the bio.
+- we add a new field called `bio` with just the author's bio. 
+
+```js
+db.reviews.aggregate([
+  { 
+    $group: {
+        _id: "$bookId",
+        averageRating: {
+          $avg: "$rating",
+        },
+      },
+  },
+  { $match: { averageRating: 5 } },
+  { $lookup: {
+        from: "authors",
+        localField: "_id",
+        foreignField: "books",
+        as: "author",
+      },
+  },
+  {$addFields: {
+    bio: "$author.bio"
+  }},
+])
+
+
+```
+
+
+### Get annual, average and max spending from customers in all cities
 
 Here we pass three stages: one to return one document per element in the `address` array, and then we filter out to get only the documents that have a `home` address location. Finally, we do the grouping. As we'll see, this can be split and tested separately and resembles our code. 
 
