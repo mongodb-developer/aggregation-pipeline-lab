@@ -143,7 +143,7 @@ const config = {
       //   isCloseable: true,
       // },
       navbar: {
-        title: `${title}`,
+        title: `${title} ${tagLine}`,
         logo: {
           alt: "MongoDB Logo",
           src: "img/logo.svg",
