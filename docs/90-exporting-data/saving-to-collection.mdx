@@ -10,7 +10,7 @@ You can export the result of an aggregation pipeline to a different DB/collectio
 <Tabs groupId="aggregations">
 <TabItem value="atlas" label="Atlas UI">
 
-Run this from the source collection
+Run this from the source collection:
 
 ```js
 [{ $out: { db: "<output-db>", coll: "<output-collection>" } }]
@@ -93,19 +93,19 @@ Reference: [📗 `$out` documentation](https://www.mongodb.com/docs/manual/refer
 
 If the collection specified by the `$out` operation already exists, then the `$out` stage atomically replaces the existing collection with the new results collection upon completion of the aggregation.
 
-To avoid overwriting the existing collection we can use `$merge` instead of `$out`.
+To avoid overwriting the existing collection, we can use `$merge` instead of `$out`.
 
 ```
 { $merge : { into : "newCollection" } }
 ```
 
-- if the collection does not exists, it will be created
-- if it exists, new data will be added
-- if [a doc already exists](https://www.mongodb.com/docs/manual/reference/operator/aggregation/merge/#std-label-merge-whenMatched), we can replace it, keep the existing one, merge both documents cause the stage to fail or run a pipeline.
+- If the collection does not exist, it will be created.
+- If it exists, new data will be added.
+- If [a doc already exists](https://www.mongodb.com/docs/manual/reference/operator/aggregation/merge/#std-label-merge-whenMatched), we can replace it, keep the existing one, merge both documents, and cause the stage to fail or run a pipeline.
 
-This is perfect for creating [On-Demand Materialized Views](https://www.mongodb.com/docs/manual/core/materialized-views/)
+This is perfect for creating [on-demand materialized views](https://www.mongodb.com/docs/manual/core/materialized-views/)
 
-As an example, let's say we want the authors to contain all the books they've written, with all the book information. In this case, we'll do a `$lookup` to get the book information into the authors collection. We can even use the name `books` for the resulting data we're joining, shadowing the original `books` array we have in authors. This way it will look like the `books` array changes.
+As an example, let's say we want the authors to contain all the books they've written, with all the book information. In this case, we'll do a `$lookup` to get the book information into the authors collection. We can even use the name `books` for the resulting data we're joining, shadowing the original `books` array we have in authors. This way, it will look like the `books` array changes.
 
 ```js
 [
@@ -119,7 +119,7 @@ As an example, let's say we want the authors to contain all the books they've wr
 ]
 ```
 
-Now a book will look like this. You can see that the books array has been "overwritten" by the `$lookup`.
+Now, a book will look like this. You can see that the books array has been "overwritten" by the `$lookup`.
 
 ```js
 {
@@ -249,7 +249,7 @@ We can go ahead and remove the authors from the books array, as it is redundant:
 ]
 ```
 
-Now that our authors look the way we want, we can overwrite the authors collection using `$merge`
+Now that our authors look the way we want, we can overwrite the authors collection using `$merge`.
 
 ```js
 [
@@ -269,8 +269,8 @@ Now that our authors look the way we want, we can overwrite the authors collecti
 ]
 ```
 
-- we use the `_id` field to match documents
-- we replace the existing ones with `replace`
+- We use the `_id` field to match documents.
+- We replace the existing ones with `replace`.
 
 :::warning
 We should see a message telling us that the $merge operator will cause the pipeline to persist the results to the specified location. This stage changes data.
