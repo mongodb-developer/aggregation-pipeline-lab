@@ -85,8 +85,8 @@ db.books.aggregate([
 </Tabs>
 
 
-- 1 means "show that field.". Once you started an inclusion projection you can't exclude other fields (you just keep adding the fields you want to see)
-- 0 means "hide that field.". Once you started an exclusion projection you can't include other fields (you just keep adding the fields you don't want to see)
+- 1 means, "Show that field." Once you start an inclusion projection, you can't exclude other fields. You just keep adding the fields you want to see.
+- 0 means, "Hide that field." Once you start an exclusion projection, you can't include other fields. You just keep adding the fields you don't want to see.
 - The primary key `_id` field is shown by default.
 
 So we can exclude fields and show all fields except `attributes` using:
