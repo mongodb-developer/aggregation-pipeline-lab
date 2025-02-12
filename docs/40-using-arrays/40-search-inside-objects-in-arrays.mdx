@@ -1,7 +1,7 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 👐 Searching inside Objects in arrays
+# 👐 Searching Inside Objects in Arrays
 
 In our books, we're using the [Attribute Pattern](https://www.mongodb.com/developer/products/mongodb/attribute-pattern/) to have different attributes in our documents. As we can see in the [sample doc](/docs/simple-queries/project), we have an `attributes` array, containing several objects, each with the same structure:
 
@@ -38,7 +38,7 @@ attributes: [
 
 ## Matching object fields, the simplest way
 
-How do we search for all the books that have an msrp of 9.99? We want books that, inside `attributes`, have an object with key `msrp` and value `9.99`?
+How do we search for all the books that have an MSRP of 9.99? We want books that, inside `attributes`, have an object with key `msrp` and value `9.99`?
 
 <Tabs groupId="aggregations">
 <TabItem value="atlas" label="Atlas UI">
@@ -62,7 +62,7 @@ db.books.aggregate([
 </TabItem>
 </Tabs>
 
-Above example is using the shorthand $and operator, that we can also explicitly write:
+The above example is using the shorthand $and operator, that we can also explicitly write:
 
 <Tabs groupId="aggregations">
 <TabItem value="atlas" label="Atlas UI">
@@ -87,7 +87,7 @@ db.books.aggregate([
 </Tabs>
 
 
-Find all the books with an MSPR of 9.99 and that have been reprinted (hint: `edition` is `Reprint`)
+Find all the books with an MSPR of 9.99 and that have been reprinted (hint: `edition` is `Reprint`):
 
 <details>
 <summary>Answer</summary>
@@ -194,7 +194,7 @@ db.books.aggregate([
 </Tabs>
 
 
-Here we're getting a copy of each book for each object inside the `$attributes` array. This "flattens" the array and returns many copies of the same documents, one for each different attribute that we have.
+Here, we're getting a copy of each book for each object inside the `$attributes` array. This "flattens" the array and returns many copies of the same documents, one for each different attribute that we have.
 
 👐 To better understand `$unwind`, run this aggregation.
 
