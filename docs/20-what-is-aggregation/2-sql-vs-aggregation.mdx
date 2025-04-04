@@ -28,7 +28,7 @@ JOIN (
 
 ```
 
-### Get annual, average and max spending from customers in all cities
+### Get annual, average, and max spending from customers in all cities
 
 ```SQL
 SELECT
@@ -58,11 +58,11 @@ GROUP BY city;
 
 ### Get authors’ bios with books that have an average 5-star rating
 
-We o through 4 stages:
-- group all the reviews for every book, calculating the average rating.
-- filter out all average ratings other than 5.
-- now we have reviews with 5 stars, but we also want the author bio, so we join with author to get the bio.
-- we add a new field called `bio` with just the author's bio. 
+We go through four stages:
+- Group all the reviews for every book, calculating the average rating.
+- Filter out all average ratings other than 5.
+- Now we have reviews with 5 stars, but we also want the author bio, so we join with author to get the bio.
+- We add a new field called `bio` with just the author's bio. 
 
 ```js
 db.reviews.aggregate([
@@ -91,7 +91,7 @@ db.reviews.aggregate([
 ```
 
 
-### Get annual, average and max spending from customers in all cities
+### Get annual, average, and max spending from customers in all cities
 
 Here we pass three stages: one to return one document per element in the `address` array, and then we filter out to get only the documents that have a `home` address location. Finally, we do the grouping. As we'll see, this can be split and tested separately and resembles our code. 
 
