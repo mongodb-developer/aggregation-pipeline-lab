@@ -3,9 +3,9 @@ import TabItem from '@theme/TabItem';
 
 # 👐 Simple arrays
 
-## 👐 Get all the Science Fiction Books
+## 👐 Get all the science fiction books
 
-Can I get all books for the genre `Science Fiction`?. Turns out it's quite simple:
+Can I get all books for the genre `Science Fiction`? Turns out it's quite simple:
 
 <Tabs groupId="aggregations">
 <TabItem value="atlas" label="Atlas UI">
@@ -40,7 +40,7 @@ Remember that will include any book that has any other genre as long as it has `
 
 ## 👐 Find all the books that belong at least to both genres "Fiction" and "Science Fiction"
 
-If you want to search for all books that have "Fiction" and "Science Fiction", in any order (and possibly other genres) use:
+If you want to search for all books that have "Fiction" and "Science Fiction," in any order (and possibly other genres), use:
 
 <Tabs groupId="aggregations">
 <TabItem value="atlas" label="Atlas UI">
@@ -108,7 +108,7 @@ db.books.aggregate([{
 
 ## 👐 Find all the books that belong only to the genres "Fiction" and "Science Fiction"
 
-In this case, we want books that have both "Fiction" and "Science Fiction" in the genres array _and nothing else_. So we're looking for documents that contain a `genres` array exactly as `['Fiction', 'Science Fiction']`. We're not looking for the individual genres that could be inside the array, instead we are comparing the whole array on each document.
+In this case, we want books that have both "Fiction" and "Science Fiction" in the genres array _and nothing else_. So we're looking for documents that contain a `genres` array exactly as `['Fiction', 'Science Fiction']`. We're not looking for the individual genres that could be inside the array. Instead, we are comparing the whole array on each document.
 
 <Tabs groupId="aggregations">
 <TabItem value="atlas" label="Atlas UI">
@@ -145,7 +145,7 @@ db.books.aggregate([
 </TabItem>
 </Tabs>
 
-Here we're comparing the whole array. __Element order is important__. With this comparison you'll get nothing in return:
+Here, we're comparing the whole array. __Element order is important__. With this comparison, you'll get nothing in return:
 
 <Tabs groupId="aggregations">
 <TabItem value="atlas" label="Atlas UI">
