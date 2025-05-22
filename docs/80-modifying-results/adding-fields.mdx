@@ -7,9 +7,9 @@ import TabItem from '@theme/TabItem';
 
 # 👐 Adding New Fields to Results
 
-## $addFields
+## $set / $addFields
 
-We want to estimate the reading time for a book. But we don't have that field stored in our data. We can use `$addFields` for this. If the field exists, it'll get updated, and if it doesn't, it's added.
+We want to estimate the reading time for a book. But we don't have that field stored in our data. We can use `$set` for this. If the field exists, it'll get updated, and if it doesn't, it's added.
 
 
 <Tabs groupId="aggregations">
@@ -22,7 +22,7 @@ We want to estimate the reading time for a book. But we don't have that field st
         pages: 1,
         }
     },
-    {$addFields: {readingTimeHours: {$divide: [{$multiply: ["$pages", 2]}, 60]}}},
+    {$set: {readingTimeHours: {$divide: [{$multiply: ["$pages", 2]}, 60]}}},
 ]
 ```
 
@@ -37,7 +37,7 @@ db.books.aggregate([
         pages: 1,
         }
     },
-    {$addFields: {readingTimeHours: {$divide: [{$multiply: ["$pages", 2]}, 60]}}},
+    {$set: {readingTimeHours: {$divide: [{$multiply: ["$pages", 2]}, 60]}}},
 ])
 ```
 
@@ -62,7 +62,7 @@ db.books.aggregate([
             pages: 1,
         }
     },
-    {$addFields: {notes: "PLACEHOLDER"}}
+    {$set: {notes: "PLACEHOLDER"}}
 ]
 ```
 
@@ -78,19 +78,16 @@ db.books.aggregate([
             pages: 1,
         }
     },
-    {$addFields: {notes: "PLACEHOLDER"}}
+    {$set: {notes: "PLACEHOLDER"}}
 ])
 ```
 
 </TabItem>
 </Tabs>
 
-
-
 </div>
+</details>
 
 :::info
-[$set](https://www.mongodb.com/docs/manual/reference/operator/aggregation/set/#mongodb-pipeline-pipe.-set) is an alias for $addFields that you'll find on many older posts and documentation.
+[$set](https://www.mongodb.com/docs/manual/reference/operator/aggregation/set/#mongodb-pipeline-pipe.-set) is a new alias for `$addFields`. You'll still find `$addFields` on many older posts and documentation.
 :::
-
-</details>
