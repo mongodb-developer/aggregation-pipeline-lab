@@ -131,10 +131,7 @@ db.books.aggregate([
 </div>
 </details>
 
-## $unwind
-
-This is OK, but we get all attributes, although we're only interested in the MSRP!
-
+This is okay, but We get a list of documents with a whole bunch of attributes which looks like the following:
 
 ```js
 {
@@ -168,7 +165,13 @@ This is OK, but we get all attributes, although we're only interested in the MSR
   ]
 }
 ```
-To improve, we'll use `$unwind`:
+
+What if we are only interested in the MSRP?
+
+There is more than one way to filter the unncessary keys and values:
+
+### 1. Using $unwind aggregation stage
+See the following pipeline:
 
 <Tabs groupId="aggregations">
 <TabItem value="atlas" label="Atlas UI">
@@ -224,5 +227,61 @@ db.books.aggregate([
 </Tabs>
 
 You should get one document per attribute of the original book. All fields in these returned documents should be the same, except the ones in attributes.
+
+### 🦸 2. Using $arrayToObject operator
+
+We can also flatten the `attributes` array into an object using the `$arrayToObject` operator and then use a `$project` stage to filter unwanted fields.
+Note that `$arrayToObject` is not an aggregation stage.
+
+<Tabs groupId="aggregations">
+<TabItem value="atlas" label="Atlas UI">
+
+You need to select the `books` collection.
+
+```js
+[
+    {
+      $match: {
+        'attributes.key': 'msrp',
+        'attributes.value': 9.99
+      }
+    },
+    {
+      $addFields: {
+        attributes: {
+          $arrayToObject: {
+            $map: {
+              input: '$attributes',
+              as: 'attr',
+              in: {
+                k: '$$attr.key',
+                v: '$$attr.value'
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      $project: { title: 1, 'attributes.msrp': 1 }
+    }
+]
+```
+</TabItem>
+
+<TabItem value="mongodb-shell" label="MongoDB Shell">
+
+```js
+db.books.aggregate([
+  { $match: {_id: "0395623650"} },
+  { $unwind : "$attributes" },
+]);
+```
+
+</TabItem>
+</Tabs>
+
+🦸 Run the above aggregation to observe the difference in output as compared to using `$unwind`.
+
 
 

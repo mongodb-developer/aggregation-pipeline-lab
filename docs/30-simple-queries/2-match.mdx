@@ -133,7 +133,7 @@ IF pages == 100 AND totalInventory == 1 {
 }
 ```
 
-👐 Return all the `books` from 2009 that have exactly 192 pages.
+👐 Return all the `books` from 2015 that have exactly 100 pages.
 
 <details>
 <summary>Answer</summary>
@@ -146,8 +146,8 @@ IF pages == 100 AND totalInventory == 1 {
   {
     $match: {
       $and: [
-        { pages: 192 },
-        { year: 2009 }
+        { pages: 100 },
+        { year: 2015 }
       ]
     }
   }
@@ -160,8 +160,8 @@ db.books.aggregate([
   { 
     $match: {
       $and: [
-        { pages: 192 }, 
-        { year: 2009 }
+        { pages: 100 }, 
+        { year: 2015 }
       ]
     } 
   }
@@ -237,7 +237,7 @@ db.books.aggregate([
 </Tabs>
 
 
-👐 Return all the `books` from 2009 that have exactly 192 pages, using the shorthand `$and` notation:
+👐 Return all the `books` from 2015 that have exactly 100 pages, using the shorthand `$and` notation:
 
 <details>
 <summary>Answer</summary>
@@ -248,14 +248,14 @@ db.books.aggregate([
 ```js
 [
     {
-        $match: {pages: 192, year: 2009}
+        $match: {pages: 100, year: 2015}
     }
 ]
 ```
   </TabItem>
   <TabItem value="mongodb-shell" label="MongoDB Shell">
 ```js
-db.books.aggregate([{$match: {pages: 192, year: 2009}}])
+db.books.aggregate([{$match: {pages: 100, year: 2015}}])
 ```
   </TabItem>
 </Tabs>
