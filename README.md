@@ -1,3 +1,6 @@
+[![.github/workflows/deploy.yml](https://github.com/mongodb-developer/aggregation-pipeline-lab/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/mongodb-developer/aggregation-pipeline-lab/actions/workflows/deploy.yml)
+
+
 # Aggregation Pipeline Lab
 
 You can access the online version [here](https://mongodb-developer.github.io/aggregation-pipeline-lab/)
