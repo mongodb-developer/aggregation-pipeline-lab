@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkaggregation_pipeline_workshop=self.webpackChunkaggregation_pipeline_workshop||[]).push([["161"],{5845:function(e,i,r){r.d(i,{createArchitectureServices:function(){return n.i}});var n=r(8693);r(5318)}}]);
