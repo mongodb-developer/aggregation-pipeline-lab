@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkaggregation_pipeline_workshop=self.webpackChunkaggregation_pipeline_workshop||[]).push([["9997"],{1279:function(e,i,n){n.d(i,{createInfoServices:()=>p.M});var p=n(1365);n(3653)}}]);
