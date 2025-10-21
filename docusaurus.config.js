@@ -52,7 +52,7 @@ const featureList = [{
 }];
 
 const utmAdvocateName = `diego.freniche`;
-const utmWorkshopName = "docusaurus_workshop";
+const utmWorkshopName = "aggregations.workshop";
 const utmParams = `utm_campaign=devrel&utm_source=workshop&utm_medium=cta&utm_content=${utmWorkshopName}&utm_term=${utmAdvocateName}`;
 
 const footerLinks = [{
@@ -60,13 +60,10 @@ const footerLinks = [{
     href: `https://www.mongodb.com/try?${utmParams}`
 }, {
     label: "Forums",
-    href: `https://www.mongodb.com/community/forums/${utmParams}`
+    href: `https://www.mongodb.com/community/forums?${utmParams}`
 }, {
-    label: "Developer Center",
-    href: `https://www.mongodb.com/developer/${utmParams}`
-}, {
-    label: "MongoDB University",
-    href: `https://learn.mongodb.com/${utmParams}`
+    label: "Skill Badges",
+    href: `https://learn.mongodb.com/skills?team=devrel&${utmParams}`
 }, {
     href: `https://github.com/${organizationName}/${workshopName}`,
     label: "This lab in GitHub"
@@ -103,7 +100,8 @@ const config = {
 
     customFields: {
         startButtonTitle: `${startButtonTitle}`,
-        featureList: featureList
+        featureList: featureList,
+        utmParams
     },
 
     presets: [["classic", ({
