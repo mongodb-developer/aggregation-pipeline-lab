@@ -3,9 +3,97 @@ import TabItem from '@theme/TabItem';
 
 # 👐 Using the Library Database
 
-## Select the library database
+## Running the lab in Instruqt / GitHub Codespaces
 
-💻 We'll use the `library` database for all of the hands-on exercises in this lab. If you haven't already, import the [library data](https://mdb.link/import-library-data) into your database cluster.
+If you haven't already, [review the database](/docs/mongodb-atlas/setup-lab#connect-to-the-mongodb-cluster) that is already in your local custer.
+
+
+<Tabs groupId="aggregations">
+  <TabItem value="atlas" label="Visual Studio Code">
+
+Select the correct database.
+
+
+<Screenshot url="https://play.instruqt.com" src="img/1-dev-env-setup/instruqt/8-connection-successful.png" alt="Connection successful" />
+
+  </TabItem>
+  <TabItem value="mongodb-shell" label="MongoDB Shell">
+
+
+In Instruqt you can connect to the local cluster using the built-in terminal. Click on the Terminal tab, then start `mongosh` by typing:
+
+```bash
+mongosh
+```
+
+Then you can select the `library` database by typing:
+
+```js
+use library
+```
+
+You can show all collections with:
+
+```js
+show collections
+```
+
+<Screenshot url="https://play.instruqt.com" src="img/30-simple-queries/terminal.png" alt="Using the Terminal and mongosh" />
+
+
+---
+
+🦸‍♂️ 💻 How would you switch to a database called `orders`?
+
+:::info
+Extra activity! Do it if you have extra time or are following along at home. It won't be covered during the hands-on lab.
+:::
+
+<details>
+<summary>Answer</summary>
+<div>
+
+```js
+use orders
+```
+
+Even if this database does not yet exist, MongoDB can change to it. If we create a collection, users, etc., then this DB will be created.
+
+Remember to get back to the library database by using:
+
+```js
+use library
+```
+</div>
+</details>
+
+## 🦸‍♂️ Showing all databases
+
+:::info
+Extra activity! Do it if you have extra time or are following along at home. It won't be covered during the hands-on lab.
+:::
+
+You can also list other databases in your MongoDB instance with:
+
+```js
+show databases
+```
+
+
+  </TabItem>
+
+</Tabs>
+
+If you're using Instruqt, you can skip to the next section.
+
+
+## Using MongoDB Atlas or your local MongoDB instance 
+
+:::info
+Tipycally when you are running this lab as part of a MongoDB Day event.
+:::
+
+💻 We'll use the `library` database for all of the hands-on exercises in this lab. If you're using your own MongoDB Atlas cluster, or a local MongoDB installation, import the [library data](https://mdb.link/import-library-data) into your database cluster.
 
 <Tabs groupId="aggregations">
   <TabItem value="atlas" label="Atlas UI">

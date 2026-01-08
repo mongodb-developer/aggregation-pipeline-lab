@@ -21,6 +21,16 @@ The `<expression>` portion of the $match stage can be any valid MongoDB expressi
 ## Matching book documents
 
 <Tabs groupId="aggregations">
+
+  <TabItem value="Instruqt/Codespaces" label="Instruqt">
+
+Open the `100_aggregation_pipeline_match` file in the Instruqt IDE or GitHub Codespaces. Run the `Startup Code`, that will import all the neccessary modules and connect to the local MongoDB cluster. Then, run the `$match` cell.
+
+<Screenshot src="/img/30-simple-queries/match-project.png" url="http://cloud.mongodb.com/" alt="Running examples in the Instruqt IDE or GitHub Codespaces." />
+
+
+
+  </TabItem>
   <TabItem value="atlas" label="Atlas UI">
 
     First, make sure you select the `books` collection in the Atlas UI. 
@@ -56,13 +66,33 @@ The `<expression>` portion of the $match stage can be any valid MongoDB expressi
 </Tabs>
 
 
-👐 Return all the `books` that have exactly 100 pages.
+### 👐 $match Exercise: Return all the `books` that have exactly 100 pages.
 
 <details>
 <summary>Answer</summary>
 <div>
 
 <Tabs groupId="aggregations">
+<TabItem value="Instruqt/Codespaces" label="Instruqt">
+
+Insert a new cell (you can do it by clicking the `+ Code` button at the top left of the notebook) and write the following code:
+
+```js
+const booksWith100pages = [
+    { $match: { 
+        pages: 100
+    } 
+    }
+ ];
+ 
+ const cursor = await books.aggregate( booksWith100pages );
+ 
+ await cursor.forEach((b) => {
+    console.log(b);
+ });
+```
+
+  </TabItem>
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -95,6 +125,29 @@ If we need to add more conditions using AND, we use the `$and` operator.
 If we want all the books with 100 pages and with exactly `totalInventory` 1, we can use the `$and` operator. It takes an array of documents with all the conditions that should be true for the AND to succeed:
 
 <Tabs groupId="aggregations">
+
+<TabItem value="Instruqt/Codespaces" label="Instruqt">
+
+Insert a new cell (you can do it by clicking the `+ Code` button at the top left of the notebook) and write the following code:
+
+```js
+const booksWith100pagesAndTotalInventory1 = [
+    { $match: { 
+        pages: 100,
+        totalInventory: 1
+    } 
+    }
+ ];
+
+ const cursor = await books.aggregate( booksWith100pagesAndTotalInventory1 );
+
+ await cursor.forEach((b) => {
+    console.log(b);
+ });
+```
+
+  </TabItem>
+
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -140,6 +193,33 @@ IF pages == 100 AND totalInventory == 1 {
 <div>
 
 <Tabs groupId="aggregations">
+
+<TabItem value="Instruqt/Codespaces" label="Instruqt">
+
+Insert a new cell (you can do it by clicking the `+ Code` button at the top left of the notebook) and write the following code:
+
+```js
+const booksWith100pagesFrom2015 = [
+  {
+    $match: {
+      $and: [
+        { pages: 100 },
+        { year: 2015 }
+      ]
+    }
+  }
+ ];
+
+ const cursor = await books.aggregate( booksWith100pagesFrom2015 );
+
+ await cursor.forEach((b) => {
+    console.log(b);
+ });
+```
+
+  </TabItem>
+
+
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -180,6 +260,37 @@ db.books.aggregate([
 <div>
 
 <Tabs groupId="aggregations">
+
+<TabItem value="Instruqt/Codespaces" label="Instruqt">
+
+Insert a new cell (you can do it by clicking the `+ Code` button at the top left of the notebook) and write the following code:
+
+```js
+const countBooksWith100pagesFrom2015 = [
+  {
+  $match: {
+    $and: [
+      { pages: 100 },
+      { year: 2015 }
+    ]
+  }
+  },
+  {
+    $count: "books_count"
+  }
+ ];
+
+ const cursor = await books.aggregate( countBooksWith100pagesFrom2015 );
+
+ await cursor.forEach((b) => {
+    console.log(b);
+ });
+```
+
+  </TabItem>
+
+
+
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -216,6 +327,29 @@ db.books.aggregate(
 We can do an implicit AND just passing a document with all the conditions (instead of an array of documents):
 
 <Tabs groupId="aggregations">
+
+
+<TabItem value="Instruqt/Codespaces" label="Instruqt">
+
+Insert a new cell (you can do it by clicking the `+ Code` button at the top left of the notebook) and write the following code:
+
+```js
+const booksWith100pagesWithInventory2 = [
+  {
+  $match: { 
+    pages: 100, 
+    totalInventory: 2 }
+  }
+ ];
+
+ const cursor = await books.aggregate( booksWith100pagesWithInventory2 );
+
+ await cursor.forEach((b) => {
+    console.log(b);
+ });
+```
+
+  </TabItem>
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -244,6 +378,30 @@ db.books.aggregate([
 <div>
 
 <Tabs groupId="aggregations">
+
+
+<TabItem value="Instruqt/Codespaces" label="Instruqt">
+
+Insert a new cell (you can do it by clicking the `+ Code` button at the top left of the notebook) and write the following code:
+
+```js
+const booksWith100pagesFrom2015 = [
+  {
+  $match: { 
+    pages: 100, 
+    year: 2015 
+  }
+  }
+ ];
+
+ const cursor = await books.aggregate( booksWith100pagesFrom2015 );
+
+ await cursor.forEach((b) => {
+    console.log(b);
+ });
+```
+
+  </TabItem>
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
