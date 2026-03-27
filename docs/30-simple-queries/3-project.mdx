@@ -120,6 +120,27 @@ db.books.aggregate([
 <div>
 
 <Tabs groupId="aggregations">
+
+
+<TabItem value="Instruqt/Codespaces" label="Instruqt">
+Open the `100_aggregation_pipeline_match` file in the Instruqt IDE or GitHub Codespaces. Run the Startup Code, that will import all the neccessary modules and connect to the local MongoDB cluster. Then, run the $project cell. You can then add your code to show only the `title` and `cover` fields in a new cell.
+
+```js
+const showOnlyTitleAndCover = [
+  {
+    $project: { title: 1, cover: 1 }
+  }
+ ];
+
+ const cursor = await books.aggregate( showOnlyTitleAndCover );
+
+ await cursor.forEach((b) => {
+    console.log(b);
+ });
+```
+
+  </TabItem>
+
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
@@ -151,6 +172,27 @@ db.books.aggregate([
 <div>
 
 <Tabs groupId="aggregations">
+
+
+<TabItem value="Instruqt/Codespaces" label="Instruqt">
+Open the `100_aggregation_pipeline_match` file in the Instruqt IDE or GitHub Codespaces. Run the Startup Code, that will import all the neccessary modules and connect to the local MongoDB cluster. Then, run the $project cell. 
+
+```js
+const removeAttributesAndCover = [
+  {
+    $project: {_id: 0, attributes: 0, cover: 0}
+  }
+ ];
+
+ const cursor = await books.aggregate( removeAttributesAndCover );
+
+ await cursor.forEach((b) => {
+    console.log(b);
+ });
+```
+
+  </TabItem>
+
   <TabItem value="atlas" label="Atlas UI">
 ```js
 [
