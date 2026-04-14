@@ -23,7 +23,7 @@
 // },
 const workshopName = "aggregation-pipeline-lab";
 const organizationName = "mongodb-developer";
-const title = "Simplify Data Processing";
+const title = "Fundamentals of Data Transformation";
 const tagLine = "With the MongoDB Aggregation Framework";
 const startButtonTitle = "Start Lab";
 const favicon = "img/favicon.svg";
