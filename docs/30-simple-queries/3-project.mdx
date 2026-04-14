@@ -238,3 +238,155 @@ The only exception to this rule is the `_id` field, which we can exclude in an i
 ```js
 db.books.aggregate([{$project: {title: 1, _id: 0}}])
 ```
+
+---
+
+## Challenge 🚀
+
+### 👐 1. Find books with more than 2 available copies.
+
+<details>
+  <summary>Answer</summary>
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+          ```js
+          await books.aggregate([
+            { $match: {available: {$gt: 2}}}
+          ]).toArray();
+          ```
+        </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+          <div>
+            ```js
+            db.books.aggregate([
+              { $match: {available: {$gt: 2}}}
+            ]);
+            ```
+          </div>
+    </TabItem>
+     <TabItem value="csharp" label="C#">
+        <div>
+        ```csharp
+        var pipeline = booksCollection.Aggregate()
+          .Match(b => b.Available > 2);
+
+        var plentifulBooks = pipeline.ToList();
+
+        if (plentifulBooks != null)
+        {
+          foreach (var book in plentifulBooks)
+          {
+            Console.WriteLine($"Title: {book.Title} - Available: {book.Available}");
+          }
+        }
+        else
+        {
+          Console.WriteLine("Empty Collection");
+        }
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="python" label="Python">
+      <div>
+        ```python
+        books_two_copies = books.aggregate([
+            {"$match": {"available": {"$gt": 2}}}
+        ])
+
+        for book in books_two_copies:
+            print(book)
+        ```
+        </div>
+    </TabItem> 
+     <TabItem value="java" label="Java">
+      <div>
+        ```java
+        books.aggregate(
+            List.of(
+                Aggregates.match(gt(
+                    "available", 2)))
+            ).forEach(document -> System.out.println(document.toJson()));
+        ```
+      </div>
+    </TabItem>
+  </Tabs>
+</details>
+
+### 👐 2. Find books with more than 2 available copies. Return only book titles and publication year.
+
+<details>
+  <summary>Answer</summary>
+  <Tabs groupId="challenges" defaultValue={"javascript"}>
+    <TabItem value="javascript" label="JavaScript">
+      <div>
+          ```js
+          await books.aggregate([
+            { $match: {available: {$gt: 2}}},
+            { $project: {title: 1, year: 1, _id: 0}}
+          ]).toArray();
+          ```
+        </div>
+    </TabItem>
+    <TabItem value="mongosh" label="mongosh">
+      <div>
+        ```js
+        db.books.aggregate([
+          { $match: {available: {$gt: 2}}},
+          { $project: {title: 1, year: 1, _id: 0}}
+        ]);
+        ```
+      </div>
+    </TabItem>
+     <TabItem value="csharp" label="C#">
+        <div>
+        ```csharp
+        var pipeline = booksCollection.Aggregate()
+            .Match(b => b.Available > 2)
+            .Project(b => new { b.Title, b.Year });
+
+        var plentifulBooks = pipeline.ToList();
+
+        if (plentifulBooks != null)
+        {
+          foreach (var book in plentifulBooks)
+          {
+            Console.WriteLine($"Title: {book.Title} - Year: {book.Year}");
+          }
+        }
+        else
+        {
+          Console.WriteLine("Empty Collection");
+        }
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="python" label="Python">
+      <div>
+        ```python
+        books_two_copies = books.aggregate([
+            { "$match": { "available": { "$gt": 2 } } },
+            { "$project": { "title": 1, "year": 1, "_id": 0 } }
+        ])
+
+        for book in books_two_copies:
+            print(f"Title: {book['title']} - Publication Year: {book['year']}")
+        ```
+      </div>
+    </TabItem>
+    <TabItem value="java" label="Java">
+      <div>
+        ```java
+        books.aggregate(
+            List.of(
+                Aggregates.match(gt(
+                    "available", 2)),
+                Aggregates.project(Projections.include("title", "year")),
+                Aggregates.project(Projections.exclude("_id")))
+            ).forEach(document -> System.out.println(document.toJson()));
+        ```
+      </div>
+    </TabItem>
+  </Tabs>
+</details>
